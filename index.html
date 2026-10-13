@@ -4,833 +4,1150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0d12">
-<title>Lift Diary — Home Fitness</title>
+<meta name="theme-color" content="#080a0e">
+<title>AXIOM — Fitness Operating System</title>
 <style>
-:root {
-  --bg:#0b0d12;--panel:#12151d;--panel2:#181c26;
-  --border:#272c39;--text:#f2f4fa;--muted:#929bad;
-  --accent:#a3e635;--accent2:#d1fa72;--red:#fb7185;
-  --blue:#93c5fd;--radius:17px;
+:root{
+  color-scheme:dark;
+  --bg:#080a0e;
+  --surface:#10141a;
+  --surface2:#151b22;
+  --surface3:#1c242d;
+  --line:#28333c;
+  --text:#eef6f4;
+  --muted:#85959d;
+  --green:#c6ff51;
+  --green2:#91c83e;
+  --cyan:#54e6d3;
+  --red:#ff727d;
+  --radius:16px;
+  --sidebar:225px;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:13px;min-height:100vh;
+}
 button,input,select{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.4;cursor:not-allowed}
-.app{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:100vh}
-.sidebar{position:sticky;top:0;height:100vh;padding:26px 17px;
-border-right:1px solid var(--border);background:#0e1016}
-.brand{display:flex;align-items:center;gap:11px;font-size:19px;
-font-weight:800;letter-spacing:-.7px;margin:0 8px 36px}
-.logo{width:38px;height:38px;display:grid;place-items:center;
-background:var(--accent);color:#14180d;border-radius:12px;font-weight:900}
-.nav-label{font-size:10px;letter-spacing:1.8px;color:var(--muted);
-margin:24px 10px 10px;font-weight:800}
-.nav{display:flex;align-items:center;gap:12px;width:100%;padding:12px;
-border:0;border-radius:11px;background:transparent;color:var(--muted);
-text-align:left;margin:3px 0;font-size:13px;font-weight:650}
-.nav:hover,.nav.active{background:var(--panel2);color:var(--text)}
-.nav.active{box-shadow:inset 3px 0 var(--accent)}
-.nav .ico{width:19px;text-align:center;font-size:16px}
-.side-bottom{position:absolute;bottom:20px;left:17px;right:17px}
-.profile{display:flex;align-items:center;gap:10px;padding:12px;
-border:1px solid var(--border);border-radius:13px}
-.avatar{width:35px;height:35px;background:#29321d;color:var(--accent);
-display:grid;place-items:center;border-radius:11px;font-weight:800}
-.profile small{display:block;color:var(--muted);margin-top:3px;font-size:10px}
-main{min-width:0;padding:30px clamp(16px,4vw,48px) 60px;max-width:1500px;width:100%;margin:auto}
-.topbar{display:flex;justify-content:space-between;align-items:center;
-gap:15px;margin-bottom:28px}
-.eyebrow{color:var(--accent);font-size:11px;font-weight:800;
-letter-spacing:1.5px;text-transform:uppercase}
-h1{font-size:clamp(25px,3vw,35px);letter-spacing:-1.4px;margin:7px 0}
-h2{font-size:19px;letter-spacing:-.5px;margin:0 0 6px}
-h3{font-size:14px;margin:0 0 8px}
+button:disabled{opacity:.35;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--green);outline-offset:3px
+}
+::selection{background:var(--green);color:#10150c}
+a{color:var(--green)}
+.app{min-height:100vh}
+.sidebar{
+  width:var(--sidebar);position:fixed;inset:0 auto 0 0;
+  padding:25px 15px;background:#0b0e12;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;z-index:20
+}
+.brand{display:flex;align-items:center;gap:12px;padding:0 8px;margin-bottom:38px}
+.brand-mark{
+  height:38px;width:38px;border-radius:11px;background:var(--green);
+  color:#10150c;display:grid;place-items:center;font-weight:1000;
+  font-size:23px;box-shadow:0 0 24px #c6ff511f
+}
+.brand-name{font-weight:900;letter-spacing:2px;font-size:14px}
+.brand-sub{font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px}
+.nav-label{color:#52616a;font-size:9px;font-weight:800;letter-spacing:2px;padding:0 12px;margin:19px 0 10px}
+.nav{
+  border:1px solid transparent;width:100%;display:flex;align-items:center;
+  gap:12px;background:transparent;color:#8f9ba4;padding:12px;
+  border-radius:10px;text-align:left;font-size:12px;margin:2px 0;
+  transition:.15s
+}
+.nav:hover{background:var(--surface);color:var(--text)}
+.nav.active{background:#c6ff510b;border-color:#c6ff5131;color:var(--green)}
+.nav-icon{width:19px;text-align:center;font-size:15px}
+.nav-key{margin-left:auto;font-size:9px;color:#5b6870}
+.sidebar-bottom{margin-top:auto}
+.system-status{border:1px solid var(--line);padding:13px;border-radius:12px;margin-bottom:12px}
+.status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--green);box-shadow:0 0 10px #c6ff5177;margin-right:7px}
+.system-status strong{font-size:10px;letter-spacing:1px}
+.system-status p{font-size:10px;color:var(--muted);margin:9px 0 0;line-height:1.6}
+.user-row{display:flex;align-items:center;gap:10px;padding:10px}
+.avatar{height:33px;width:33px;border:1px solid #526b37;background:#1c2914;color:var(--green);border-radius:10px;display:grid;place-items:center;font-weight:900}
+.user-name{font-size:11px;font-weight:800}
+.user-sub{font-size:9px;color:var(--muted);margin-top:4px}
+main{margin-left:var(--sidebar);min-width:0;padding:30px clamp(17px,4vw,52px) 50px;max-width:1650px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:26px}
+.breadcrumb{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+h1{font-size:30px;letter-spacing:-1.4px;line-height:1.15;margin:9px 0 7px}
+h2{font-size:19px;letter-spacing:-.55px;margin:0}
+h3{font-size:13px;margin:0 0 7px}
 p{line-height:1.65}
 .muted{color:var(--muted)}
-.small{font-size:12px}
-button.primary{background:var(--accent);color:#111609;border:0;
-border-radius:10px;padding:11px 15px;font-weight:800}
-button.secondary,.chip{background:var(--panel2);color:var(--text);
-border:1px solid var(--border);border-radius:10px;padding:10px 13px}
-button.danger{color:var(--red);background:transparent;border:1px solid var(--border);
-padding:9px 12px;border-radius:10px}
-button:hover:not(:disabled){filter:brightness(1.1)}
-.grid{display:grid;gap:17px}
-.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin:23px 0}
-.card{background:var(--panel);border:1px solid var(--border);
-border-radius:var(--radius);padding:21px;min-width:0}
-.stat-top{display:flex;justify-content:space-between;align-items:center}
-.stat-number{font-size:30px;font-weight:800;letter-spacing:-1px;margin:13px 0 5px}
-.stat-icon{background:var(--panel2);border-radius:10px;padding:9px}
-.progress{height:6px;background:#282d38;border-radius:20px;overflow:hidden;margin:13px 0}
-.progress>div{height:100%;background:var(--accent);border-radius:20px;transition:width .2s}
-.layout{grid-template-columns:minmax(0,1.45fr) minmax(270px,1fr)}
-.section-head{display:flex;justify-content:space-between;align-items:center;
-gap:10px;margin:28px 0 14px}
-.section-head h2{margin:0}
-.hero{position:relative;overflow:hidden;padding:30px;
-background:linear-gradient(120deg,#20291b,#151a18 60%,#12151d);
-border:1px solid #35442b;border-radius:20px}
-.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;
-background:#a3e63510;right:-30px;top:-60px}
-.hero h2{font-size:26px;margin:12px 0}
-.hero p{font-size:13px;color:#c1c9b7;max-width:480px}
-.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px}
-.day-list{display:grid;gap:9px}
-.day-row{display:flex;align-items:center;gap:12px;padding:12px;
-background:var(--panel2);border-radius:12px}
-.day-tag{width:43px;height:43px;display:grid;place-items:center;
-border-radius:11px;background:#242936;color:var(--muted);font-size:11px;font-weight:800}
-.day-tag.today{background:#29371c;color:var(--accent)}
-.day-tag.done{background:#26351c;color:var(--accent)}
-.day-info{flex:1;min-width:0}
-.day-info strong{display:block;font-size:12px}
-.day-info small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.pill{font-size:10px;padding:5px 8px;border:1px solid var(--border);
-border-radius:20px;color:var(--muted);white-space:nowrap}
-.pill.done{color:var(--accent);border-color:#3b5124}
-.page{display:none}.page.active{display:block}
-.exercise{display:flex;gap:12px;padding:15px 0;border-bottom:1px solid var(--border)}
-.exercise:last-child{border-bottom:0}
-.exercise-check{accent-color:var(--accent);width:18px;height:18px;margin-top:3px}
-.exercise-body{flex:1;min-width:0}
-.exercise-body strong{font-size:13px}
-.exercise-meta{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}
-.exercise-meta span{background:var(--panel2);color:#c3cad7;
-font-size:10px;border-radius:6px;padding:5px 7px}
-.exercise-body p{font-size:12px;color:var(--muted);margin:5px 0}
-.workout-tabs,.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
-.workout-tabs button.active,.filters button.active{border-color:var(--accent);color:var(--accent)}
-.two-col{grid-template-columns:repeat(2,minmax(0,1fr))}
-.week-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
-.week-day{border:1px solid var(--border);background:var(--panel);
-border-radius:12px;padding:13px 5px;text-align:center}
-.week-day strong{display:block;font-size:11px;color:var(--muted)}
-.week-day .dot{width:8px;height:8px;background:#353b48;border-radius:50%;
-margin:13px auto 5px}
-.week-day.complete .dot{background:var(--accent)}
-.week-day.today{border-color:var(--accent)}
-.week-day span{font-size:10px;color:var(--muted)}
-.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
-.cal-head{text-align:center;font-size:10px;color:var(--muted);padding:9px 0}
-.cal-day{min-height:75px;border:1px solid var(--border);border-radius:9px;
-background:var(--panel);padding:7px;font-size:11px}
-.cal-day.empty{border-color:transparent;background:transparent}
-.cal-day.today{border-color:var(--accent)}
-.cal-day.done{background:#1b2616;border-color:#344a25}
-.cal-day .mark{display:block;margin-top:9px;color:var(--accent);font-size:10px}
-.check-row{display:flex;align-items:flex-start;gap:12px;padding:15px 0;
-border-bottom:1px solid var(--border);font-size:13px}
-.check-row:last-child{border:0}
-.check-row input{accent-color:var(--accent);width:17px;height:17px}
-.check-row span{flex:1}
-.check-row small{display:block;color:var(--muted);margin-top:5px;line-height:1.5}
-.locked{opacity:.6}
-.notice{padding:13px 15px;background:#1d2118;border:1px solid #39472b;
-border-radius:11px;color:#d3e5b6;font-size:12px;line-height:1.6;margin:14px 0}
-.timer-display{text-align:center;font-size:64px;font-weight:800;letter-spacing:-3px;
-font-variant-numeric:tabular-nums;margin:15px 0}
-.timer-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
-.field{width:100%;padding:11px;background:var(--panel2);border:1px solid var(--border);
-color:var(--text);border-radius:10px;margin:8px 0 15px}
-.chart{height:155px;display:flex;align-items:flex-end;gap:10px;padding:15px 0 0}
-.bar-wrap{height:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
-.bar{width:100%;max-width:45px;background:var(--accent);border-radius:6px 6px 2px 2px;min-height:3px}
-.bar-label{font-size:10px;color:var(--muted)}
-.bar-value{font-size:10px;color:var(--muted)}
-.exercise-detail{margin-top:7px;padding:10px;background:#0d1016;border-radius:9px;
-font-size:12px;color:#c2cad8;line-height:1.6}
-footer{color:var(--muted);font-size:11px;margin-top:35px;text-align:center}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-background:#e2f7c4;color:#17200c;padding:12px 18px;border-radius:12px;
-font-size:12px;font-weight:800;z-index:10;display:none;max-width:90vw}
-.mobile-head{display:none}
-@media(max-width:950px){
- .app{grid-template-columns:1fr}
- .sidebar{height:auto;position:sticky;z-index:5;top:0;padding:9px 12px;
- border-right:0;border-bottom:1px solid var(--border)}
- .brand{margin:0 0 8px;font-size:15px}
- .logo{width:30px;height:30px}
- .nav-label,.side-bottom{display:none}
- .navs{display:flex;gap:4px;overflow-x:auto}
- .nav{width:auto;flex-shrink:0;padding:10px;font-size:11px;margin:0}
- .nav .ico{display:none}
- main{padding-top:22px}
+.small{font-size:11px}
+.micro{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:800}
+.accent{color:var(--green)}
+.cyan{color:var(--cyan)}
+.top-actions{display:flex;align-items:center;gap:8px}
+.clock{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 13px;font-size:11px;font-variant-numeric:tabular-nums;color:#bdc8cc;white-space:nowrap}
+.btn{
+  padding:11px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--surface2);color:var(--text);font-weight:750;font-size:11px;
+  transition:border-color .15s,transform .15s
 }
-@media(max-width:650px){
- .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- .card{padding:15px}
- .layout,.two-col{grid-template-columns:1fr}
- .week-strip{gap:4px}
- .week-day{padding:10px 1px}
- .week-day span{font-size:9px}
- .week-day strong{font-size:10px}
- .hero{padding:21px}
- .timer-display{font-size:53px}
- .cal-day{min-height:58px;padding:5px;font-size:10px}
- .cal-day .mark{font-size:9px}
- .topbar{align-items:flex-start}
+.btn:hover:not(:disabled){border-color:#62705e;transform:translateY(-1px)}
+.btn-primary{background:var(--green);color:#11170b;border-color:var(--green)}
+.btn-primary:hover:not(:disabled){background:#d7ff85;border-color:#d7ff85}
+.btn-quiet{background:transparent}
+.btn-danger{color:var(--red)}
+.page{display:none;animation:appear .22s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.grid{display:grid;gap:15px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}
+.panel-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;font-size:9px;color:#bdc9cc;letter-spacing:.5px}
+.tag-green{border-color:#c6ff5135;background:#c6ff510b;color:var(--green)}
+.tag-cyan{border-color:#54e6d32a;background:#54e6d30b;color:var(--cyan)}
+.divider{height:1px;background:var(--line);margin:17px 0}
+.progress{height:5px;background:#283139;border-radius:99px;overflow:hidden}
+.progress>div{height:100%;width:0;background:var(--green);border-radius:99px;transition:width .3s}
+.progress.cyan-bar>div{background:var(--cyan)}
+.hero{
+  overflow:hidden;position:relative;min-height:280px;padding:28px;
+  display:grid;grid-template-columns:minmax(0,1.4fr) minmax(180px,.7fr);
+  gap:20px;border:1px solid #34432d;border-radius:20px;
+  background:linear-gradient(115deg,#121b13 0%,#0e1514 47%,#10141a 100%)
+}
+.hero:before{
+  content:"";position:absolute;width:350px;height:350px;border-radius:50%;
+  border:1px solid #c6ff5111;right:-100px;top:-140px;
+  box-shadow:0 0 0 32px #c6ff5104,0 0 0 65px #c6ff5103;pointer-events:none
+}
+.hero-main,.hero-visual{position:relative;z-index:1}
+.hero h2{font-size:clamp(29px,4vw,43px);letter-spacing:-2px;line-height:1.05;margin:22px 0 12px;max-width:520px}
+.hero p{max-width:410px;font-size:12px;color:#aab9ae;margin:0;line-height:1.8}
+.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.hero-visual{display:flex;align-items:center;justify-content:center;min-height:180px}
+.orbit{
+  width:178px;height:178px;border:1px solid #c6ff5135;border-radius:50%;
+  display:grid;place-items:center;position:relative
+}
+.orbit:before{content:"";position:absolute;inset:13px;border:1px dashed #c6ff5142;border-radius:50%;animation:rotate 32s linear infinite}
+.orbit:after{content:"";position:absolute;inset:31px;border:1px solid #54e6d322;border-radius:50%}
+.orbit-inner{text-align:center;position:relative;z-index:1}
+.orbit-number{font-size:39px;font-weight:900;letter-spacing:-2px}
+.orbit-label{font-size:8px;color:var(--muted);letter-spacing:2px;margin-top:3px}
+.orbit-point{position:absolute;right:19px;top:22px;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green)}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.stats{grid-template-columns:repeat(3,minmax(0,1fr));margin:15px 0}
+.stat{padding:17px 19px}
+.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stat-label{font-size:9px;letter-spacing:1.4px;color:var(--muted);font-weight:800}
+.stat-icon{color:var(--green);font-size:15px}
+.stat-number{font-size:29px;letter-spacing:-1.3px;font-weight:850;margin:12px 0 4px;font-variant-numeric:tabular-nums}
+.stat-note{font-size:10px;color:var(--muted)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:29px 0 13px}
+.section-head h2{font-size:16px}
+.dashboard-columns{grid-template-columns:minmax(0,1.25fr) minmax(245px,.75fr)}
+.today-card{position:relative;overflow:hidden;background:linear-gradient(135deg,#171e20,#11161b)}
+.today-card:after{content:"";position:absolute;width:130px;height:130px;border:1px solid #54e6d31c;border-radius:50%;right:-60px;top:-55px;box-shadow:0 0 0 18px #54e6d306}
+.today-card>*{position:relative;z-index:1}
+.today-name{font-size:23px;letter-spacing:-.8px;margin:13px 0 6px}
+.today-meta{color:#9cabb0;font-size:11px;line-height:1.7}
+.today-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px;flex-wrap:wrap}
+.day-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.day-cell{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 3px;text-align:center;min-width:0}
+.day-cell .dname{font-size:9px;color:var(--muted);letter-spacing:.6px}
+.day-cell .dnum{font-size:13px;font-weight:850;margin:12px 0 10px}
+.day-cell .dstate{height:6px;width:6px;background:#384149;border-radius:50%;margin:auto}
+.day-cell.done .dstate{background:var(--green);box-shadow:0 0 8px #c6ff5166}
+.day-cell.current{border-color:var(--green);background:#c6ff5108}
+.day-cell.rest .dstate{background:#4c6571}
+.day-cell.future{opacity:.66}
+.compact-list{display:grid;gap:7px}
+.list-row{display:flex;align-items:center;gap:11px;padding:12px;background:#151b22;border:1px solid #202a32;border-radius:11px}
+.list-marker{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#202a30;color:var(--cyan);font-weight:900;font-size:10px;flex-shrink:0}
+.list-copy{min-width:0;flex:1}
+.list-copy strong{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-copy small{font-size:10px;color:var(--muted);display:block;margin-top:5px}
+.list-end{font-size:9px;color:var(--muted);text-align:right;white-space:nowrap}
+.empty-state{text-align:center;padding:32px 15px}
+.empty-icon{height:49px;width:49px;margin:0 auto 13px;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;color:var(--green);font-size:21px}
+.empty-state p{color:var(--muted);font-size:11px;line-height:1.8;max-width:300px;margin:8px auto 15px}
+.page-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:21px}
+.page-intro p{color:var(--muted);font-size:11px;margin:8px 0 0}
+.workout-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}
+.workout-tabs button.active{border-color:#c6ff5177;background:#c6ff510b;color:var(--green)}
+.exercise-row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #222c33}
+.exercise-row:last-child{border-bottom:0}
+.exercise-num{width:29px;height:29px;display:grid;place-items:center;background:#1d272d;color:var(--cyan);border-radius:8px;font-size:10px;font-weight:900;flex-shrink:0}
+.exercise-copy{flex:1;min-width:0}
+.exercise-copy strong{font-size:12px;display:block}
+.exercise-copy p{font-size:11px;color:var(--muted);line-height:1.65;margin:7px 0 0}
+.exercise-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.exercise-meta span{font-size:9px;color:#b7c5c8;background:#1b242a;border-radius:5px;padding:5px 6px}
+.session-layout{grid-template-columns:minmax(0,1.3fr) minmax(230px,.7fr)}
+.session-card{overflow:hidden;position:relative;background:linear-gradient(135deg,#121d1d,#101419)}
+.session-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.session-count{font-size:10px;color:var(--muted)}
+.session-track{display:flex;gap:4px;margin:17px 0}
+.session-track span{height:4px;flex:1;background:#2b353b;border-radius:8px}
+.session-track span.passed{background:var(--green)}
+.exercise-focus{min-height:230px;display:flex;flex-direction:column;justify-content:center;padding:20px 3px}
+.exercise-focus .focus-num{font-size:10px;letter-spacing:2px;color:var(--cyan);font-weight:900}
+.exercise-focus h2{font-size:clamp(27px,3.5vw,38px);letter-spacing:-1.5px;margin:17px 0 10px}
+.exercise-focus p{font-size:12px;color:#aab8bd;max-width:460px;line-height:1.8}
+.rep-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:11px}
+.rep-block{border:1px solid var(--line);border-radius:10px;padding:10px 13px;min-width:86px}
+.rep-block strong{font-size:14px;display:block;margin-top:5px}
+.rep-block small{font-size:8px;color:var(--muted);letter-spacing:1px}
+.session-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.timer-panel{text-align:center}
+.timer-label{font-size:9px;letter-spacing:2px;color:var(--muted);font-weight:800}
+.timer-number{font-size:61px;letter-spacing:-4px;font-weight:850;font-variant-numeric:tabular-nums;margin:17px 0}
+.timer-presets{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:17px 0}
+.timer-presets button{padding:8px 10px;font-size:10px}
+.timer-state{font-size:10px;color:var(--muted);margin-top:12px}
+.guide-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:transparent;color:var(--text);border:0;padding:0;font-weight:800}
+.guide-content{display:none;margin-top:17px;border-top:1px solid var(--line);padding-top:14px}
+.guide-content.open{display:block}
+.week-line{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.week-line:last-child{border-bottom:0}
+.week-badge{width:48px;height:40px;border:1px solid #c6ff512d;background:#c6ff5108;border-radius:9px;color:var(--green);display:grid;place-items:center;font-size:10px;font-weight:900;flex-shrink:0}
+.week-line strong{font-size:11px}
+.week-line p{font-size:10px;color:var(--muted);margin:5px 0;line-height:1.7}
+.calendar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.cal-head{text-align:center;font-size:9px;color:var(--muted);padding:8px 0}
+.cal-cell{min-height:83px;border:1px solid var(--line);border-radius:10px;background:#10151a;padding:8px;text-align:left;color:var(--text);min-width:0}
+.cal-cell.empty{background:transparent;border-color:transparent}
+.cal-cell.today{border-color:var(--green)}
+.cal-cell.completed{background:#162016;border-color:#455a2c}
+.cal-cell .cal-num{font-size:11px;font-weight:850}
+.cal-cell .cal-mark{font-size:9px;color:var(--muted);display:block;margin-top:10px;overflow-wrap:anywhere}
+.cal-cell.completed .cal-mark{color:var(--green)}
+.cal-cell.before{opacity:.32}
+.cal-details{margin-top:17px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#121820}
+.review-banner{padding:17px;border:1px solid #30412c;background:linear-gradient(100deg,#161f14,#11161a);border-radius:12px;margin:17px 0}
+.review-banner h3{margin:0 0 7px}
+.review-banner p{font-size:11px;color:var(--muted);margin:0;line-height:1.8}
+.check-row{display:flex;align-items:flex-start;gap:11px;padding:14px 0;border-bottom:1px solid var(--line)}
+.check-row:last-child{border-bottom:0}
+.check-row input{accent-color:var(--green);width:16px;height:16px;margin-top:1px;flex-shrink:0}
+.check-row label{font-size:11px;line-height:1.6;flex:1}
+.check-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.check-row.locked{opacity:.5}
+.field-label{display:block;color:var(--muted);font-size:10px;margin:14px 0 7px}
+.field{
+  width:100%;background:#0d1217;color:var(--text);border:1px solid var(--line);
+  padding:12px;border-radius:9px;outline:none
+}
+.field:focus{border-color:#c6ff5177}
+.history-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.history-row:last-child{border-bottom:0}
+.history-week{width:39px;height:39px;display:grid;place-items:center;background:#1a2228;border-radius:10px;font-size:10px;font-weight:900;color:var(--cyan)}
+.history-copy{flex:1;min-width:0}
+.history-copy strong{display:block;font-size:11px}
+.history-copy small{display:block;color:var(--muted);margin-top:5px;font-size:10px}
+.history-rate{font-size:13px;font-weight:900}
+.chart{height:190px;display:flex;align-items:flex-end;gap:9px;padding-top:20px}
+.chart-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px}
+.chart-value{font-size:9px;color:var(--muted)}
+.chart-bar{width:min(100%,43px);min-height:3px;background:var(--green);border-radius:5px 5px 2px 2px;transition:height .3s}
+.chart-label{font-size:9px;color:var(--muted)}
+.stat-big{font-size:30px;font-weight:900;letter-spacing:-1px;margin:13px 0 5px}
+.notice{font-size:11px;line-height:1.8;padding:13px;border:1px solid var(--line);border-radius:10px;color:#aebbc0;background:#11171c}
+.notice.warning{border-color:#72552c;background:#211a12;color:#f6d5a5}
+.notice.good{border-color:#30452a;background:#141d12;color:#c7e9a7}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 0;border-bottom:1px solid var(--line)}
+.setting-row:last-child{border-bottom:0}
+.setting-row strong{font-size:11px}
+.setting-row p{font-size:10px;color:var(--muted);margin:5px 0 0;line-height:1.7}
+.setting-control{width:min(220px,45%);flex-shrink:0}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:100;background:var(--green);color:#10150c;padding:13px 19px;
+  border-radius:10px;font-size:11px;font-weight:850;box-shadow:0 8px 36px #0009;
+  display:none;max-width:90vw;text-align:center
+}
+footer{text-align:center;border-top:1px solid var(--line);padding-top:20px;margin-top:38px;color:#57656c;font-size:9px;letter-spacing:1px}
+.mobile-nav{display:none}
+@media(max-width:1050px){
+  :root{--sidebar:190px}
+  main{padding-left:22px;padding-right:22px}
+  .hero{grid-template-columns:minmax(0,1.5fr) minmax(120px,.7fr);padding:23px}
+  .orbit{width:145px;height:145px}
+  .orbit-number{font-size:33px}
+}
+@media(max-width:760px){
+  .sidebar{width:100%;height:61px;inset:auto 0 0;padding:5px 9px;border-right:0;border-top:1px solid var(--line);background:#0b0e12ed;backdrop-filter:blur(16px)}
+  .brand,.nav-label,.sidebar-bottom{display:none}
+  .navs{display:flex;justify-content:space-around;gap:3px;height:100%}
+  .nav{width:auto;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:0;padding:4px 2px;font-size:9px;border-radius:8px}
+  .nav-icon{font-size:16px;width:auto}
+  .nav-key{display:none}
+  main{margin-left:0;padding:22px 15px 90px}
+  .hero{grid-template-columns:1fr;min-height:0;padding:22px}
+  .hero-visual{display:none}
+  .hero h2{font-size:34px;margin-top:17px}
+  .stats{gap:8px}
+  .stat{padding:13px}
+  .stat-number{font-size:24px}
+  .dashboard-columns,.session-layout{grid-template-columns:1fr}
+  .panel{padding:16px}
+  .page-intro{align-items:flex-start}
+  h1{font-size:26px}
+  .clock{display:none}
+  .calendar{gap:3px}
+  .cal-cell{min-height:67px;padding:5px}
+  .cal-cell .cal-mark{font-size:8px;margin-top:8px}
+  footer{padding-bottom:8px}
+}
+@media(max-width:410px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .day-strip{gap:3px}
+  .day-cell{padding:9px 1px}
+  .day-cell .dname{font-size:8px}
+  .hero-actions .btn{flex:1}
+  .timer-number{font-size:53px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}
 }
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
-  <div class="brand"><div class="logo">L</div> LIFT DIARY</div>
-  <div class="nav-label">WORKSPACE</div>
-  <div class="navs">
-    <button class="nav active" data-page="dashboard"><span class="ico">▦</span>Dashboard</button>
-    <button class="nav" data-page="workouts"><span class="ico">◈</span>Workouts</button>
-    <button class="nav" data-page="calendar"><span class="ico">▦</span>Calendar</button>
-    <button class="nav" data-page="review"><span class="ico">✓</span>Weekly review</button>
-    <button class="nav" data-page="progress"><span class="ico">↗</span>Progress</button>
-    <button class="nav" data-page="guide"><span class="ico">☰</span>Program guide</button>
-  </div>
-  <div class="side-bottom">
-    <div class="profile"><div class="avatar" id="avatar">A</div>
-      <div><strong id="profileName">Athlete</strong><small>8-week program</small></div>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div><div class="brand-name">AXIOM</div><div class="brand-sub">FITNESS OPERATING SYSTEM</div></div>
     </div>
-  </div>
-</aside>
 
-<main>
-<header class="topbar">
-  <div><div class="eyebrow" id="dateLabel">YOUR TRAINING SPACE</div>
-  <h1 id="pageTitle">Your dashboard</h1>
-  <div class="muted small" id="subtitle">Small steps. Consistent progress.</div></div>
-  <button class="secondary" id="settingsBtn">⚙ Settings</button>
-</header>
-
-<section class="page active" id="page-dashboard">
-  <div class="hero">
-    <div class="eyebrow" id="heroWeek">WEEK 1 OF 8</div>
-    <h2 id="heroTitle">Build your foundation.</h2>
-    <p id="heroText">A consistent routine beats a perfect workout. Show up, focus on technique, and build from there.</p>
-    <div class="hero-actions">
-      <button class="primary" id="startToday">Start today's activity ↗</button>
-      <button class="secondary" id="viewPlan">View full plan</button>
+    <div class="nav-label">CONTROL CENTER</div>
+    <div class="navs">
+      <button class="nav active" data-page="dashboard"><span class="nav-icon">⌂</span>Overview <span class="nav-key">01</span></button>
+      <button class="nav" data-page="train"><span class="nav-icon">◈</span>Training <span class="nav-key">02</span></button>
+      <button class="nav" data-page="calendar"><span class="nav-icon">▦</span>Schedule <span class="nav-key">03</span></button>
+      <button class="nav" data-page="review"><span class="nav-icon">✓</span>Weekly review <span class="nav-key">04</span></button>
+      <button class="nav" data-page="insights"><span class="nav-icon">↗</span>Insights <span class="nav-key">05</span></button>
     </div>
-  </div>
 
-  <div class="grid stats">
-    <div class="card"><div class="stat-top"><span class="muted small">PROGRAM WEEK</span><span class="stat-icon">◷</span></div>
-      <div class="stat-number" id="statWeek">01<span class="muted">/08</span></div><div class="muted small" id="weekDates">Week in progress</div></div>
-    <div class="card"><div class="stat-top"><span class="muted small">THIS WEEK</span><span class="stat-icon">✓</span></div>
-      <div class="stat-number" id="statCompleted">0/6</div><div class="muted small">Activities completed</div></div>
-    <div class="card"><div class="stat-top"><span class="muted small">CONSISTENCY</span><span class="stat-icon">↗</span></div>
-      <div class="stat-number" id="statRate">0%</div><div class="muted small">Of scheduled activities</div></div>
-    <div class="card"><div class="stat-top"><span class="muted small">TOTAL SESSIONS</span><span class="stat-icon">⚡</span></div>
-      <div class="stat-number" id="statTotal">0</div><div class="muted small">Across the program</div></div>
-  </div>
+    <div class="nav-label">SYSTEM</div>
+    <button class="nav" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
 
-  <div class="section-head"><h2>This week's schedule</h2><span class="muted small" id="scheduleWeek">Week 1</span></div>
-  <div class="week-strip" id="weekStrip"></div>
-
-  <div class="grid layout">
-    <div>
-      <div class="section-head"><h2>Today's activity</h2></div>
-      <div class="card" id="todayCard"></div>
-      <div class="section-head"><h2>Weekly consistency</h2></div>
-      <div class="card"><div style="display:flex;justify-content:space-between;gap:10px">
-        <div><h3 id="consistencyHeading">Keep the momentum.</h3><p class="muted small" id="consistencyText">Every completed session counts.</p></div>
-        <strong id="consistencyPercent">0%</strong></div>
-        <div class="progress"><div id="consistencyBar" style="width:0%"></div></div>
-        <button class="secondary" data-goto="review">Open weekly review →</button>
+    <div class="sidebar-bottom">
+      <div class="system-status">
+        <div><span class="status-dot"></span><strong>SYSTEM ONLINE</strong></div>
+        <p>LOCAL STORAGE ACTIVE<br>PROGRAM TRACKING ENABLED</p>
+      </div>
+      <div class="user-row">
+        <div class="avatar" id="avatar">A</div>
+        <div><div class="user-name" id="userName">ATHLETE</div><div class="user-sub">8-WEEK PROTOCOL</div></div>
       </div>
     </div>
-    <div>
-      <div class="section-head"><h2>Next up</h2></div>
-      <div class="card"><div class="day-list" id="upcomingList"></div></div>
-      <div class="section-head"><h2>Training principle</h2></div>
-      <div class="card"><div class="eyebrow">REMEMBER</div><h3 style="margin-top:12px">Leave room to recover.</h3>
-        <p class="muted small">Finish most sets feeling you could still do 1–3 good repetitions. You don't need to reach failure to make progress.</p></div>
-    </div>
-  </div>
-</section>
+  </aside>
 
-<section class="page" id="page-workouts">
-  <div class="card">
-    <div class="eyebrow">TRAINING LIBRARY</div><h2 style="margin-top:8px">Your workouts</h2>
-    <p class="muted small">Bodyweight only · Warm up for 4–5 minutes before strength sessions.</p>
-    <div class="workout-tabs" id="workoutTabs">
-      <button class="secondary active" data-workout="A">Workout A</button>
-      <button class="secondary" data-workout="B">Workout B</button>
-      <button class="secondary" data-workout="C">Workout C</button>
-      <button class="secondary" data-workout="cardio">Cardio</button>
-      <button class="secondary" data-workout="warmup">Warm-up</button>
-    </div>
-    <div id="workoutContent"></div>
-  </div>
-  <div class="grid two-col" style="margin-top:17px">
-    <div class="card"><h3>Rest timer</h3><p class="muted small">Use the preset or enter a custom duration.</p>
-      <div class="timer-display" id="timerDisplay">01:00</div>
-      <div style="display:flex;gap:8px;margin-bottom:13px">
-        <button class="secondary" data-seconds="30">30s</button>
-        <button class="secondary" data-seconds="45">45s</button>
-        <button class="secondary" data-seconds="60">60s</button>
-        <button class="secondary" data-seconds="90">90s</button>
+  <main>
+    <header class="topbar">
+      <div>
+        <div class="breadcrumb" id="breadcrumb">AXIOM / CONTROL CENTER</div>
+        <h1 id="pageHeading">Command center.</h1>
+        <div class="muted small" id="pageSub">Consistency is the system. Progress is the output.</div>
       </div>
-      <div class="timer-actions"><button class="primary" id="timerToggle">Start timer</button><button class="secondary" id="timerReset">Reset</button></div>
-    </div>
-    <div class="card"><h3>Exercise substitutions</h3>
-      <div class="check-row"><span><strong>Push-ups</strong><small>Wall → incline → knee → regular</small></span></div>
-      <div class="check-row"><span><strong>Glute bridges</strong><small>Single-leg bridges → regular two-leg bridges</small></span></div>
-      <div class="check-row"><span><strong>Mountain climbers</strong><small>Replace with standing knee raises for lower impact</small></span></div>
-      <div class="check-row"><span><strong>Reverse lunges</strong><small>Use support for balance and reduce depth as needed</small></span></div>
-    </div>
-  </div>
-</section>
+      <div class="top-actions">
+        <div class="clock" id="liveClock">--:--:--</div>
+        <button class="btn" id="quickSettings">⚙</button>
+      </div>
+    </header>
 
-<section class="page" id="page-calendar">
-  <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-    <div><div class="eyebrow">YOUR HISTORY</div><h2 style="margin-top:8px">Training calendar</h2></div>
-    <div style="display:flex;gap:7px"><button class="secondary" id="prevMonth">←</button><button class="secondary" id="nextMonth">→</button></div>
-  </div>
-  <h3 id="monthLabel" style="margin-top:22px"></h3>
-  <div class="calendar" id="calendarGrid"></div>
-  <p class="muted small">Green dates indicate completed activities. Select a date to see its scheduled activity.</p>
-  <div class="notice" id="calendarDetails">Select a date to view its activity.</div>
-  </div>
-</section>
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <div class="hero">
+        <div class="hero-main">
+          <div class="micro accent" id="cycleLabel">PROTOCOL 01 / WEEK 01</div>
+          <h2 id="heroTitle">Build your<br>baseline.</h2>
+          <p id="heroDescription">No extremes. No guessing. Follow the plan, finish the session, and recover properly.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="heroStart">Initialize today's session ↗</button>
+            <button class="btn" data-goto="train">Workout library</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="orbit"><div class="orbit-point"></div>
+            <div class="orbit-inner"><div class="orbit-number" id="heroWeekNumber">01</div><div class="orbit-label">OF 08 WEEKS</div></div>
+          </div>
+        </div>
+      </div>
 
-<section class="page" id="page-review">
-  <div class="grid layout">
-    <div class="card"><div class="eyebrow">WEEKLY RESET</div><h2 style="margin-top:8px">Sunday review</h2>
-      <p class="muted small">Review the week, confirm your results, and preserve your history.</p>
-      <div id="reviewStatus" class="notice"></div>
-      <div id="reviewChecklist"></div>
-      <button class="primary" id="saveReview" style="width:100%;margin-top:18px">Confirm and save week</button>
-      <p class="muted small">Reviews unlock on Sunday. If you miss Sunday, your previous week's review remains available. Saved weeks are never replaced by a new checklist.</p>
-    </div>
-    <div>
-      <div class="card"><h3>Week at a glance</h3><div id="reviewSummary"></div></div>
-      <div class="card" style="margin-top:15px"><h3>Saved weekly history</h3><div id="savedHistory"></div></div>
-    </div>
-  </div>
-</section>
+      <div class="grid stats">
+        <div class="panel stat"><div class="stat-top"><span class="stat-label">CURRENT CYCLE</span><span class="stat-icon">◷</span></div>
+          <div class="stat-number" id="statWeek">01<span class="muted"> / 08</span></div><div class="stat-note" id="statWeekNote">Week in progress</div></div>
+        <div class="panel stat"><div class="stat-top"><span class="stat-label">ACTIVITIES</span><span class="stat-icon">✓</span></div>
+          <div class="stat-number" id="statActivities">0<span class="muted"> / 6</span></div><div class="stat-note">This week's completed sessions</div></div>
+        <div class="panel stat"><div class="stat-top"><span class="stat-label">TOTAL SESSIONS</span><span class="stat-icon">↗</span></div>
+          <div class="stat-number" id="statTotal">00</div><div class="stat-note">Recorded across the program</div></div>
+      </div>
 
-<section class="page" id="page-progress">
-  <div class="eyebrow">YOUR JOURNEY</div><h2 style="margin-top:8px">Progress report</h2>
-  <p class="muted small">Your recorded activity, weekly consistency, and program completion.</p>
-  <div class="grid stats">
-    <div class="card"><div class="muted small">STRENGTH</div><div class="stat-number" id="reportStrength">0</div><div class="muted small">Sessions recorded</div></div>
-    <div class="card"><div class="muted small">CARDIO</div><div class="stat-number" id="reportCardio">0</div><div class="muted small">Sessions recorded</div></div>
-    <div class="card"><div class="muted small">WEEKS SAVED</div><div class="stat-number" id="reportWeeks">0/8</div><div class="muted small">Weekly reviews</div></div>
-    <div class="card"><div class="muted small">OVERALL</div><div class="stat-number" id="reportRate">0%</div><div class="muted small">Activities completed</div></div>
-  </div>
-  <div class="grid layout">
-    <div class="card"><h2>Weekly completion</h2><p class="muted small">Completed scheduled activities out of six.</p><div class="chart" id="progressChart"></div></div>
-    <div class="card"><h2>Milestones</h2><div id="milestones"></div></div>
-  </div>
-  <div class="card" style="margin-top:17px" id="finalReport"><h2>Eight-week summary</h2><p class="muted small">Your final report will be available after Week 8 ends.</p></div>
-  <div class="card" style="margin-top:17px"><h3>Data backup</h3><p class="muted small">Download your progress as JSON to keep a backup or move it to another browser manually.</p>
-    <div style="display:flex;gap:9px;flex-wrap:wrap"><button class="secondary" id="exportBtn">Export progress</button><button class="secondary" id="importBtn">Import backup</button><input type="file" id="importFile" accept=".json,application/json" hidden></div>
-  </div>
-</section>
+      <div class="section-head"><h2>Today's directive</h2><span class="tag tag-green" id="todayStatus">READY</span></div>
+      <div class="grid dashboard-columns">
+        <div>
+          <div class="panel today-card">
+            <div class="micro cyan" id="todayType">TODAY'S TRAINING</div>
+            <div class="today-name" id="todayName">Workout A — Full Body</div>
+            <div class="today-meta" id="todayMeta">Strength protocol · 25–35 minutes</div>
+            <div class="divider"></div>
+            <div class="today-meta" id="todayInstruction">Complete every prescribed exercise before closing the session.</div>
+            <div class="today-footer">
+              <span class="tag" id="todayDuration">25–35 MIN</span>
+              <button class="btn btn-primary" id="todayLaunch">Enter training mode →</button>
+            </div>
+          </div>
 
-<section class="page" id="page-guide">
-  <div class="card"><div class="eyebrow">THE PROGRAM</div><h2 style="margin-top:8px">Eight weeks. One routine.</h2>
-    <p class="muted">Goal: improve strength, conditioning, consistency, and support your goal of getting leaner.</p>
-    <div class="grid two-col" style="margin-top:20px">
-      <div><h3>Training structure</h3><p class="muted small">3 strength sessions · 2 cardio sessions · 1 recovery day · 1 full rest day each week.</p></div>
-      <div><h3>Session duration</h3><p class="muted small">Strength: 25–35 minutes. Cardio: 20–30 minutes. Recovery: 5–10 minutes.</p></div>
-      <div><h3>Rest between sets</h3><p class="muted small">45–90 seconds depending on the exercise. Rest longer if you need to maintain good form.</p></div>
-      <div><h3>Equipment</h3><p class="muted small">Bodyweight only. Use a sturdy, non-slip counter for incline push-ups if appropriate.</p></div>
-    </div>
-  </div>
-  <div class="section-head"><h2>Weekly progression</h2></div>
-  <div class="card" id="progressionGuide"></div>
-  <div class="section-head"><h2>Nutrition and recovery</h2></div>
-  <div class="grid two-col" id="nutritionGuide"></div>
-  <div class="section-head"><h2>How to measure progress</h2></div>
-  <div class="card"><ul class="muted small" style="line-height:2.1">
-    <li>Track push-ups completed with good technique.</li><li>Notice squat and lunge control.</li>
-    <li>Track comfortable plank duration.</li><li>Notice how easily cardio sessions feel.</li>
-    <li>Monitor energy, recovery, and consistency.</li>
-  </ul><p class="muted small">Review every two weeks. Body weight fluctuates and is not the only measure of progress.</p></div>
-  <div class="section-head"><h2>Program settings</h2></div>
-  <div class="card"><h3>Program start date</h3><p class="muted small">Choose the date you began the program. Changing it recalculates your program calendar without deleting saved history.</p>
-    <input class="field" type="date" id="startDateInput"><button class="primary" id="saveStartDate">Save start date</button>
-  </div>
-</section>
+          <div class="section-head"><h2>Weekly timeline</h2><span class="micro" id="timelineLabel">WEEK 01</span></div>
+          <div class="day-strip" id="dayStrip"></div>
+        </div>
 
-<footer>Lift Diary · Train consistently, recover properly. · Your data stays in this browser.</footer>
-</main>
+        <div>
+          <div class="panel">
+            <div class="panel-title"><h3>Upcoming</h3><span class="micro">NEXT IN LINE</span></div>
+            <div id="upcomingList" class="compact-list"></div>
+          </div>
+          <div class="panel" style="margin-top:15px">
+            <div class="panel-title"><h3>Execution score</h3><span class="accent">◈</span></div>
+            <div class="stat-big" id="executionRate">0%</div>
+            <div class="progress"><div id="executionBar"></div></div>
+            <p class="muted small" id="executionText">Complete your scheduled sessions to build your score.</p>
+            <div class="divider"></div>
+            <button class="btn" style="width:100%" data-goto="insights">View performance data →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRAINING -->
+    <section class="page" id="page-train">
+      <div class="page-intro"><div><div class="micro cyan">TRAINING MODULE</div><h2 style="margin-top:8px">Execute the plan.</h2>
+        <p>One exercise at a time. Complete the required work before finishing.</p></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><div><div class="micro">TODAY'S SCHEDULE</div><h3 style="margin-top:7px" id="trainScheduleTitle">Workout A — Full Body</h3></div>
+          <span class="tag" id="trainScheduleStatus">NOT STARTED</span></div>
+        <div class="workout-tabs" id="workoutTabs">
+          <button class="btn active" data-workout="A">Workout A</button>
+          <button class="btn" data-workout="B">Workout B</button>
+          <button class="btn" data-workout="C">Workout C</button>
+          <button class="btn" data-workout="cardio">Cardio</button>
+          <button class="btn" data-workout="warmup">Warm-up</button>
+        </div>
+        <div id="libraryContent"></div>
+        <div class="divider"></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-primary" id="beginSession">Start today's session →</button>
+          <span class="muted small" id="sessionRule">Only today's scheduled activity can be recorded.</span>
+        </div>
+      </div>
+
+      <div id="activeSession" style="display:none;margin-top:15px">
+        <div class="grid session-layout">
+          <div class="panel session-card">
+            <div class="session-top"><span class="micro cyan">FOCUSED EXECUTION</span><span class="session-count" id="exerciseCounter">EXERCISE 01 / 06</span></div>
+            <div class="session-track" id="sessionTrack"></div>
+            <div id="exerciseFocus" class="exercise-focus"></div>
+            <div class="session-controls">
+              <button class="btn" id="previousExercise">← Previous</button>
+              <button class="btn btn-primary" id="completeExercise">Complete exercise ✓</button>
+              <button class="btn" id="nextExercise">Next →</button>
+            </div>
+            <div class="divider"></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
+              <span class="muted small" id="sessionProgressText">0 of 6 exercises completed</span>
+              <button class="btn btn-quiet btn-danger" id="exitSession">Exit session</button>
+            </div>
+          </div>
+          <div>
+            <div class="panel timer-panel">
+              <div class="timer-label">INTERVAL TIMER</div><div class="timer-number" id="timerNumber">01:00</div>
+              <div class="progress cyan-bar"><div id="timerBar"></div></div>
+              <div class="timer-presets">
+                <button class="btn" data-time="30">30s</button><button class="btn" data-time="45">45s</button>
+                <button class="btn" data-time="60">60s</button><button class="btn" data-time="90">90s</button>
+              </div>
+              <div style="display:flex;justify-content:center;gap:8px">
+                <button class="btn btn-primary" id="timerToggle">Start timer</button><button class="btn" id="timerReset">Reset</button>
+              </div>
+              <div class="timer-state" id="timerState">READY · REST WHEN NEEDED</div>
+            </div>
+            <div class="panel" style="margin-top:15px">
+              <div class="panel-title"><h3>Session rules</h3></div>
+              <div class="notice">Complete each exercise with controlled technique. Rest 45–90 seconds between sets. Do not rush repetitions to finish sooner.</div>
+              <details style="margin-top:15px">
+                <summary class="muted small" style="cursor:pointer">Warm-up sequence</summary>
+                <div id="sessionWarmup" style="margin-top:10px"></div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="page" id="page-calendar">
+      <div class="page-intro"><div><div class="micro cyan">ACTIVITY LOG</div><h2 style="margin-top:8px">Schedule & history.</h2>
+        <p>See upcoming sessions, recorded activity, and rest days.</p></div></div>
+      <div class="panel">
+        <div class="calendar-top"><div><div class="micro">MONTH VIEW</div><h2 id="calendarMonthLabel" style="margin-top:6px">Month</h2></div>
+          <div style="display:flex;gap:7px"><button class="btn" id="prevMonth">←</button><button class="btn" id="nextMonth">→</button></div></div>
+        <div class="calendar" id="calendarGrid"></div>
+        <div class="divider"></div>
+        <div class="calendar-top"><div class="micro">DATE DETAILS</div><span class="tag" id="selectedDateStatus">SELECT A DATE</span></div>
+        <div class="cal-details" id="calendarDetails">Select a day to view its scheduled activity.</div>
+      </div>
+    </section>
+
+    <!-- SUNDAY REVIEW -->
+    <section class="page" id="page-review">
+      <div class="page-intro"><div><div class="micro cyan">WEEKLY AUDIT</div><h2 style="margin-top:8px">Review. Confirm. Reset.</h2>
+        <p>The weekly checklist is available on Sundays only.</p></div></div>
+      <div class="grid dashboard-columns">
+        <div class="panel">
+          <div class="panel-title"><h3>Weekly checklist</h3><span class="tag" id="reviewWeekTag">WEEK 01</span></div>
+          <label class="field-label" for="reviewWeekSelect">WEEK TO REVIEW</label>
+          <select class="field" id="reviewWeekSelect"></select>
+          <div class="review-banner"><h3 id="reviewHeading">Audit locked.</h3><p id="reviewDescription">Return on Sunday to review your training week and confirm your record.</p></div>
+          <div id="reviewChecklist"></div>
+          <div style="margin-top:18px"><button class="btn btn-primary" id="saveReview" style="width:100%">Confirm & save weekly review</button></div>
+          <p class="muted small" style="line-height:1.8;margin-bottom:0">Saved weeks are immutable. An unfinished review remains in your history and can be completed on a later Sunday. Starting a new week never deletes old results.</p>
+        </div>
+        <div>
+          <div class="panel">
+            <div class="panel-title"><h3>Audit summary</h3><span class="accent">◈</span></div>
+            <div class="stat-big" id="reviewDoneCount">0 / 6</div>
+            <div class="progress"><div id="reviewProgressBar"></div></div>
+            <p class="muted small" id="reviewSummaryText">Recorded activity for the selected week.</p>
+            <div class="divider"></div>
+            <div class="micro">WEEKLY TARGET</div>
+            <h3 style="margin-top:8px">3 strength · 2 cardio</h3>
+            <p class="muted small">Thursday is recovery. Sunday is full rest.</p>
+          </div>
+          <div class="panel" style="margin-top:15px">
+            <div class="panel-title"><h3>Saved audits</h3><span class="micro">HISTORY</span></div>
+            <div id="savedReviews"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="page" id="page-insights">
+      <div class="page-intro"><div><div class="micro cyan">PERFORMANCE ANALYTICS</div><h2 style="margin-top:8px">Your data. No guesswork.</h2>
+        <p>Progress is measured by actions and consistency, not daily weight fluctuations.</p></div></div>
+      <div class="grid stats">
+        <div class="panel stat"><div class="stat-top"><span class="stat-label">STRENGTH SESSIONS</span><span class="stat-icon">◈</span></div>
+          <div class="stat-number" id="insightStrength">0</div><div class="stat-note">Successfully completed</div></div>
+        <div class="panel stat"><div class="stat-top"><span class="stat-label">CARDIO SESSIONS</span><span class="stat-icon">↗</span></div>
+          <div class="stat-number" id="insightCardio">0</div><div class="stat-note">Successfully completed</div></div>
+        <div class="panel stat"><div class="stat-top"><span class="stat-label">WEEKLY REVIEWS</span><span class="stat-icon">✓</span></div>
+          <div class="stat-number" id="insightReviews">0<span class="muted"> / 8</span></div><div class="stat-note">Confirmed and saved</div></div>
+      </div>
+      <div class="grid dashboard-columns">
+        <div class="panel"><div class="panel-title"><h3>Weekly completion</h3><span class="micro">OUT OF 6</span></div>
+          <div class="chart" id="completionChart"></div><div class="divider"></div>
+          <p class="muted small">Each bar represents recorded completion of scheduled weekday activities. Rest day is not counted against you.</p></div>
+        <div class="panel"><div class="panel-title"><h3>Milestones</h3><span class="accent">✳</span></div><div id="milestones"></div></div>
+      </div>
+      <div class="panel" style="margin-top:15px" id="finalReport"></div>
+      <div class="panel" style="margin-top:15px">
+        <div class="panel-title"><h3>Export your record</h3><span class="micro">DATA CONTROL</span></div>
+        <p class="muted small">Download a backup of your activities, exercise checks, and weekly reviews.</p>
+        <button class="btn btn-primary" id="exportBtn">Export progress JSON ↓</button>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="page-settings">
+      <div class="page-intro"><div><div class="micro cyan">SYSTEM CONFIGURATION</div><h2 style="margin-top:8px">Preferences.</h2>
+        <p>Configure your profile and program timeline.</p></div></div>
+      <div class="panel">
+        <div class="panel-title"><h3>Profile</h3><span class="micro">LOCAL PROFILE</span></div>
+        <div class="setting-row"><div><strong>Display name</strong><p>Shown in your AXIOM workspace.</p></div><div class="setting-control"><input class="field" id="nameInput" maxlength="32" placeholder="Athlete"></div></div>
+        <div class="setting-row"><div><strong>Program start date</strong><p>Changing this recalculates week labels; saved records are retained.</p></div><div class="setting-control"><input class="field" type="date" id="startInput"></div></div>
+        <div style="margin-top:18px"><button class="btn btn-primary" id="saveSettings">Save configuration</button></div>
+      </div>
+
+      <div class="panel" style="margin-top:15px">
+        <div class="panel-title"><h3>Data & backups</h3><span class="micro">STORAGE</span></div>
+        <div class="setting-row"><div><strong>Export backup</strong><p>Save a complete copy of this browser's progress.</p></div><button class="btn" id="settingsExport">Export JSON</button></div>
+        <div class="setting-row"><div><strong>Restore backup</strong><p>Import an earlier AXIOM backup. Current data will be replaced.</p></div><button class="btn" id="importBtn">Import JSON</button></div>
+        <div class="setting-row"><div><strong>Reset local progress</strong><p>Permanently clear records stored on this device.</p></div><button class="btn btn-danger" id="resetBtn">Reset data</button></div>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+      </div>
+      <div class="notice warning" style="margin-top:15px">Storage notice: progress is saved in this browser only. Clearing browser data can erase it. GitHub Pages does not provide account authentication or automatic cross-device synchronization.</div>
+    </section>
+
+    <footer>AXIOM / FITNESS OPERATING SYSTEM · CONSISTENCY OVER INTENSITY</footer>
+  </main>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
 
-const STORAGE_KEY = "liftDiary.homeProgram.v1";
-const DAY_NAMES = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-const DAY_SHORT = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+/* AXIOM — self-contained fitness tracker.
+   No third-party libraries, API credentials, or external services. */
+
+const STORE = "axiomFitOS.v2";
+const LEGACY_STORE = "liftDiary.homeProgram.v1";
+const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const SHORT = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
 
 const PLAN = [
- {name:"Workout A — Full Body",type:"strength",duration:"25–35 min",items:[
+ {key:"A",name:"Workout A — Full Body",type:"strength",duration:"25–35 min",items:[
   ["Bodyweight squats","3 sets","12–15 reps","60 sec","Keep heels grounded and knees aligned with your feet."],
-  ["Push-ups","3 sets","6–12 reps","60–90 sec","Use regular, knee, or wall push-ups based on your ability."],
+  ["Push-ups","3 sets","6–12 reps","60–90 sec","Use regular push-ups, knee push-ups, or wall push-ups as needed."],
   ["Reverse lunges","2 sets","8–10 per leg","60 sec","Step backward and lower only as far as you can control."],
   ["Glute bridges","3 sets","12–15 reps","45–60 sec","Lift your hips by squeezing your glutes."],
   ["Plank","3 sets","20–40 sec","45–60 sec","Keep your body aligned and breathe normally."],
   ["Marching in place","2 sets","60 sec","30 sec","March at a comfortable, controlled pace."]
  ]},
- {name:"Cardio or brisk walking",type:"cardio",duration:"20–25 min",items:[
-  ["Brisk walking","1 session","20–25 min","As needed","Walk at a pace that makes you breathe faster while still speaking in sentences."],
-  ["Marching in place","Optional","5–10 min","As needed","An indoor alternative to walking."],
-  ["Side steps","Optional","5–10 min","As needed","Use controlled steps and a comfortable range of motion."],
-  ["Dancing","Optional","As desired","As needed","Choose music and move at a sustainable pace."]
+ {key:"cardioA",name:"Cardio or brisk walking",type:"cardio",duration:"20–25 min",items:[
+  ["Choose your cardio activity","1 session","20–25 min","As needed","Choose walking, marching in place, side steps, dancing, or a combination."],
+  ["Maintain a sustainable pace","Continuous","20–25 min","As needed","Breathe faster while still being able to speak in sentences."]
  ]},
- {name:"Workout B — Full Body",type:"strength",duration:"25–35 min",items:[
+ {key:"B",name:"Workout B — Full Body",type:"strength",duration:"25–35 min",items:[
   ["Reverse lunges","3 sets","8–10 per leg","60–90 sec","Use support if you need help with balance."],
-  ["Push-ups","3 sets","6–12 reps","60–90 sec","Choose a variation that lets you maintain good technique."],
+  ["Push-ups","3 sets","6–12 reps","60–90 sec","Use a variation that lets you keep good form."],
   ["Single-leg glute bridges","2 sets","8–10 per leg","60 sec","Return to regular two-leg bridges if too difficult."],
   ["Dead bugs","3 sets","8–10 per side","45–60 sec","Move slowly and keep your torso stable."],
   ["Calf raises","3 sets","15–20 reps","45 sec","Pause at the top and lower under control."],
   ["Side steps","2 sets","60 sec","30 sec","Move steadily without rushing."]
  ]},
- {name:"Recovery or light stretching",type:"recovery",duration:"5–10 min",items:[
-  ["Gentle stretching","1 session","5–10 min","As needed","Move gently and avoid forcing a stretch."],
+ {key:"recovery",name:"Recovery / light stretching",type:"recovery",duration:"5–10 min",items:[
+  ["Gentle stretching","1 session","5–10 min","As needed","Move gently; never force a stretch."],
   ["Easy walking","Optional","5–10 min","As needed","Keep the pace comfortable and relaxed."]
  ]},
- {name:"Workout C — Full Body + Conditioning",type:"strength",duration:"25–35 min",items:[
+ {key:"C",name:"Workout C — Full Body + Conditioning",type:"strength",duration:"25–35 min",items:[
   ["Bodyweight squats","3 sets","12–15 reps","60 sec","Keep heels grounded and control the lowering phase."],
   ["Incline or regular push-ups","3 sets","8–12 reps","60–90 sec","Use a sturdy, non-slip counter for incline push-ups."],
-  ["Alternating reverse lunges","2 sets","8 per leg","60 sec","Keep each repetition controlled."],
+  ["Alternating reverse lunges","2 sets","8 per leg","60 sec","Keep every repetition controlled."],
   ["Bird dogs","2 sets","8–10 per side","45 sec","Move slowly with minimal torso movement."],
-  ["Mountain climbers","3 sets","20–30 sec","45 sec","Move slowly or substitute standing knee raises."],
-  ["Marching or step-touch","3 sets","45 sec","30 sec","Keep the conditioning low impact if needed."]
+  ["Mountain climbers","3 sets","20–30 sec","45 sec","Move slowly or replace them with standing knee raises."],
+  ["Marching or step-touch","3 sets","45 sec","30 sec","Choose a low-impact version if needed."]
  ]},
- {name:"Cardio or enjoyable activity",type:"cardio",duration:"20–30 min",items:[
-  ["Walking","1 session","20–30 min","As needed","Choose a comfortable, sustainable pace."],
-  ["Dancing","Alternative","20–30 min","As needed","Enjoyable movement counts as physical activity."],
-  ["Cycling","Alternative","20–30 min","As needed","Use a safe route or stationary bicycle."],
-  ["Recreational sports","Alternative","20–30 min","As needed","Choose an activity appropriate to your ability."]
+ {key:"cardioB",name:"Cardio / enjoyable activity",type:"cardio",duration:"20–30 min",items:[
+  ["Choose your activity","1 session","20–30 min","As needed","Walking, dancing, cycling, or recreational sports all count."],
+  ["Sustain your pace","Continuous","20–30 min","As needed","Pick an activity you can comfortably maintain."]
  ]},
- {name:"Full rest",type:"rest",duration:"Rest day",items:[
-  ["Rest and reset","Optional","As needed","—","Take a full rest day. Prepare for the next week without feeling obligated to exercise."]
+ {key:"rest",name:"Full rest day",type:"rest",duration:"Rest day",items:[
+  ["Rest and reset","Rest","No workout required","—","Recover, hydrate, and prepare for the next week."]
  ]}
 ];
 
 const WARMUP = [
- ["March in place","60 sec","Move at a comfortable pace."],
+ ["March in place","60 sec","Start at a comfortable pace."],
  ["Arm circles","30 sec","Use gentle, controlled circles."],
- ["Side steps","45 sec","Step side to side."],
- ["Easy bodyweight squats","10 reps","Use a comfortable range of motion."],
- ["Gentle hip and shoulder movements","60 sec","Loosen up without forcing the movement."]
+ ["Side steps","45 sec","Step from side to side."],
+ ["Easy bodyweight squats","10 reps","Stay in a comfortable range of motion."],
+ ["Gentle hip and shoulder movements","60 sec","Move smoothly without forcing the stretch."]
 ];
-const CHECKLIST = [
+
+const WEEK_CHECKS = [
  ["Monday — Workout A completed","Record your full-body strength session."],
- ["Tuesday — Cardio or walk completed","Record your cardio or brisk walk."],
+ ["Tuesday — Cardio or walk completed","Record your cardio activity."],
  ["Wednesday — Workout B completed","Record your full-body strength session."],
  ["Thursday — Recovery taken","Allow time for recovery or gentle stretching."],
  ["Friday — Workout C completed","Record strength and conditioning."],
- ["Saturday — Cardio or enjoyable activity completed","Record your chosen activity."],
- ["Sunday — Rested and prepared","Take your rest day and prepare for next week."],
- ["Used good technique","Adjusted exercise variations when necessary."],
- ["Regular meals and recovery","Allowed enough food, water, sleep, and recovery."]
-];
-const PROGRESSION = [
- ["Weeks 1–2","Complete the listed sets with controlled technique.","20 min per session"],
- ["Weeks 3–4","Add repetitions within the listed ranges when comfortable.","20–25 min per session"],
- ["Weeks 5–6","Add one set to selected exercises if recovery is good.","25 min per session"],
- ["Weeks 7–8","Try a slightly harder variation or slower repetitions.","25–30 min per session"]
-];
-const NUTRITION = [
- ["Balanced meals","Eat regular, balanced meals. Avoid crash diets or skipping meals."],
- ["Protein","Include eggs, yogurt, beans, tofu, fish, chicken, or other protein sources."],
- ["Fruit and vegetables","Include a variety throughout the day."],
- ["Hydration","Drink water regularly, especially during exercise."],
- ["Sleep","Aim for sufficient sleep and a consistent schedule."],
- ["Recovery","Take rest days and reduce training when unusually tired."],
- ["Consistency","Focus on maintaining the routine over several months."]
+ ["Saturday — Cardio completed","Record your cardio or enjoyable activity."],
+ ["Sunday — Rested and prepared","Take your rest day and prepare for the next week."],
+ ["Technique maintained","Adjusted variations when necessary."],
+ ["Recovery supported","Allowed time for regular meals, hydration, and sleep."]
 ];
 
-function localISO(d) {
- const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
- return `${y}-${m}-${day}`;
+const PROGRESSION = [
+ ["WEEKS 01–02","Build your baseline","Complete listed sets with controlled technique.","20 min cardio sessions."],
+ ["WEEKS 03–04","Build capacity","Add repetitions within the listed ranges when comfortable.","20–25 min cardio sessions."],
+ ["WEEKS 05–06","Controlled overload","Add one set to selected exercises if recovery is good.","25 min cardio sessions."],
+ ["WEEKS 07–08","Refine technique","Try a slightly harder variation or slower repetitions.","25–30 min cardio sessions."]
+];
+
+function todayISO(){return iso(new Date());}
+function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+function fromISO(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,12);}
+function monday(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);x.setDate(x.getDate()+(x.getDay()===0?-6:1-x.getDay()));return x;}
+function dayIdx(d){return (d.getDay()+6)%7;}
+function plusDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function weekStart(n){return plusDays(monday(fromISO(state.startDate)),(n-1)*7);}
+function weekNo(d){return Math.floor((monday(d)-monday(fromISO(state.startDate)))/604800000)+1;}
+function dateInProgram(d){const delta=Math.round((monday(d)-monday(fromISO(state.startDate)))/604800000);return d>=fromISO(state.startDate)&&delta>=0&&delta<8;}
+function validDay(d){return dateInProgram(d)&&weekNo(d)>=1&&weekNo(d)<=8;}
+function weekDates(n){return Array.from({length:7},(_,i)=>plusDays(weekStart(n),i));}
+function planFor(d){return PLAN[dayIdx(d)];}
+function dateLabel(d){return d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});}
+function rangeLabel(n){const a=weekStart(n),b=plusDays(a,6);return `${a.toLocaleDateString(undefined,{month:"short",day:"numeric"})} – ${b.toLocaleDateString(undefined,{month:"short",day:"numeric"})}`;}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function defaultState(){return {version:2,name:"ATHLETE",startDate:todayISO(),activities:{},reviews:{},drafts:{}};}
+
+function migrateLegacy(old){
+ const next=defaultState();
+ if(!old||typeof old!=="object")return next;
+ if(typeof old.name==="string")next.name=old.name.toUpperCase().slice(0,32)||"ATHLETE";
+ if(typeof old.startDate==="string")next.startDate=old.startDate;
+ if(old.activities&&typeof old.activities==="object"){
+  for(const [date,a] of Object.entries(old.activities)){
+   if(!a||typeof a!=="object")continue;
+   const d=fromISO(date);
+   const p=Number.isNaN(d.getTime())?null:planFor(d);
+   next.activities[date]={completed:!!a.completed,type:a.type||(p&&p.type)||"strength",
+    name:a.name||(p&&p.name)||"Activity",checks:Array.isArray(a.checks)?a.checks:[],
+    updatedAt:a.updatedAt||null};
+  }
+ }
+ if(old.reviews&&typeof old.reviews==="object"){
+  for(const [k,v] of Object.entries(old.reviews)){
+   if(/^\d+$/.test(k)&&v&&typeof v==="object"){
+    next.reviews[k]={checks:Array.isArray(v.checks)?v.checks.map(Boolean):[],completed:Number(v.completed)||0,total:Number(v.total)||6,savedAt:v.savedAt||new Date().toISOString()};
+   }else if(k.startsWith("draft-")&&v&&typeof v==="object"){
+    next.drafts[k.slice(6)]=v;
+   }
+  }
+ }
+ return next;
 }
-function parseISO(s) {
- const [y,m,d]=s.split("-").map(Number);
- return new Date(y,m-1,d,12,0,0);
-}
-function mondayOf(d) {
- const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);
- x.setDate(x.getDate()+(x.getDay()===0?-6:1-x.getDay()));
- return x;
-}
-function dayIndex(d) { return (d.getDay()+6)%7; }
-function addDays(d,n) { const x=new Date(d);x.setDate(x.getDate()+n);return x; }
-function weekNum(d,start) {
- return Math.floor((mondayOf(d)-mondayOf(start))/604800000)+1;
-}
-function dateRangeLabel(start) {
- return start.toLocaleDateString(undefined,{month:"short",day:"numeric"})+" – "+
- addDays(start,6).toLocaleDateString(undefined,{month:"short",day:"numeric"});
-}
-function freshState() {
- return {
-  version:1,name:"Athlete",startDate:localISO(new Date()),
-  activities:{},reviews:{},exerciseChecks:{},measurements:{}
- };
-}
-function loadState() {
- try {
-  const raw=localStorage.getItem(STORAGE_KEY);
-  if(!raw)return freshState();
-  const s=JSON.parse(raw);
-  if(!s || s.version!==1 || typeof s.activities!=="object")return freshState();
-  return {...freshState(),...s};
- } catch(e) { return freshState(); }
+function loadState(){
+ try{
+  const raw=localStorage.getItem(STORE);
+  if(raw){
+   const s=JSON.parse(raw);
+   if(s&&s.version===2&&s.activities&&s.reviews)return {...defaultState(),...s};
+  }
+  const legacy=localStorage.getItem(LEGACY_STORE);
+  if(legacy){const migrated=migrateLegacy(JSON.parse(legacy));localStorage.setItem(STORE,JSON.stringify(migrated));return migrated;}
+ }catch(e){console.warn("Could not read saved AXIOM state.",e);}
+ return defaultState();
 }
 let state=loadState();
 let selectedWorkout="A";
+let selectedDate=todayISO();
 let calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
-let selectedCalendarDate=localISO(new Date());
-let timerRemaining=60,timerInitial=60,timerRunning=false,timerInterval=null;
-let toastTimeout=null;
+let sessionMode=false;
+let sessionIndex=0;
+let timerTotal=60,timerLeft=60,timerRunning=false,timerID=null,toastID=null;
 
-function persist() {
- try { localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
- catch(e) { notify("Browser storage is full. Export a backup."); }
+function save(){
+ try{localStorage.setItem(STORE,JSON.stringify(state));}
+ catch(e){notify("Storage issue. Export your backup to protect your progress.");}
 }
-function notify(message) {
- const el=document.getElementById("toast");el.textContent=message;el.style.display="block";
- clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.style.display="none",2400);
+function notify(msg){
+ const el=document.getElementById("toast");el.textContent=msg;el.style.display="block";
+ clearTimeout(toastID);toastID=setTimeout(()=>el.style.display="none",2600);
 }
-function currentWeek() { return weekNum(new Date(),parseISO(state.startDate)); }
-function currentDate() { return localISO(new Date()); }
-function programWeek(d) { return weekNum(d,parseISO(state.startDate)); }
-function validProgramDay(d) { const w=programWeek(d);return w>=1&&w<=8; }
-function weekStart(n) { return addDays(mondayOf(parseISO(state.startDate)),(n-1)*7); }
-function weekDates(n) { const start=weekStart(n);return Array.from({length:7},(_,i)=>addDays(start,i)); }
-function activityId(d) { return localISO(d); }
-function scheduledIndex(d) { return dayIndex(d); }
-function activity(d) { return state.activities[activityId(d)]||null; }
-function isComplete(d) { return !!(activity(d)&&activity(d).completed); }
-function scheduleFor(d) { return PLAN[scheduledIndex(d)]; }
-function scheduledCount(n) {
- return weekDates(n).filter(d=>validProgramDay(d)&&scheduledIndex(d)!==6).length;
+function record(d){return state.activities[iso(d)]||null;}
+function isDone(d){return !!(record(d)&&record(d).completed);}
+function completedInWeek(n){return weekDates(n).filter(d=>validDay(d)&&dayIdx(d)<6&&isDone(d)).length;}
+function possibleInWeek(n){return weekDates(n).filter(d=>validDay(d)&&dayIdx(d)<6).length;}
+function totalCompleted(){return Object.values(state.activities).filter(x=>x&&x.completed).length;}
+function completedType(type){return Object.values(state.activities).filter(x=>x&&x.completed&&x.type===type).length;}
+function numericReviewKeys(){return Object.keys(state.reviews).filter(k=>/^\d+$/.test(k)).map(Number).sort((a,b)=>a-b);}
+function saveRecord(d,data){
+ const id=iso(d);
+ state.activities[id]={...(state.activities[id]||{}),...data,updatedAt:new Date().toISOString()};
+ save();
 }
-function completedCount(n) {
- return weekDates(n).filter(d=>validProgramDay(d)&&scheduledIndex(d)!==6&&isComplete(d)).length;
+function markSimpleComplete(d){
+ if(!validDay(d)){notify("Outside the eight-week program.");return;}
+ const p=planFor(d);
+ if(p.type==="rest"||dayIdx(d)===6){notify("Rest day. No workout is required.");return;}
+ if(isDone(d)){notify("This activity is already recorded.");return;}
+ saveRecord(d,{completed:true,type:p.type,name:p.name,checks:[]});
+ save();renderAll();notify("Activity recorded.");
 }
-function totalCompleted() { return Object.values(state.activities).filter(a=>a&&a.completed).length; }
-function totalOfType(type) {
- return Object.values(state.activities).filter(a=>a&&a.completed&&a.type===type).length;
+function pageTitle(page){
+ const m={
+  dashboard:["AXIOM / CONTROL CENTER","Command center.","Consistency is the system. Progress is the output."],
+  train:["AXIOM / TRAINING MODULE","Training mode.","Focus on one task. Complete it properly."],
+  calendar:["AXIOM / ACTIVITY LOG","Schedule & history.","Your plan, dates, and recorded sessions."],
+  review:["AXIOM / WEEKLY AUDIT","Review. Confirm. Reset.","Weekly checklists unlock on Sundays only."],
+  insights:["AXIOM / PERFORMANCE ANALYTICS","Your performance.","Measure consistency, strength sessions, and cardio."],
+  settings:["AXIOM / SYSTEM CONFIGURATION","Preferences.","Manage your profile, dates, and backup."]
+ };
+ const t=m[page]||m.dashboard;
+ document.getElementById("breadcrumb").textContent=t[0];
+ document.getElementById("pageHeading").textContent=t[1];
+ document.getElementById("pageSub").textContent=t[2];
 }
-function safeText(s) {
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function esc(s) { return safeText(s); }
-function dateLong(d) { return d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}); }
-function startActivity(d) {
- if(!validProgramDay(d)){notify("This date is outside your eight-week program.");return;}
- const idx=scheduledIndex(d);
- if(idx===6){notify("Sunday is your full rest day.");return;}
- state.activities[activityId(d)]={...(activity(d)||{}),completed:true,type:PLAN[idx].type,name:PLAN[idx].name,updatedAt:new Date().toISOString()};
- persist();renderAll();notify("Activity marked complete.");
-}
-function toggleActivity(d,checked) {
- if(!validProgramDay(d))return;
- const idx=scheduledIndex(d);
- if(idx===6)return;
- if(checked) {
-  state.activities[activityId(d)]={...(activity(d)||{}),completed:true,type:PLAN[idx].type,name:PLAN[idx].name,updatedAt:new Date().toISOString()};
- } else {
-  const old=activity(d)||{};
-  state.activities[activityId(d)]={...old,completed:false,type:PLAN[idx].type,name:PLAN[idx].name,updatedAt:new Date().toISOString()};
- }
- persist();renderAll();
-}
-function setPage(page) {
- document.querySelectorAll(".page").forEach(el=>el.classList.toggle("active",el.id==="page-"+page));
- document.querySelectorAll(".nav").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
- const titles={dashboard:"Your dashboard",workouts:"Workout library",calendar:"Training calendar",review:"Weekly review",progress:"Your progress",guide:"Program guide"};
- document.getElementById("pageTitle").textContent=titles[page]||"Lift Diary";
- if(page==="workouts")renderWorkout();
+function go(page){
+ sessionMode=false;
+ document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+page));
+ document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
+ pageTitle(page);
+ if(page==="train")renderTrain();
  if(page==="calendar")renderCalendar();
  if(page==="review")renderReview();
- if(page==="progress")renderProgress();
- if(page==="guide")renderGuide();
+ if(page==="insights")renderInsights();
+ if(page==="settings")renderSettings();
  window.scrollTo({top:0,behavior:"smooth"});
 }
-document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>setPage(b.dataset.page)));
-document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>setPage(b.dataset.goto)));
+document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));
+document.getElementById("quickSettings").addEventListener("click",()=>go("settings"));
 
-function renderDashboard() {
- const now=new Date(),w=currentWeek(),idx=dayIndex(now);
- const inProgram=w>=1&&w<=8;
- document.getElementById("dateLabel").textContent=now.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}).toUpperCase();
- document.getElementById("subtitle").textContent=inProgram?"Small steps. Consistent progress.":"Your program timeline";
- document.getElementById("heroWeek").textContent=inProgram?`WEEK ${w} OF 8`:"PROGRAM COMPLETE";
- const headlines=["Build your foundation.","Find your rhythm.","Build your capacity.","Keep getting stronger."];
- document.getElementById("heroTitle").textContent=w>8?"Eight weeks complete.":headlines[Math.min(3,Math.floor((Math.max(1,w)-1)/2))];
- document.getElementById("heroText").textContent=w>8?"Review your saved history and final progress report.":w<1?"Your program start date is in the future.": "Focus on good technique, gradual progression, and consistent recovery. Every session is a step forward.";
- document.getElementById("startToday").textContent=idx===6?"Sunday rest day":"Start today's activity ↗";
- document.getElementById("statWeek").innerHTML=`${String(Math.max(1,Math.min(8,w))).padStart(2,"0")}<span class="muted">/08</span>`;
- document.getElementById("weekDates").textContent=inProgram?dateRangeLabel(weekStart(w)):"Outside program dates";
- const done=inProgram?completedCount(w):0,total=inProgram?scheduledCount(w):6;
- const rate=total?Math.round(done/total*100):0;
- document.getElementById("statCompleted").textContent=`${done}/${total}`;
- document.getElementById("statRate").textContent=rate+"%";
- document.getElementById("statTotal").textContent=totalCompleted();
- document.getElementById("scheduleWeek").textContent=inProgram?`Week ${w}`:"Program finished";
- document.getElementById("consistencyPercent").textContent=rate+"%";
- document.getElementById("consistencyBar").style.width=rate+"%";
- document.getElementById("consistencyHeading").textContent=rate===100?"Week complete.":rate>=50?"You're building momentum.":"Every session counts.";
- document.getElementById("consistencyText").textContent=`${done} of ${total} scheduled activities completed.`;
- const strip=document.getElementById("weekStrip");strip.innerHTML="";
- const weekDays=inProgram?weekDates(w):weekDates(Math.max(1,Math.min(8,w)));
- weekDays.forEach((d,i)=>{
-  const doneDay=isComplete(d),isToday=activityId(d)===currentDate();
-  const el=document.createElement("div");
-  el.className="week-day"+(doneDay?" complete":"")+(isToday?" today":"");
-  el.innerHTML=`<strong>${DAY_SHORT[i]}</strong><div class="dot"></div><span>${doneDay?"Done":i===6?"Rest":d.getDate()}</span>`;
-  el.title=dateLong(d);strip.appendChild(el);
- });
- const today=scheduleFor(now),todayDone=isComplete(now);
- document.getElementById("todayCard").innerHTML=`
-  <div class="eyebrow">${idx===6?"REST DAY":today.type.toUpperCase()}</div>
-  <h2 style="margin-top:10px">${esc(today.name)}</h2>
-  <p class="muted small">${esc(today.duration)} · ${dateLong(now)}</p>
-  <div class="notice">${idx===6?"Recovery is part of the plan. Rest and prepare for next week.":todayDone?"Today's activity is recorded as complete.": "Start at a comfortable pace. Adjust the session if you're unusually tired."}</div>
-  <button class="${todayDone||idx===6?"secondary":"primary"}" id="todayAction">${idx===6?"Review weekly checklist":todayDone?"Mark as incomplete":"Mark activity complete"}</button>`;
- document.getElementById("todayAction").addEventListener("click",()=>{
-  if(idx===6){setPage("review");return;}
-  toggleActivity(now,!isComplete(now));
- });
- document.getElementById("upcomingList").innerHTML=weekDays.filter(d=>d>=new Date(now.getFullYear(),now.getMonth(),now.getDate())&&scheduledIndex(d)!==6).slice(0,4).map(d=>{
-  const a=scheduleFor(d),doneDay=isComplete(d);
-  return `<div class="day-row"><div class="day-tag ${doneDay?"done":activityId(d)===currentDate()?"today":""}">${DAY_SHORT[scheduledIndex(d)]}</div><div class="day-info"><strong>${esc(a.name)}</strong><small>${d.toLocaleDateString(undefined,{month:"short",day:"numeric"})} · ${esc(a.duration)}</small></div><span class="pill ${doneDay?"done":""}">${doneDay?"Done":activityId(d)===currentDate()?"Today":"Upcoming"}</span></div>`;
- }).join("")||'<p class="muted small">No upcoming sessions this week.</p>';
+function updateClock(){
+ const d=new Date();
+ document.getElementById("liveClock").textContent=d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit",second:"2-digit"});
 }
-document.getElementById("startToday").addEventListener("click",()=>{
- const idx=dayIndex(new Date());
- if(idx===6){setPage("review");return;}
- selectedWorkout=idx===0?"A":idx===2?"B":idx===4?"C":"cardio";
- setPage("workouts");renderWorkout();
-});
-document.getElementById("viewPlan").addEventListener("click",()=>setPage("workouts"));
+setInterval(updateClock,1000);updateClock();
 
-function renderWorkout() {
+function todayWorkoutKey(){
+ const i=dayIdx(new Date());
+ return ["A","cardio","B","recovery","C","cardio","rest"][i];
+}
+function planByKey(key){
+ if(key==="A")return PLAN[0];
+ if(key==="B")return PLAN[2];
+ if(key==="C")return PLAN[4];
+ if(key==="cardio")return dayIdx(new Date())===5?PLAN[5]:PLAN[1];
+ if(key==="warmup")return null;
+ return PLAN[dayIdx(new Date())];
+}
+function renderDashboard(){
+ const now=new Date(),w=weekNo(now),inside=validDay(now),idx=dayIdx(now),p=planFor(now);
+ const safeWeek=Math.max(1,Math.min(8,w));
+ document.getElementById("cycleLabel").textContent=inside?`PROTOCOL 01 / WEEK ${String(w).padStart(2,"0")}`:w>8?"PROTOCOL COMPLETE":"AWAITING START DATE";
+ const heroTitles=["Build your baseline.","Find your rhythm.","Build your capacity.","Refine your execution."];
+ document.getElementById("heroTitle").innerHTML=w>8?"Protocol<br>complete.":` ${heroTitles[Math.min(3,Math.max(0,Math.floor((safeWeek-1)/2)))].replace(" ","<br>")}`;
+ document.getElementById("heroDescription").textContent=w>8?"Your eight-week cycle has ended. Review your final report and preserved training history.":"No extremes. No guessing. Follow the plan, finish each session, and recover properly.";
+ document.getElementById("heroWeekNumber").textContent=String(safeWeek).padStart(2,"0");
+ document.getElementById("heroStart").textContent=idx===6?"Review this week →":isDone(now)?"Session recorded ✓":"Initialize today's session ↗";
+ document.getElementById("statWeek").innerHTML=`${String(safeWeek).padStart(2,"0")}<span class="muted"> / 08</span>`;
+ document.getElementById("statWeekNote").textContent=inside?rangeLabel(safeWeek):w>8?"Cycle ended":"Not started";
+ document.getElementById("statActivities").innerHTML=`${completedInWeek(safeWeek)}<span class="muted"> / ${possibleInWeek(safeWeek)}</span>`;
+ document.getElementById("statTotal").textContent=String(totalCompleted()).padStart(2,"0");
+ document.getElementById("timelineLabel").textContent=`WEEK ${String(safeWeek).padStart(2,"0")}`;
+ document.getElementById("todayType").textContent=idx===6?"RECOVERY PROTOCOL":p.type.toUpperCase()+" PROTOCOL";
+ document.getElementById("todayName").textContent=p.name;
+ document.getElementById("todayMeta").textContent=`${p.duration} · ${dateLabel(now)}`;
+ document.getElementById("todayDuration").textContent=idx===6?"REST DAY":p.duration.toUpperCase();
+ document.getElementById("todayStatus").textContent=idx===6?"REST DAY":isDone(now)?"COMPLETED":"SCHEDULED";
+ document.getElementById("todayInstruction").textContent=idx===6?"Recovery is part of the plan. Rest and prepare for the next week.":isDone(now)?"Your activity has been recorded for today.":"Finish the scheduled exercises before marking a strength session complete.";
+ document.getElementById("todayLaunch").textContent=idx===6?"Open weekly review →":isDone(now)?"View session record →":"Enter training mode →";
+ document.getElementById("executionRate").textContent=Math.round(completedInWeek(safeWeek)/Math.max(1,possibleInWeek(safeWeek))*100)+"%";
+ document.getElementById("executionBar").style.width=document.getElementById("executionRate").textContent;
+ document.getElementById("executionText").textContent=`${completedInWeek(safeWeek)} of ${possibleInWeek(safeWeek)} scheduled activities completed this week.`;
+ const strip=document.getElementById("dayStrip");strip.innerHTML="";
+ weekDates(safeWeek).forEach(d=>{
+  const i=dayIdx(d),el=document.createElement("div");
+  el.className="day-cell"+(iso(d)===todayISO()?" current":"")+(isDone(d)?" done":"")+(i===6?" rest":"")+(d<new Date(now.getFullYear(),now.getMonth(),now.getDate())&&!isDone(d)?" future":"");
+  el.innerHTML=`<div class="dname">${SHORT[i]}</div><div class="dnum">${d.getDate()}</div><div class="dstate"></div>`;
+  el.title=planFor(d).name;strip.appendChild(el);
+ });
+ const upcoming=document.getElementById("upcomingList");upcoming.innerHTML="";
+ const dates=weekDates(safeWeek).filter(d=>d>=new Date(now.getFullYear(),now.getMonth(),now.getDate())&&dayIdx(d)!==6);
+ dates.slice(0,4).forEach(d=>{
+  const p2=planFor(d),done=isDone(d),el=document.createElement("div");
+  el.className="list-row";
+  el.innerHTML=`<div class="list-marker">${SHORT[dayIdx(d)]}</div><div class="list-copy"><strong>${escapeHTML(p2.name)}</strong><small>${d.toLocaleDateString(undefined,{month:"short",day:"numeric"})} · ${escapeHTML(p2.duration)}</small></div><div class="list-end">${done?"✓ DONE":iso(d)===todayISO()?"TODAY":"NEXT"}</div>`;
+  upcoming.appendChild(el);
+ });
+ if(!dates.length)upcoming.innerHTML='<div class="empty-state"><div class="empty-icon">✓</div><h3>Schedule clear.</h3><p>No remaining weekday activities in this week.</p></div>';
+}
+document.getElementById("heroStart").addEventListener("click",()=>launchToday());
+document.getElementById("todayLaunch").addEventListener("click",()=>launchToday());
+function launchToday(){
+ if(dayIdx(new Date())===6){go("review");return;}
+ go("train");selectedWorkout=todayWorkoutKey();renderTrain();
+ if(!isDone(new Date()))startSession();
+}
+
+function renderTrain(){
+ const p=planByKey(selectedWorkout);
  document.querySelectorAll("[data-workout]").forEach(b=>b.classList.toggle("active",b.dataset.workout===selectedWorkout));
- const root=document.getElementById("workoutContent");
- if(selectedWorkout==="warmup") {
-  root.innerHTML=`<h2>Warm-up · 4–5 minutes</h2><p class="muted small">Do this before every strength workout.</p>`+
-   WARMUP.map(x=>`<div class="exercise"><div class="exercise-body"><strong>${esc(x[0])}</strong><div class="exercise-meta"><span>${esc(x[1])}</span></div><p>${esc(x[2])}</p></div></div>`).join("");
-  return;
+ const todayP=planFor(new Date()),todayDone=isDone(new Date()),idx=dayIdx(new Date());
+ document.getElementById("trainScheduleTitle").textContent=todayP.name;
+ document.getElementById("trainScheduleStatus").textContent=idx===6?"REST DAY":todayDone?"COMPLETED":"SCHEDULED";
+ document.getElementById("beginSession").disabled=idx===6||todayDone;
+ document.getElementById("beginSession").textContent=idx===6?"Rest day — no session required":todayDone?"Today's session is recorded":"Start today's session →";
+ document.getElementById("sessionRule").textContent=idx===6?"Recovery is part of the program.":"Only today's scheduled activity can be recorded.";
+ const root=document.getElementById("libraryContent");
+ if(selectedWorkout==="warmup"){
+  root.innerHTML=`<div class="micro">4–5 MINUTES · BEFORE EVERY STRENGTH SESSION</div>${WARMUP.map((x,i)=>`<div class="exercise-row"><div class="exercise-num">${String(i+1).padStart(2,"0")}</div><div class="exercise-copy"><strong>${escapeHTML(x[0])}</strong><div class="exercise-meta"><span>${escapeHTML(x[1])}</span></div><p>${escapeHTML(x[2])}</p></div></div>`).join("")}`;
+ }else{
+  root.innerHTML=`<div class="micro cyan">${escapeHTML(p.type)} · ${escapeHTML(p.duration)}</div><h2 style="margin:9px 0">${escapeHTML(p.name)}</h2><div class="notice">${p.type==="strength"?"Complete every listed exercise before finishing your session. Rest 45–90 seconds between sets.":"Choose an activity you can sustain. Breathe faster while remaining able to speak in sentences."}</div>`+
+   p.items.map((x,i)=>`<div class="exercise-row"><div class="exercise-num">${String(i+1).padStart(2,"0")}</div><div class="exercise-copy"><strong>${escapeHTML(x[0])}</strong><div class="exercise-meta"><span>${escapeHTML(x[1])}</span><span>${escapeHTML(x[2])}</span><span>REST ${escapeHTML(x[3])}</span></div><p>${escapeHTML(x[4])}</p></div></div>`).join("");
  }
- if(selectedWorkout==="cardio") {
-  root.innerHTML=`<h2>Cardio days</h2><p class="muted small">Tuesday: 20–25 minutes. Saturday: 20–30 minutes.</p>`+
-  PLAN.filter(x=>x.type==="cardio").map(p=>`<div class="exercise"><div class="exercise-body"><strong>${esc(p.name)}</strong><p>${esc(p.duration)}</p>${p.items.map(x=>`<div class="exercise-detail"><strong>${esc(x[0])}</strong> · ${esc(x[2])}<br>${esc(x[4])}</div>`).join("")}</div></div>`).join("")+
-  `<div class="notice">Intensity: breathe faster but remain able to speak in sentences. Start shorter if needed and build gradually.</div>`;
-  return;
- }
- const index={A:0,B:2,C:4}[selectedWorkout];
- const p=PLAN[index];
- const d=weekDates(Math.max(1,Math.min(8,currentWeek())))[index];
- const canMark=validProgramDay(new Date())&&dayIndex(new Date())===index;
- root.innerHTML=`<div class="eyebrow">${p.type.toUpperCase()} · ${p.duration}</div><h2 style="margin-top:8px">${esc(p.name)}</h2>
- <p class="muted small">Complete exercises in order. Finish all sets of one exercise before moving to the next.</p>
- <div class="notice">Warm up for 4–5 minutes. Rest 45–90 seconds between sets. Prioritize technique over speed.</div>`+
- p.items.map((x,i)=>`<div class="exercise"><input class="exercise-check" type="checkbox" data-exercise="${selectedWorkout}-${i}" ${state.exerciseChecks[selectedWorkout+"-"+i]?"checked":""} aria-label="Mark ${esc(x[0])} complete"><div class="exercise-body"><strong>${esc(x[0])}</strong><div class="exercise-meta"><span>${esc(x[1])}</span><span>${esc(x[2])}</span><span>Rest ${esc(x[3])}</span></div><p>${esc(x[4])}</p></div></div>`).join("")+
- `<div class="hero-actions"><button class="primary" id="completeWorkout">${isComplete(new Date())&&canMark?"Mark session incomplete":"Mark session complete"}</button></div>`;
- root.querySelectorAll("[data-exercise]").forEach(cb=>cb.addEventListener("change",()=>{
-  state.exerciseChecks[cb.dataset.exercise]=cb.checked;persist();
- }));
- document.getElementById("completeWorkout").addEventListener("click",()=>{
-  if(!canMark){notify("To record this workout, use the activity for its scheduled date on the dashboard.");return;}
-  toggleActivity(new Date(),!isComplete(new Date()));
- });
+ document.getElementById("activeSession").style.display=sessionMode?"block":"none";
+ if(sessionMode)renderSession();
 }
-document.querySelectorAll("[data-workout]").forEach(b=>b.addEventListener("click",()=>{selectedWorkout=b.dataset.workout;renderWorkout();}));
+document.querySelectorAll("[data-workout]").forEach(b=>b.addEventListener("click",()=>{
+ sessionMode=false;selectedWorkout=b.dataset.workout;renderTrain();
+}));
+document.getElementById("beginSession").addEventListener("click",startSession);
 
-function renderCalendar() {
+function sessionPlan(){return planByKey(selectedWorkout==="warmup"?todayWorkoutKey():selectedWorkout);}
+function startSession(){
+ const today=new Date(),p=planFor(today);
+ if(dayIdx(today)===6){notify("Sunday is your full rest day.");return;}
+ if(!validDay(today)){notify("Today's date is outside the eight-week program.");return;}
+ if(isDone(today)){notify("Today's session has already been recorded.");return;}
+ selectedWorkout=todayWorkoutKey();
+ sessionMode=true;
+ const rec=record(today);
+ if(!rec||!Array.isArray(rec.checks))saveRecord(today,{completed:false,type:p.type,name:p.name,checks:[]});
+ sessionIndex=firstUnchecked();
+ renderTrain();
+ document.getElementById("activeSession").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function sessionItems(){return planFor(new Date()).items;}
+function sessionRecord(){
+ const d=todayISO(),p=planFor(new Date());
+ if(!state.activities[d])state.activities[d]={completed:false,type:p.type,name:p.name,checks:[]};
+ if(!Array.isArray(state.activities[d].checks))state.activities[d].checks=[];
+ return state.activities[d];
+}
+function firstUnchecked(){
+ const checks=sessionRecord().checks,items=sessionItems();
+ const index=checks.findIndex(v=>!v);
+ return index<0?Math.max(0,items.length-1):index;
+}
+function renderSession(){
+ const items=sessionItems(),rec=sessionRecord();
+ sessionIndex=Math.max(0,Math.min(sessionIndex,items.length-1));
+ const x=items[sessionIndex],checked=!!rec.checks[sessionIndex];
+ document.getElementById("exerciseCounter").textContent=`EXERCISE ${String(sessionIndex+1).padStart(2,"0")} / ${String(items.length).padStart(2,"0")}`;
+ document.getElementById("sessionTrack").innerHTML=items.map((_,i)=>`<span class="${rec.checks[i]?"passed":""}"></span>`).join("");
+ document.getElementById("exerciseFocus").innerHTML=`
+  <div class="focus-num">STEP ${String(sessionIndex+1).padStart(2,"0")} — ${String(items.length).padStart(2,"0")}</div>
+  <h2>${escapeHTML(x[0])}</h2><p>${escapeHTML(x[4])}</p>
+  <div class="rep-row"><div class="rep-block"><small>SETS</small><strong>${escapeHTML(x[1])}</strong></div><div class="rep-block"><small>TARGET</small><strong>${escapeHTML(x[2])}</strong></div><div class="rep-block"><small>REST</small><strong>${escapeHTML(x[3])}</strong></div></div>
+  <p class="${checked?"accent":""}">${checked?"✓ Exercise recorded.":"Complete the prescribed movement with good technique."}</p>`;
+ document.getElementById("completeExercise").textContent=checked?"Exercise complete ✓":"Complete exercise ✓";
+ document.getElementById("completeExercise").disabled=checked;
+ document.getElementById("previousExercise").disabled=sessionIndex===0;
+ document.getElementById("nextExercise").textContent=sessionIndex===items.length-1?"Final exercise":"Next →";
+ document.getElementById("sessionProgressText").textContent=`${rec.checks.filter(Boolean).length} of ${items.length} exercises completed`;
+ document.getElementById("sessionWarmup").innerHTML=WARMUP.map(x=>`<div class="exercise-row"><div class="exercise-copy"><strong>${escapeHTML(x[0])}</strong><p>${escapeHTML(x[1])} · ${escapeHTML(x[2])}</p></div></div>`).join("");
+}
+document.getElementById("completeExercise").addEventListener("click",()=>{
+ const rec=sessionRecord(),items=sessionItems();
+ rec.checks[sessionIndex]=true;rec.completed=false;save();renderSession();
+ if(rec.checks.filter(Boolean).length===items.length){
+  notify("All exercises completed. Finalize the session to record it.");
+ }else{
+  const next=rec.checks.findIndex(v=>!v);
+  if(next>=0){sessionIndex=next;renderSession();}
+ }
+});
+document.getElementById("previousExercise").addEventListener("click",()=>{sessionIndex=Math.max(0,sessionIndex-1);renderSession();});
+document.getElementById("nextExercise").addEventListener("click",()=>{
+ const rec=sessionRecord(),items=sessionItems();
+ if(sessionIndex===items.length-1){
+  const completed=rec.checks.filter(Boolean).length;
+  if(completed!==items.length){notify("Complete every exercise before finishing.");return;}
+  if(!confirm("Finalize this session and permanently record today's completion?"))return;
+  rec.completed=true;rec.type=planFor(new Date()).type;rec.name=planFor(new Date()).name;rec.finishedAt=new Date().toISOString();
+  save();sessionMode=false;renderAll();renderTrain();notify("Session recorded. Recover and return on schedule.");return;
+ }
+ sessionIndex++;renderSession();
+});
+document.getElementById("exitSession").addEventListener("click",()=>{
+ if(!confirm("Exit training mode? Your completed exercise checks will be saved, but the session won't count as complete yet."))return;
+ sessionMode=false;renderTrain();
+});
+function renderAll(){
+ document.getElementById("userName").textContent=(state.name||"ATHLETE").toUpperCase();
+ document.getElementById("avatar").textContent=(state.name||"A").charAt(0).toUpperCase();
+ renderDashboard();renderTrain();renderCalendar();renderReview();renderInsights();renderSettings();
+}
+
+/* TIMER */
+function timerDisplay(){
+ const m=Math.floor(timerLeft/60),s=timerLeft%60;
+ document.getElementById("timerNumber").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+ document.getElementById("timerToggle").textContent=timerRunning?"Pause timer":"Start timer";
+ document.getElementById("timerBar").style.width=((timerTotal-timerLeft)/Math.max(1,timerTotal)*100)+"%";
+ document.getElementById("timerState").textContent=timerRunning?"TIMER RUNNING":timerLeft===0?"INTERVAL COMPLETE":"READY · REST WHEN NEEDED";
+}
+function pauseTimer(){
+ timerRunning=false;if(timerID)clearInterval(timerID);timerID=null;timerDisplay();
+}
+function toggleTimer(){
+ if(timerRunning){pauseTimer();return;}
+ if(timerLeft<=0)timerLeft=timerTotal;
+ timerRunning=true;timerDisplay();
+ timerID=setInterval(()=>{
+  timerLeft--;
+  if(timerLeft<=0){
+   timerLeft=0;pauseTimer();notify("Rest interval complete.");
+   try{if("vibrate" in navigator)navigator.vibrate(150);}catch(e){}
+  }
+  timerDisplay();
+ },1000);
+}
+document.getElementById("timerToggle").addEventListener("click",toggleTimer);
+document.getElementById("timerReset").addEventListener("click",()=>{pauseTimer();timerLeft=timerTotal;timerDisplay();});
+document.querySelectorAll("[data-time]").forEach(b=>b.addEventListener("click",()=>{
+ pauseTimer();timerTotal=Number(b.dataset.time);timerLeft=timerTotal;timerDisplay();
+}));
+
+/* CALENDAR */
+function renderCalendar(){
  const grid=document.getElementById("calendarGrid");
  const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();
- document.getElementById("monthLabel").textContent=calendarMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"});
- grid.innerHTML=DAY_SHORT.map(d=>`<div class="cal-head">${d}</div>`).join("");
- const first=new Date(y,m,1),offset=dayIndex(first),days=new Date(y,m+1,0).getDate();
- for(let i=0;i<offset;i++)grid.insertAdjacentHTML("beforeend",'<div class="cal-day empty"></div>');
- for(let n=1;n<=days;n++) {
-  const d=new Date(y,m,n,12),id=activityId(d),doneDay=isComplete(d),today=id===currentDate();
-  const item=document.createElement("button");
-  item.className="cal-day"+(doneDay?" done":"")+(today?" today":"");
-  item.innerHTML=`${n}${doneDay?'<span class="mark">✓ Done</span>':validProgramDay(d)?`<span class="mark">${scheduledIndex(d)===6?"Rest":esc(PLAN[scheduledIndex(d)].name.split("—")[0].trim())}</span>`:""}`;
-  item.style.color="var(--text)";item.style.textAlign="left";
-  item.addEventListener("click",()=>{
-   selectedCalendarDate=id;
-   const p=scheduleFor(d),rec=activity(d);
-   document.getElementById("calendarDetails").textContent=`${dateLong(d)} — ${p.name}. ${rec&&rec.completed?"Recorded complete.":scheduledIndex(d)===6?"Full rest day.":"Not marked complete."}`;
-  });
-  grid.appendChild(item);
+ document.getElementById("calendarMonthLabel").textContent=calendarMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+ grid.innerHTML=SHORT.map(x=>`<div class="cal-head">${x}</div>`).join("");
+ const offset=dayIdx(new Date(y,m,1,12)),length=new Date(y,m+1,0).getDate();
+ for(let i=0;i<offset;i++)grid.insertAdjacentHTML("beforeend",'<div class="cal-cell empty"></div>');
+ for(let day=1;day<=length;day++){
+  const d=new Date(y,m,day,12),id=iso(d),p=planFor(d);
+  const el=document.createElement("button");
+  el.className="cal-cell"+(id===todayISO()?" today":"")+(isDone(d)?" completed":"")+(validDay(d)?"":" before");
+  let mark=validDay(d)?(isDone(d)?"✓ DONE":dayIdx(d)===6?"REST":p.type.toUpperCase()):"";
+  el.innerHTML=`<span class="cal-num">${day}</span><span class="cal-mark">${escapeHTML(mark)}</span>`;
+  el.addEventListener("click",()=>showDateDetails(d));
+  grid.appendChild(el);
  }
+ showDateDetails(fromISO(selectedDate));
+}
+function showDateDetails(d){
+ selectedDate=iso(d);
+ const p=planFor(d),rec=record(d),status=rec&&rec.completed?"COMPLETED":dayIdx(d)===6?"REST DAY":validDay(d)?"SCHEDULED":"OUTSIDE PROGRAM";
+ document.getElementById("selectedDateStatus").textContent=status;
+ document.getElementById("calendarDetails").innerHTML=`<div class="micro">${escapeHTML(dateLabel(d))}</div><h3 style="font-size:16px;margin:8px 0">${escapeHTML(p.name)}</h3><p class="muted small">${escapeHTML(p.duration)} · ${escapeHTML(p.type.toUpperCase())}</p><div class="notice ${rec&&rec.completed?"good":""}">${rec&&rec.completed?"Activity completed and saved on this device.":dayIdx(d)===6?"Scheduled full rest day.":validDay(d)?"No completion record for this date.":"This date is outside the eight-week program."}</div>`;
 }
 document.getElementById("prevMonth").addEventListener("click",()=>{calendarMonth.setMonth(calendarMonth.getMonth()-1);renderCalendar();});
 document.getElementById("nextMonth").addEventListener("click",()=>{calendarMonth.setMonth(calendarMonth.getMonth()+1);renderCalendar();});
 
-function renderReview() {
- const now=new Date(),w=currentWeek(),sunday=dayIndex(now)===6;
- const thisMonday=mondayOf(now);
- const lastMonday=addDays(thisMonday,-7);
+/* SUNDAY-ONLY WEEKLY AUDIT */
+function reviewCandidates(){
+ const max=Math.max(1,Math.min(8,weekNo(new Date())));
+ const today=new Date(),sun=dayIdx(today)===6;
  const candidates=[];
- for(let n=1;n<=8;n++) {
-  const start=weekStart(n),end=addDays(start,6);
-  if(end<now && !state.reviews[n])candidates.push(n);
+ for(let n=1;n<=max;n++){
+  const end=plusDays(weekStart(n),6);
+  if((end<new Date(today.getFullYear(),today.getMonth(),today.getDate())||sun&&n===weekNo(today))&&!state.reviews[n])candidates.push(n);
  }
- let target=candidates.length?candidates[0]:Math.max(1,Math.min(8,w));
- const saved=state.reviews[target];
- const isTargetCurrent=target===w;
- const unlocked=sunday&&isTargetCurrent&&!saved;
- const overdue=!!candidates.length&&!sunday;
- document.getElementById("reviewStatus").textContent=saved
-  ?`Week ${target} has already been saved. Its results are preserved.`
-  :unlocked?`Week ${target} is ready to review. Check your results and confirm them below.`
-  :overdue?`Week ${target} has an unfinished review. It remains available until you complete it on Sunday.`
-  :`The checklist unlocks on Sunday. Your current checklist is Week ${target}.`;
- const checklist=document.getElementById("reviewChecklist");
- checklist.innerHTML=CHECKLIST.map((x,i)=>{
-  const val=saved?saved.checks[i]:state.reviews["draft-"+target]?.[i]||false;
-  const disabled=saved||!unlocked;
-  return `<label class="check-row ${disabled?"locked":""}"><input type="checkbox" data-review="${i}" ${val?"checked":""} ${disabled?"disabled":""}><span>${esc(x[0])}<small>${esc(x[1])}</small></span></label>`;
- }).join("");
- checklist.querySelectorAll("[data-review]").forEach(cb=>cb.addEventListener("change",()=>{
-  state.reviews["draft-"+target]=state.reviews["draft-"+target]||{};
-  state.reviews["draft-"+target][cb.dataset.review]=cb.checked;
-  persist();renderReviewSummary(target);
+ return candidates;
+}
+function renderReview(){
+ const sel=document.getElementById("reviewWeekSelect");
+ const old=Number(sel.value)||0,candidates=reviewCandidates();
+ const savedKeys=numericReviewKeys();
+ const options=[...new Set([...candidates,...savedKeys])].sort((a,b)=>a-b);
+ const defaultN=candidates[0]||savedKeys[savedKeys.length-1]||Math.max(1,Math.min(8,weekNo(new Date())));
+ sel.innerHTML=options.map(n=>`<option value="${n}">Week ${String(n).padStart(2,"0")} · ${rangeLabel(n)}</option>`).join("");
+ if(options.includes(old))sel.value=String(old);else sel.value=String(defaultN);
+ renderSelectedReview();
+ sel.onchange=renderSelectedReview;
+ document.getElementById("savedReviews").innerHTML=savedKeys.length?savedKeys.map(n=>{
+  const r=state.reviews[n];
+  return `<div class="history-row"><div class="history-week">W${String(n).padStart(2,"0")}</div><div class="history-copy"><strong>Week ${n}</strong><small>${r.completed}/${r.total} activities · ${new Date(r.savedAt).toLocaleDateString()}</small></div><span class="tag tag-green">SAVED</span></div>`;
+ }).join(""):'<div class="empty-state"><div class="empty-icon">◷</div><h3>No audits saved</h3><p>Your weekly history appears here after confirming a Sunday review.</p></div>';
+}
+function renderSelectedReview(){
+ const n=Number(document.getElementById("reviewWeekSelect").value)||Math.max(1,Math.min(8,weekNo(new Date())));
+ const today=new Date(),isSunday=dayIdx(today)===6,saved=state.reviews[n],canReview=isSunday&&!saved;
+ const current=weekNo(today);
+ const draft=state.drafts[n]||[];
+ document.getElementById("reviewWeekTag").textContent=`WEEK ${String(n).padStart(2,"0")}`;
+ document.getElementById("reviewHeading").textContent=saved?"Review saved.":canReview?"Audit available.":"Audit locked.";
+ document.getElementById("reviewDescription").textContent=saved?"This week's results have been saved and cannot be overwritten.":canReview?"Review your activity and confirm your weekly record below.":`The checklist unlocks on Sunday. ${reviewCandidates().includes(n)?"This unfinished review is preserved for the next Sunday.":"The review remains locked until the correct day."}`;
+ const checks=saved?saved.checks:draft;
+ const root=document.getElementById("reviewChecklist");
+ root.innerHTML=WEEK_CHECKS.map((x,i)=>`<div class="check-row ${!canReview?"locked":""}"><input type="checkbox" id="reviewCheck${i}" data-review="${i}" ${checks[i]?"checked":""} ${canReview?"":"disabled"}><label for="reviewCheck${i}">${escapeHTML(x[0])}<small>${escapeHTML(x[1])}</small></label></div>`).join("");
+ root.querySelectorAll("[data-review]").forEach(cb=>cb.addEventListener("change",()=>{
+  state.drafts[n]=state.drafts[n]||Array(WEEK_CHECKS.length).fill(false);
+  state.drafts[n][Number(cb.dataset.review)]=cb.checked;save();
  }));
+ const count=completedInWeek(n),possible=possibleInWeek(n);
+ document.getElementById("reviewDoneCount").textContent=`${count} / ${possible}`;
+ document.getElementById("reviewProgressBar").style.width=(count/Math.max(1,possible)*100)+"%";
+ document.getElementById("reviewSummaryText").textContent=`${count} completed of ${possible} scheduled weekday activities in Week ${n}.`;
  const btn=document.getElementById("saveReview");
- btn.disabled=!unlocked;
- btn.textContent=saved?"Week already saved":unlocked?"Confirm and save week":"Available on Sunday";
+ btn.disabled=!canReview;
+ btn.textContent=saved?"Week already saved":canReview?"Confirm & save weekly review":"Available on Sunday";
  btn.onclick=()=>{
-  if(!unlocked)return;
-  const checks=CHECKLIST.map((_,i)=>!!state.reviews["draft-"+target]?.[i]);
-  state.reviews[target]={checks,completed:completedCount(target),total:scheduledCount(target),savedAt:new Date().toISOString()};
-  delete state.reviews["draft-"+target];persist();renderAll();notify(`Week ${target} saved.`);
+  if(!canReview)return;
+  const latest=state.drafts[n]||[];
+  const currentChecks=WEEK_CHECKS.map((_,i)=>!!latest[i]);
+  state.reviews[n]={checks:currentChecks,completed:completedInWeek(n),total:possibleInWeek(n),savedAt:new Date().toISOString()};
+  delete state.drafts[n];save();renderAll();notify(`Week ${n} audited and saved.`);
  };
- renderReviewSummary(target);
- const hist=document.getElementById("savedHistory");
- const savedWeeks=Object.keys(state.reviews).filter(k=>/^\d+$/.test(k)).sort((a,b)=>Number(a)-Number(b));
- hist.innerHTML=savedWeeks.length?savedWeeks.map(k=>{
-  const r=state.reviews[k];return `<div class="day-row"><div class="day-tag done">W${k}</div><div class="day-info"><strong>Week ${k}</strong><small>${r.completed}/${r.total} activities · ${new Date(r.savedAt).toLocaleDateString()}</small></div><span class="pill done">Saved</span></div>`;
- }).join(""):'<p class="muted small">No weeks saved yet. Complete a Sunday review to start your history.</p>';
 }
-function renderReviewSummary(n) {
- const el=document.getElementById("reviewSummary");
- const saved=state.reviews[n],done=completedCount(n),total=scheduledCount(n);
- el.innerHTML=`<p class="muted small">Week ${n} · ${dateRangeLabel(weekStart(n))}</p>
- <div class="stat-number" style="font-size:25px">${saved?saved.completed:done}/${saved?saved.total:total}</div>
- <div class="progress"><div style="width:${Math.round((saved?saved.completed:done)/Math.max(1,saved?saved.total:total)*100)}%"></div></div>
- <p class="muted small">${saved?"Saved results are locked and preserved.":"Activity records update automatically as you complete sessions."}</p>`;
-}
+document.getElementById("reviewWeekSelect").addEventListener("change",renderSelectedReview);
 
-function renderProgress() {
- const strength=totalOfType("strength"),cardio=totalOfType("cardio");
- const saved=Object.keys(state.reviews).filter(k=>/^\d+$/.test(k)).length;
- let allDone=0,allPossible=0;
- for(let w=1;w<=8;w++) {
-  const dates=weekDates(w);
-  for(const d of dates)if(scheduledIndex(d)!==6){allPossible++;if(isComplete(d))allDone++;}
- }
- const rate=Math.round(allDone/Math.max(1,allPossible)*100);
- document.getElementById("reportStrength").textContent=strength;
- document.getElementById("reportCardio").textContent=cardio;
- document.getElementById("reportWeeks").textContent=`${saved}/8`;
- document.getElementById("reportRate").textContent=rate+"%";
- const chart=document.getElementById("progressChart");chart.innerHTML="";
- for(let w=1;w<=8;w++) {
-  const done=completedCount(w),total=scheduledCount(w),pct=Math.round(done/Math.max(1,total)*100);
-  const wrap=document.createElement("div");wrap.className="bar-wrap";
-  wrap.innerHTML=`<span class="bar-value">${pct}%</span><div class="bar" style="height:${Math.max(3,pct)}%"></div><span class="bar-label">W${w}</span>`;
-  chart.appendChild(wrap);
+/* INSIGHTS */
+function renderInsights(){
+ document.getElementById("insightStrength").textContent=completedType("strength");
+ document.getElementById("insightCardio").textContent=completedType("cardio");
+ document.getElementById("insightReviews").innerHTML=`${numericReviewKeys().length}<span class="muted"> / 8</span>`;
+ const chart=document.getElementById("completionChart");chart.innerHTML="";
+ for(let n=1;n<=8;n++){
+  const possible=possibleInWeek(n),done=completedInWeek(n),rate=Math.round(done/Math.max(1,possible)*100);
+  const col=document.createElement("div");col.className="chart-col";
+  col.innerHTML=`<span class="chart-value">${possible?rate+"%":"—"}</span><div class="chart-bar" style="height:${possible?Math.max(3,rate):3}%"></div><span class="chart-label">W${n}</span>`;
+  chart.appendChild(col);
  }
  const milestones=[
-  ["First session",totalCompleted()>=1],["5 activities",totalCompleted()>=5],
-  ["10 activities",totalCompleted()>=10],["First week saved",saved>=1],
-  ["Halfway point",totalCompleted()>=24],["Eight weeks complete",currentWeek()>8]
+  ["First session",totalCompleted()>=1],["Five activities",totalCompleted()>=5],
+  ["Ten activities",totalCompleted()>=10],["First audit",numericReviewKeys().length>=1],
+  ["Midpoint",totalCompleted()>=24],["Eight-week cycle",weekNo(new Date())>8]
  ];
- document.getElementById("milestones").innerHTML=milestones.map(x=>`<div class="check-row"><span>${x[1]?"✓":"○"} <strong>${esc(x[0])}</strong><small>${x[1]?"Achieved":"Keep going to unlock this milestone."}</small></span></div>`).join("");
+ document.getElementById("milestones").innerHTML=milestones.map(x=>`<div class="history-row"><div class="history-week" style="${x[1]?'color:var(--green);border:1px solid #40552a':''}">${x[1]?"✓":"○"}</div><div class="history-copy"><strong>${x[0]}</strong><small>${x[1]?"Milestone reached":"Keep building consistency."}</small></div></div>`).join("");
  const final=document.getElementById("finalReport");
- if(currentWeek()>8) {
-  const weekly=Array.from({length:8},(_,i)=>({w:i+1,p:Math.round(completedCount(i+1)/Math.max(1,scheduledCount(i+1))*100)}));
-  const best=weekly.reduce((a,b)=>b.p>a.p?b:a,weekly[0]);
-  final.innerHTML=`<div class="eyebrow">PROGRAM FINISHED</div><h2 style="margin-top:8px">Your eight-week summary</h2>
-  <div class="grid two-col"><div><div class="stat-number">${allDone}/${allPossible}</div><p class="muted small">Scheduled activities completed</p></div>
-  <div><div class="stat-number">${saved}/8</div><p class="muted small">Weekly reviews saved</p></div></div>
-  <div class="notice">Your strongest recorded week was Week ${best.w} at ${best.p}% completion. Keep the habits that worked, and use the next phase to build gradually.</div>
-  <p class="muted small">This report reflects activities recorded in this browser, not a medical assessment or a measurement of body fat.</p>`;
- } else {
-  final.innerHTML=`<h2>Eight-week summary</h2><p class="muted small">Your final report will be available after Week 8 ends. Current recorded completion: ${rate}%.</p>`;
+ const week=weekNo(new Date());
+ const activityTotal=Array.from({length:8},(_,i)=>completedInWeek(i+1)).reduce((a,b)=>a+b,0);
+ const possibleTotal=Array.from({length:8},(_,i)=>possibleInWeek(i+1)).reduce((a,b)=>a+b,0);
+ if(week>8){
+  const percentages=Array.from({length:8},(_,i)=>({n:i+1,p:Math.round(completedInWeek(i+1)/Math.max(1,possibleInWeek(i+1))*100)}));
+  const best=percentages.reduce((a,b)=>b.p>a.p?b:a,percentages[0]);
+  final.innerHTML=`<div class="micro accent">CYCLE COMPLETE</div><h2 style="margin-top:8px">Eight-week performance report.</h2>
+   <div class="grid stats"><div><div class="stat-big">${activityTotal}/${possibleTotal}</div><div class="muted small">Scheduled activities</div></div><div><div class="stat-big">${completedType("strength")}</div><div class="muted small">Strength sessions</div></div><div><div class="stat-big">${numericReviewKeys().length}/8</div><div class="muted small">Weekly audits saved</div></div></div>
+   <div class="notice good">Best recorded week: Week ${best.n} (${best.p}% of scheduled weekday activities). Keep the habits that worked and progress gradually.</div>
+   <p class="muted small">This report reflects recorded activities on this device. It is not a medical assessment or a measurement of body fat.</p>`;
+ }else{
+  final.innerHTML=`<div class="micro accent">FINAL REPORT</div><h2 style="margin-top:8px">The finish line is Week 8.</h2><p class="muted small" style="line-height:1.8">Once your program reaches its end, this panel will summarize completed activities, weekly consistency, saved audits, and your strongest week.</p><div class="progress"><div style="width:${Math.min(100,Math.max(0,(week-1)/8*100))}%"></div></div><p class="muted small">Program timeline: Week ${Math.max(1,Math.min(8,week))} of 8.</p>`;
  }
 }
-function renderGuide() {
- document.getElementById("startDateInput").value=state.startDate;
- document.getElementById("progressionGuide").innerHTML=PROGRESSION.map(x=>`<div class="exercise"><div class="exercise-body"><strong>${esc(x[0])}</strong><p>${esc(x[1])}</p><div class="exercise-meta"><span>Cardio: ${esc(x[2])}</span></div></div></div>`).join("");
- document.getElementById("nutritionGuide").innerHTML=NUTRITION.map(x=>`<div class="card"><h3>${esc(x[0])}</h3><p class="muted small">${esc(x[1])}</p></div>`).join("");
-}
-document.getElementById("saveStartDate").addEventListener("click",()=>{
- const value=document.getElementById("startDateInput").value;
- if(!value){notify("Choose a start date first.");return;}
- if(!confirm("Change your program start date? Your existing history will be preserved, but calendar weeks will be recalculated."))return;
- state.startDate=value;persist();renderAll();notify("Program start date saved.");
-});
-document.getElementById("settingsBtn").addEventListener("click",()=>{
- const name=prompt("What should your profile be called?",state.name||"Athlete");
- if(name===null)return;
- state.name=name.trim().slice(0,32)||"Athlete";persist();renderAll();notify("Profile updated.");
-});
 
-function renderAll() {
- document.getElementById("profileName").textContent=state.name||"Athlete";
- document.getElementById("avatar").textContent=(state.name||"A").charAt(0).toUpperCase();
- renderDashboard();renderCalendar();renderReview();renderProgress();renderGuide();
+/* SETTINGS / BACKUP */
+function renderSettings(){
+ document.getElementById("nameInput").value=state.name||"ATHLETE";
+ document.getElementById("startInput").value=state.startDate;
 }
-function updateTimerDisplay() {
- const m=Math.floor(timerRemaining/60),s=timerRemaining%60;
- document.getElementById("timerDisplay").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
- document.getElementById("timerToggle").textContent=timerRunning?"Pause timer":"Start timer";
-}
-function stopTimer() { timerRunning=false;if(timerInterval)clearInterval(timerInterval);timerInterval=null;updateTimerDisplay(); }
-function startTimer() {
- if(timerRunning){stopTimer();return;}
- if(timerRemaining<=0)timerRemaining=timerInitial;
- timerRunning=true;updateTimerDisplay();
- timerInterval=setInterval(()=>{
-  timerRemaining--;
-  if(timerRemaining<=0){timerRemaining=0;stopTimer();notify("Rest finished. Resume when you're ready.");}
-  updateTimerDisplay();
- },1000);
-}
-document.getElementById("timerToggle").addEventListener("click",startTimer);
-document.getElementById("timerReset").addEventListener("click",()=>{
- stopTimer();timerRemaining=timerInitial;updateTimerDisplay();
+document.getElementById("saveSettings").addEventListener("click",()=>{
+ const name=document.getElementById("nameInput").value.trim().slice(0,32)||"ATHLETE";
+ const start=document.getElementById("startInput").value;
+ if(!start){notify("Choose a program start date.");return;}
+ if(start!==state.startDate&&!confirm("Changing the program start date recalculates your week labels. Your saved activities and reviews will remain stored. Continue?"))return;
+ state.name=name.toUpperCase();state.startDate=start;save();renderAll();notify("Configuration saved.");
 });
-document.querySelectorAll("[data-seconds]").forEach(b=>b.addEventListener("click",()=>{
- stopTimer();timerInitial=Number(b.dataset.seconds);timerRemaining=timerInitial;updateTimerDisplay();
-}));
-
-document.getElementById("exportBtn").addEventListener("click",()=>{
+function exportState(){
  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download=`lift-diary-backup-${currentDate()}.json`;a.click();URL.revokeObjectURL(url);
-});
+ a.href=url;a.download=`axiom-fitness-${todayISO()}.json`;a.click();URL.revokeObjectURL(url);
+}
+document.getElementById("exportBtn").addEventListener("click",exportState);
+document.getElementById("settingsExport").addEventListener("click",exportState);
 document.getElementById("importBtn").addEventListener("click",()=>document.getElementById("importFile").click());
 document.getElementById("importFile").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
- try {
-  const imported=JSON.parse(await file.text());
-  if(imported.version!==1||!imported.activities||!imported.reviews||!imported.startDate)throw new Error("Invalid backup");
-  if(!confirm("Import this backup and replace the progress currently stored in this browser? Export a backup first if you want to preserve the current data."))return;
-  state={...freshState(),...imported};persist();renderAll();notify("Backup imported.");
- } catch(err) {notify("Could not import that file. Choose a valid Lift Diary JSON backup.");}
+ try{
+  const input=JSON.parse(await file.text());
+  let replacement;
+  if(input.version===2&&input.activities&&input.reviews&&input.startDate)replacement={...defaultState(),...input};
+  else if(input.version===1&&input.activities)replacement=migrateLegacy(input);
+  else throw new Error("Unknown backup format");
+  if(!confirm("Replace the progress currently stored on this device with this backup? Export your existing record first if you need to keep it."))return;
+  state=replacement;save();renderAll();notify("Backup restored successfully.");
+ }catch(err){notify("Invalid backup. Select an AXIOM JSON export.");}
  e.target.value="";
 });
+document.getElementById("resetBtn").addEventListener("click",()=>{
+ if(!confirm("Permanently erase all activities, weekly reviews, and settings stored in this browser? This cannot be undone."))return;
+ if(!confirm("Final confirmation: erase all local AXIOM data?"))return;
+ state=defaultState();save();selectedWorkout="A";sessionMode=false;renderAll();go("dashboard");notify("Local data reset.");
+});
 
-renderAll();updateTimerDisplay();
+/* Boot */
+renderAll();
+timerDisplay();
 </script>
 </body>
 </html>
