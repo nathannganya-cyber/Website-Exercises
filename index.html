@@ -3,1151 +3,1115 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080a0e">
-<title>AXIOM — Fitness Operating System</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b0c">
+<title>STRATA — Training Protocol</title>
 <style>
-:root{
-  color-scheme:dark;
-  --bg:#080a0e;
-  --surface:#10141a;
-  --surface2:#151b22;
-  --surface3:#1c242d;
-  --line:#28333c;
-  --text:#eef6f4;
-  --muted:#85959d;
-  --green:#c6ff51;
-  --green2:#91c83e;
-  --cyan:#54e6d3;
-  --red:#ff727d;
-  --radius:16px;
-  --sidebar:225px;
+:root {
+  --bg:#080b0c;
+  --panel:#101516;
+  --panel2:#151c1d;
+  --line:#273232;
+  --text:#edf2ee;
+  --muted:#84918d;
+  --lime:#c7ff62;
+  --cyan:#77e7d0;
+  --red:#ff7a7a;
+  --orange:#ffc66e;
+  --radius:15px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
-  font-size:13px;min-height:100vh;
-}
+body{margin:0;background:var(--bg);color:var(--text);font:13px Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}
 button,input,select{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.35;cursor:not-allowed}
-button:focus-visible,input:focus-visible,select:focus-visible{
-  outline:2px solid var(--green);outline-offset:3px
-}
-::selection{background:var(--green);color:#10150c}
-a{color:var(--green)}
+button:disabled{opacity:.37;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+::selection{background:var(--lime);color:#111}
+button:disabled:hover{transform:none!important}
 .app{min-height:100vh}
 .sidebar{
-  width:var(--sidebar);position:fixed;inset:0 auto 0 0;
-  padding:25px 15px;background:#0b0e12;border-right:1px solid var(--line);
-  display:flex;flex-direction:column;z-index:20
+ position:fixed;inset:0 auto 0 0;width:218px;padding:25px 14px;
+ background:#0b0e0f;border-right:1px solid var(--line);
+ display:flex;flex-direction:column;z-index:10
 }
-.brand{display:flex;align-items:center;gap:12px;padding:0 8px;margin-bottom:38px}
-.brand-mark{
-  height:38px;width:38px;border-radius:11px;background:var(--green);
-  color:#10150c;display:grid;place-items:center;font-weight:1000;
-  font-size:23px;box-shadow:0 0 24px #c6ff511f
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px;margin-bottom:39px}
+.logo{
+ width:37px;height:37px;border-radius:10px;background:var(--lime);color:#11170b;
+ display:grid;place-items:center;font-size:22px;font-weight:1000;
+ box-shadow:0 0 26px #c7ff6218
 }
-.brand-name{font-weight:900;letter-spacing:2px;font-size:14px}
-.brand-sub{font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px}
-.nav-label{color:#52616a;font-size:9px;font-weight:800;letter-spacing:2px;padding:0 12px;margin:19px 0 10px}
-.nav{
-  border:1px solid transparent;width:100%;display:flex;align-items:center;
-  gap:12px;background:transparent;color:#8f9ba4;padding:12px;
-  border-radius:10px;text-align:left;font-size:12px;margin:2px 0;
-  transition:.15s
-}
-.nav:hover{background:var(--surface);color:var(--text)}
-.nav.active{background:#c6ff510b;border-color:#c6ff5131;color:var(--green)}
-.nav-icon{width:19px;text-align:center;font-size:15px}
-.nav-key{margin-left:auto;font-size:9px;color:#5b6870}
+.brand-name{font-size:14px;font-weight:950;letter-spacing:2.5px}
+.brand-sub{font-size:8px;color:var(--muted);letter-spacing:1.9px;margin-top:5px}
+.nav-label{padding:0 12px;font-size:9px;letter-spacing:1.7px;color:#53615c;margin:18px 0 10px}
+.nav{display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:1px solid transparent;background:transparent;color:#8a9892;padding:12px;border-radius:10px;margin:2px 0;font-size:11px;font-weight:700}
+.nav:hover{background:var(--panel2);color:var(--text)}
+.nav.active{color:var(--lime);background:#c7ff620b;border-color:#c7ff622b}
+.nav-icon{font-size:16px;width:19px;text-align:center}
+.nav-number{margin-left:auto;font-size:9px;color:#55645d}
 .sidebar-bottom{margin-top:auto}
-.system-status{border:1px solid var(--line);padding:13px;border-radius:12px;margin-bottom:12px}
-.status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--green);box-shadow:0 0 10px #c6ff5177;margin-right:7px}
-.system-status strong{font-size:10px;letter-spacing:1px}
-.system-status p{font-size:10px;color:var(--muted);margin:9px 0 0;line-height:1.6}
-.user-row{display:flex;align-items:center;gap:10px;padding:10px}
-.avatar{height:33px;width:33px;border:1px solid #526b37;background:#1c2914;color:var(--green);border-radius:10px;display:grid;place-items:center;font-weight:900}
-.user-name{font-size:11px;font-weight:800}
-.user-sub{font-size:9px;color:var(--muted);margin-top:4px}
-main{margin-left:var(--sidebar);min-width:0;padding:30px clamp(17px,4vw,52px) 50px;max-width:1650px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:26px}
-.breadcrumb{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-h1{font-size:30px;letter-spacing:-1.4px;line-height:1.15;margin:9px 0 7px}
-h2{font-size:19px;letter-spacing:-.55px;margin:0}
-h3{font-size:13px;margin:0 0 7px}
+.online{padding:13px;border:1px solid var(--line);border-radius:11px;margin-bottom:10px}
+.online strong{font-size:9px;letter-spacing:1px}
+.online p{font-size:9px;line-height:1.8;color:var(--muted);margin:9px 0 0}
+.online-dot{display:inline-block;width:6px;height:6px;background:var(--lime);border-radius:50%;margin:0 7px 1px 0;box-shadow:0 0 9px #c7ff6266}
+.identity{display:flex;align-items:center;gap:10px;padding:10px}
+.avatar{display:grid;place-items:center;width:32px;height:32px;border:1px solid #566a3e;background:#202c18;color:var(--lime);border-radius:9px;font-weight:900}
+.identity-name{font-size:10px;font-weight:800}
+.identity-sub{font-size:9px;color:var(--muted);margin-top:4px}
+main{margin-left:218px;max-width:1550px;min-width:0;padding:30px clamp(16px,4vw,48px) 45px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
+.crumb{font-size:9px;color:var(--muted);letter-spacing:1.6px}
+h1{font-size:28px;letter-spacing:-1.2px;margin:9px 0 6px;line-height:1.1}
+h2{font-size:19px;letter-spacing:-.6px;margin:0}
+h3{font-size:12px;margin:0}
 p{line-height:1.65}
 .muted{color:var(--muted)}
 .small{font-size:11px}
-.micro{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:800}
-.accent{color:var(--green)}
+.micro{font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);font-weight:850}
+.lime{color:var(--lime)}
 .cyan{color:var(--cyan)}
-.top-actions{display:flex;align-items:center;gap:8px}
-.clock{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 13px;font-size:11px;font-variant-numeric:tabular-nums;color:#bdc8cc;white-space:nowrap}
-.btn{
-  padding:11px 14px;border-radius:10px;border:1px solid var(--line);
-  background:var(--surface2);color:var(--text);font-weight:750;font-size:11px;
-  transition:border-color .15s,transform .15s
-}
-.btn:hover:not(:disabled){border-color:#62705e;transform:translateY(-1px)}
-.btn-primary{background:var(--green);color:#11170b;border-color:var(--green)}
-.btn-primary:hover:not(:disabled){background:#d7ff85;border-color:#d7ff85}
-.btn-quiet{background:transparent}
-.btn-danger{color:var(--red)}
-.page{display:none;animation:appear .22s ease}
+button.btn{padding:11px 14px;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--text);font-size:10px;font-weight:800;transition:.15s}
+button.btn:hover:not(:disabled){border-color:#708078;transform:translateY(-1px)}
+button.primary{background:var(--lime);border-color:var(--lime);color:#12170b}
+button.primary:hover:not(:disabled){background:#d9ff9d;border-color:#d9ff9d}
+button.quiet{background:transparent}
+button.red{color:var(--red)}
+.page{display:none;animation:fade .2s ease}
 .page.active{display:block}
-@keyframes appear{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.grid{display:grid;gap:15px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;min-width:0}
-.panel-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}
-.tag{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;font-size:9px;color:#bdc9cc;letter-spacing:.5px}
-.tag-green{border-color:#c6ff5135;background:#c6ff510b;color:var(--green)}
-.tag-cyan{border-color:#54e6d32a;background:#54e6d30b;color:var(--cyan)}
-.divider{height:1px;background:var(--line);margin:17px 0}
-.progress{height:5px;background:#283139;border-radius:99px;overflow:hidden}
-.progress>div{height:100%;width:0;background:var(--green);border-radius:99px;transition:width .3s}
-.progress.cyan-bar>div{background:var(--cyan)}
+@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:19px;min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:6px;padding:6px 8px;font-size:9px;color:#bdc9c2;letter-spacing:.5px}
+.tag.lime-tag{color:var(--lime);border-color:#c7ff6234;background:#c7ff6209}
+.tag.cyan-tag{color:var(--cyan);border-color:#77e7d027;background:#77e7d00b}
+.rule{height:1px;background:var(--line);margin:17px 0}
+.progress{height:4px;background:#293331;border-radius:10px;overflow:hidden}
+.progress div{height:100%;width:0;background:var(--lime);transition:width .2s}
 .hero{
-  overflow:hidden;position:relative;min-height:280px;padding:28px;
-  display:grid;grid-template-columns:minmax(0,1.4fr) minmax(180px,.7fr);
-  gap:20px;border:1px solid #34432d;border-radius:20px;
-  background:linear-gradient(115deg,#121b13 0%,#0e1514 47%,#10141a 100%)
+ position:relative;isolation:isolate;overflow:hidden;min-height:305px;padding:27px;
+ display:grid;grid-template-columns:minmax(0,1.4fr) minmax(150px,.6fr);gap:12px;
+ border:1px solid #3b4a30;border-radius:18px;
+ background:linear-gradient(115deg,#182116 0%,#101917 49%,#0e1415 100%)
 }
 .hero:before{
-  content:"";position:absolute;width:350px;height:350px;border-radius:50%;
-  border:1px solid #c6ff5111;right:-100px;top:-140px;
-  box-shadow:0 0 0 32px #c6ff5104,0 0 0 65px #c6ff5103;pointer-events:none
+ content:"";position:absolute;z-index:-1;right:-130px;top:-190px;width:420px;height:420px;border-radius:50%;
+ border:1px solid #c7ff621c;box-shadow:0 0 0 30px #c7ff6207,0 0 0 65px #c7ff6204
 }
-.hero-main,.hero-visual{position:relative;z-index:1}
-.hero h2{font-size:clamp(29px,4vw,43px);letter-spacing:-2px;line-height:1.05;margin:22px 0 12px;max-width:520px}
-.hero p{max-width:410px;font-size:12px;color:#aab9ae;margin:0;line-height:1.8}
-.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
-.hero-visual{display:flex;align-items:center;justify-content:center;min-height:180px}
-.orbit{
-  width:178px;height:178px;border:1px solid #c6ff5135;border-radius:50%;
-  display:grid;place-items:center;position:relative
+.hero:after{
+ content:"";position:absolute;z-index:-1;inset:0;opacity:.2;pointer-events:none;
+ background-image:linear-gradient(#a0be9410 1px,transparent 1px),linear-gradient(90deg,#a0be9410 1px,transparent 1px);
+ background-size:31px 31px;mask-image:linear-gradient(90deg,transparent,black)
 }
-.orbit:before{content:"";position:absolute;inset:13px;border:1px dashed #c6ff5142;border-radius:50%;animation:rotate 32s linear infinite}
-.orbit:after{content:"";position:absolute;inset:31px;border:1px solid #54e6d322;border-radius:50%}
-.orbit-inner{text-align:center;position:relative;z-index:1}
-.orbit-number{font-size:39px;font-weight:900;letter-spacing:-2px}
-.orbit-label{font-size:8px;color:var(--muted);letter-spacing:2px;margin-top:3px}
-.orbit-point{position:absolute;right:19px;top:22px;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green)}
-@keyframes rotate{to{transform:rotate(360deg)}}
-.stats{grid-template-columns:repeat(3,minmax(0,1fr));margin:15px 0}
-.stat{padding:17px 19px}
-.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.stat-label{font-size:9px;letter-spacing:1.4px;color:var(--muted);font-weight:800}
-.stat-icon{color:var(--green);font-size:15px}
-.stat-number{font-size:29px;letter-spacing:-1.3px;font-weight:850;margin:12px 0 4px;font-variant-numeric:tabular-nums}
-.stat-note{font-size:10px;color:var(--muted)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:29px 0 13px}
-.section-head h2{font-size:16px}
-.dashboard-columns{grid-template-columns:minmax(0,1.25fr) minmax(245px,.75fr)}
-.today-card{position:relative;overflow:hidden;background:linear-gradient(135deg,#171e20,#11161b)}
-.today-card:after{content:"";position:absolute;width:130px;height:130px;border:1px solid #54e6d31c;border-radius:50%;right:-60px;top:-55px;box-shadow:0 0 0 18px #54e6d306}
-.today-card>*{position:relative;z-index:1}
-.today-name{font-size:23px;letter-spacing:-.8px;margin:13px 0 6px}
-.today-meta{color:#9cabb0;font-size:11px;line-height:1.7}
-.today-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px;flex-wrap:wrap}
-.day-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
-.day-cell{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 3px;text-align:center;min-width:0}
-.day-cell .dname{font-size:9px;color:var(--muted);letter-spacing:.6px}
-.day-cell .dnum{font-size:13px;font-weight:850;margin:12px 0 10px}
-.day-cell .dstate{height:6px;width:6px;background:#384149;border-radius:50%;margin:auto}
-.day-cell.done .dstate{background:var(--green);box-shadow:0 0 8px #c6ff5166}
-.day-cell.current{border-color:var(--green);background:#c6ff5108}
-.day-cell.rest .dstate{background:#4c6571}
-.day-cell.future{opacity:.66}
-.compact-list{display:grid;gap:7px}
-.list-row{display:flex;align-items:center;gap:11px;padding:12px;background:#151b22;border:1px solid #202a32;border-radius:11px}
-.list-marker{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:#202a30;color:var(--cyan);font-weight:900;font-size:10px;flex-shrink:0}
-.list-copy{min-width:0;flex:1}
-.list-copy strong{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.list-copy small{font-size:10px;color:var(--muted);display:block;margin-top:5px}
-.list-end{font-size:9px;color:var(--muted);text-align:right;white-space:nowrap}
-.empty-state{text-align:center;padding:32px 15px}
-.empty-icon{height:49px;width:49px;margin:0 auto 13px;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;color:var(--green);font-size:21px}
-.empty-state p{color:var(--muted);font-size:11px;line-height:1.8;max-width:300px;margin:8px auto 15px}
-.page-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:21px}
-.page-intro p{color:var(--muted);font-size:11px;margin:8px 0 0}
-.workout-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}
-.workout-tabs button.active{border-color:#c6ff5177;background:#c6ff510b;color:var(--green)}
-.exercise-row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #222c33}
-.exercise-row:last-child{border-bottom:0}
-.exercise-num{width:29px;height:29px;display:grid;place-items:center;background:#1d272d;color:var(--cyan);border-radius:8px;font-size:10px;font-weight:900;flex-shrink:0}
-.exercise-copy{flex:1;min-width:0}
-.exercise-copy strong{font-size:12px;display:block}
-.exercise-copy p{font-size:11px;color:var(--muted);line-height:1.65;margin:7px 0 0}
-.exercise-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.exercise-meta span{font-size:9px;color:#b7c5c8;background:#1b242a;border-radius:5px;padding:5px 6px}
-.session-layout{grid-template-columns:minmax(0,1.3fr) minmax(230px,.7fr)}
-.session-card{overflow:hidden;position:relative;background:linear-gradient(135deg,#121d1d,#101419)}
-.session-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.session-count{font-size:10px;color:var(--muted)}
-.session-track{display:flex;gap:4px;margin:17px 0}
-.session-track span{height:4px;flex:1;background:#2b353b;border-radius:8px}
-.session-track span.passed{background:var(--green)}
-.exercise-focus{min-height:230px;display:flex;flex-direction:column;justify-content:center;padding:20px 3px}
-.exercise-focus .focus-num{font-size:10px;letter-spacing:2px;color:var(--cyan);font-weight:900}
-.exercise-focus h2{font-size:clamp(27px,3.5vw,38px);letter-spacing:-1.5px;margin:17px 0 10px}
-.exercise-focus p{font-size:12px;color:#aab8bd;max-width:460px;line-height:1.8}
-.rep-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:11px}
-.rep-block{border:1px solid var(--line);border-radius:10px;padding:10px 13px;min-width:86px}
-.rep-block strong{font-size:14px;display:block;margin-top:5px}
-.rep-block small{font-size:8px;color:var(--muted);letter-spacing:1px}
-.session-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.timer-panel{text-align:center}
-.timer-label{font-size:9px;letter-spacing:2px;color:var(--muted);font-weight:800}
-.timer-number{font-size:61px;letter-spacing:-4px;font-weight:850;font-variant-numeric:tabular-nums;margin:17px 0}
-.timer-presets{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:17px 0}
-.timer-presets button{padding:8px 10px;font-size:10px}
-.timer-state{font-size:10px;color:var(--muted);margin-top:12px}
-.guide-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:transparent;color:var(--text);border:0;padding:0;font-weight:800}
-.guide-content{display:none;margin-top:17px;border-top:1px solid var(--line);padding-top:14px}
-.guide-content.open{display:block}
-.week-line{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
-.week-line:last-child{border-bottom:0}
-.week-badge{width:48px;height:40px;border:1px solid #c6ff512d;background:#c6ff5108;border-radius:9px;color:var(--green);display:grid;place-items:center;font-size:10px;font-weight:900;flex-shrink:0}
-.week-line strong{font-size:11px}
-.week-line p{font-size:10px;color:var(--muted);margin:5px 0;line-height:1.7}
-.calendar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
-.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
-.cal-head{text-align:center;font-size:9px;color:var(--muted);padding:8px 0}
-.cal-cell{min-height:83px;border:1px solid var(--line);border-radius:10px;background:#10151a;padding:8px;text-align:left;color:var(--text);min-width:0}
-.cal-cell.empty{background:transparent;border-color:transparent}
-.cal-cell.today{border-color:var(--green)}
-.cal-cell.completed{background:#162016;border-color:#455a2c}
-.cal-cell .cal-num{font-size:11px;font-weight:850}
-.cal-cell .cal-mark{font-size:9px;color:var(--muted);display:block;margin-top:10px;overflow-wrap:anywhere}
-.cal-cell.completed .cal-mark{color:var(--green)}
-.cal-cell.before{opacity:.32}
-.cal-details{margin-top:17px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#121820}
-.review-banner{padding:17px;border:1px solid #30412c;background:linear-gradient(100deg,#161f14,#11161a);border-radius:12px;margin:17px 0}
-.review-banner h3{margin:0 0 7px}
-.review-banner p{font-size:11px;color:var(--muted);margin:0;line-height:1.8}
-.check-row{display:flex;align-items:flex-start;gap:11px;padding:14px 0;border-bottom:1px solid var(--line)}
+.hero-copy{position:relative;z-index:1}
+.hero-title{font-size:clamp(32px,4vw,48px);line-height:.98;letter-spacing:-2.3px;margin:23px 0 14px;max-width:470px}
+.hero-desc{font-size:12px;line-height:1.85;color:#a9b8a9;max-width:390px;margin:0}
+.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.hero-visual{display:grid;place-items:center;position:relative;z-index:1}
+.ring{width:180px;height:180px;border:1px solid #c7ff6239;border-radius:50%;display:grid;place-items:center;position:relative}
+.ring:before{content:"";position:absolute;inset:12px;border:1px dashed #c7ff6240;border-radius:50%;animation:spin 35s linear infinite}
+.ring:after{content:"";position:absolute;inset:31px;border:1px solid #77e7d021;border-radius:50%}
+.ring-point{position:absolute;top:20px;right:24px;width:8px;height:8px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+.ring-copy{text-align:center;position:relative;z-index:2}
+.ring-number{font-size:39px;font-weight:950;letter-spacing:-2px}
+.ring-label{font-size:8px;letter-spacing:2px;color:var(--muted);margin-top:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:26px 0 12px}
+.section-head h2{font-size:15px}
+.day-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.day{border:1px solid var(--line);background:var(--panel);border-radius:10px;text-align:center;padding:12px 2px;min-width:0}
+.day-name{font-size:9px;color:var(--muted);letter-spacing:.5px}
+.day-num{font-size:13px;font-weight:850;margin:11px 0}
+.day-mark{height:6px;width:6px;background:#3b4641;border-radius:50%;margin:auto}
+.day.complete .day-mark{background:var(--lime);box-shadow:0 0 9px #c7ff6266}
+.day.today{border-color:var(--lime);background:#c7ff6209}
+.day.rest .day-mark{background:#5f8179}
+.day.missed{border-color:#673838;background:#251719}
+.day.missed .day-mark{background:var(--red)}
+.day.future{opacity:.6}
+.week-summary{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:10px}
+.week-summary strong{font-size:12px}
+.week-summary span{font-size:10px;color:var(--muted)}
+.today-card{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:17px;align-items:stretch}
+.today-info{display:flex;flex-direction:column;align-items:flex-start}
+.today-title{font-size:clamp(25px,3vw,34px);letter-spacing:-1.3px;line-height:1.1;margin:14px 0 10px}
+.today-meta{font-size:11px;line-height:1.8;color:#9caaa3}
+.today-action{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:15px;background:#151d19;border:1px solid #33432e;border-radius:12px;padding:16px}
+.action-arrow{width:31px;height:31px;display:grid;place-items:center;border-radius:9px;background:var(--lime);color:#10160a;font-size:17px}
+.action-label{font-size:9px;letter-spacing:1.3px;color:var(--muted)}
+.action-title{font-size:12px;font-weight:850;margin-top:7px}
+.cta{width:100%}
+.two-col{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(210px,.7fr);gap:14px}
+.one-col{display:grid;gap:14px}
+.list-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
+.list-row:last-child{border-bottom:0}
+.day-letter{width:34px;height:34px;border:1px solid var(--line);border-radius:9px;display:grid;place-items:center;color:var(--cyan);font-size:9px;font-weight:850;flex-shrink:0}
+.list-body{flex:1;min-width:0}
+.list-body strong{font-size:11px;display:block}
+.list-body small{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.status-text{font-size:9px;color:var(--muted);white-space:nowrap}
+.status-text.good{color:var(--lime)}
+.page-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:20px}
+.page-intro p{font-size:11px;color:var(--muted);margin:8px 0 0}
+.schedule-row{border-bottom:1px solid var(--line)}
+.schedule-row:last-child{border-bottom:0}
+.schedule-summary{display:flex;align-items:center;gap:12px;padding:14px 0;cursor:pointer;list-style:none}
+.schedule-summary::-webkit-details-marker{display:none}
+.schedule-day{width:40px;height:40px;background:#1a2220;border-radius:10px;display:grid;place-items:center;color:var(--cyan);font-size:9px;font-weight:900;flex-shrink:0}
+.schedule-main{flex:1;min-width:0}
+.schedule-main strong{font-size:11px;display:block}
+.schedule-main small{font-size:10px;color:var(--muted);display:block;margin-top:5px}
+.chevron{font-size:13px;color:var(--muted);padding:7px}
+.schedule-detail{padding:0 0 16px 52px}
+.exercise-line{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #222c29}
+.exercise-line:last-child{border-bottom:0}
+.exercise-line .num{font-size:9px;color:var(--cyan);padding-top:2px}
+.exercise-line .copy{flex:1;min-width:0}
+.exercise-line strong{font-size:11px}
+.exercise-line p{font-size:10px;line-height:1.75;color:var(--muted);margin:6px 0 0}
+.exercise-line .meta{font-size:9px;color:#bcc9c1;margin-top:6px}
+details.info{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:15px;margin-top:10px}
+details.info summary{cursor:pointer;font-size:11px;font-weight:800;display:flex;justify-content:space-between;gap:10px}
+details.info p,details.info li{font-size:11px;color:var(--muted);line-height:1.85}
+.session-screen{max-width:800px;margin:0 auto}
+.session-topline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:23px}
+.session-meter{display:flex;gap:4px;margin:15px 0 21px}
+.session-meter span{height:4px;background:#2d3933;border-radius:9px;flex:1}
+.session-meter span.on{background:var(--lime)}
+.session-card{border:1px solid #344335;border-radius:18px;overflow:hidden;background:linear-gradient(155deg,#151e18,#101516 70%)}
+.session-card-inner{padding:clamp(20px,4vw,36px)}
+.step-count{font-size:10px;letter-spacing:1.7px;color:var(--cyan);font-weight:850}
+.focus-title{font-size:clamp(30px,5vw,45px);letter-spacing:-1.8px;line-height:1.04;margin:21px 0 12px}
+.focus-desc{font-size:12px;line-height:1.9;color:#a5b3aa;max-width:520px}
+.metric-row{display:flex;gap:9px;flex-wrap:wrap;margin:24px 0}
+.metric{min-width:95px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0e1312}
+.metric small{font-size:8px;letter-spacing:1.4px;color:var(--muted)}
+.metric strong{display:block;font-size:14px;margin-top:7px}
+.session-footer{border-top:1px solid var(--line);padding:17px clamp(20px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.session-footer .hint{font-size:10px;color:var(--muted);line-height:1.7}
+.session-actions{display:flex;gap:8px;flex-wrap:wrap}
+.rest-box{margin:0 clamp(20px,4vw,36px) 15px;padding:15px;background:#141f1b;border:1px solid #304d3b;border-radius:11px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rest-clock{font-size:25px;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.timer-big{font-size:clamp(54px,9vw,84px);letter-spacing:-4px;font-weight:900;font-variant-numeric:tabular-nums;text-align:center;margin:25px 0 10px}
+.timer-sub{text-align:center;font-size:10px;color:var(--muted);letter-spacing:1.3px}
+.timer-progress{max-width:350px;margin:22px auto}
+.timer-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:20px}
+select,input{background:#0d1210;border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px;width:100%;font-size:11px}
+label.field-label{display:block;font-size:10px;color:var(--muted);margin:15px 0 7px}
+.history-week{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
+.history-week:last-child{border-bottom:0}
+.history-icon{width:40px;height:40px;background:#19211c;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;color:var(--cyan);font-size:10px;font-weight:900;flex-shrink:0}
+.history-body{flex:1;min-width:0}
+.history-body strong{font-size:11px;display:block}
+.history-body small{display:block;font-size:10px;color:var(--muted);margin-top:5px}
+.history-side{font-size:11px;font-weight:850}
+.history-week button{background:transparent;border:0;color:inherit;display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:0}
+.review-lock{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#111716}
+.lock-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:#202c25;color:var(--lime);font-size:16px;flex-shrink:0}
+.review-lock p{font-size:10px;line-height:1.7;color:var(--muted);margin:5px 0 0}
+.check-row{display:flex;align-items:flex-start;gap:11px;padding:13px 0;border-bottom:1px solid var(--line)}
 .check-row:last-child{border-bottom:0}
-.check-row input{accent-color:var(--green);width:16px;height:16px;margin-top:1px;flex-shrink:0}
-.check-row label{font-size:11px;line-height:1.6;flex:1}
-.check-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
-.check-row.locked{opacity:.5}
-.field-label{display:block;color:var(--muted);font-size:10px;margin:14px 0 7px}
-.field{
-  width:100%;background:#0d1217;color:var(--text);border:1px solid var(--line);
-  padding:12px;border-radius:9px;outline:none
-}
-.field:focus{border-color:#c6ff5177}
-.history-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.history-row:last-child{border-bottom:0}
-.history-week{width:39px;height:39px;display:grid;place-items:center;background:#1a2228;border-radius:10px;font-size:10px;font-weight:900;color:var(--cyan)}
-.history-copy{flex:1;min-width:0}
-.history-copy strong{display:block;font-size:11px}
-.history-copy small{display:block;color:var(--muted);margin-top:5px;font-size:10px}
-.history-rate{font-size:13px;font-weight:900}
-.chart{height:190px;display:flex;align-items:flex-end;gap:9px;padding-top:20px}
-.chart-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px}
-.chart-value{font-size:9px;color:var(--muted)}
-.chart-bar{width:min(100%,43px);min-height:3px;background:var(--green);border-radius:5px 5px 2px 2px;transition:height .3s}
+.check-row input{accent-color:var(--lime);width:16px;height:16px;flex-shrink:0;margin:1px 0 0}
+.check-row label{font-size:11px;flex:1;line-height:1.6}
+.check-row small{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.check-row.locked{opacity:.62}
+.notice{font-size:10px;line-height:1.9;padding:12px 13px;background:#121918;border:1px solid var(--line);border-radius:9px;color:#acbbb2}
+.notice.warn{background:#201a12;border-color:#56452b;color:#efd3a5}
+.notice.good{background:#131e16;border-color:#334d33;color:#c5eaa8}
+.mini-score{font-size:25px;font-weight:900;letter-spacing:-1px;margin:12px 0 8px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:12px}
+.chart-col{height:100%;display:flex;flex:1;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;min-width:0}
+.chart-bar{width:min(100%,35px);min-height:3px;background:var(--lime);border-radius:4px 4px 1px 1px}
 .chart-label{font-size:9px;color:var(--muted)}
-.stat-big{font-size:30px;font-weight:900;letter-spacing:-1px;margin:13px 0 5px}
-.notice{font-size:11px;line-height:1.8;padding:13px;border:1px solid var(--line);border-radius:10px;color:#aebbc0;background:#11171c}
-.notice.warning{border-color:#72552c;background:#211a12;color:#f6d5a5}
-.notice.good{border-color:#30452a;background:#141d12;color:#c7e9a7}
-.setting-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 0;border-bottom:1px solid var(--line)}
-.setting-row:last-child{border-bottom:0}
+.chart-value{font-size:9px;color:var(--muted)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.setting-row:last-child{border:0}
 .setting-row strong{font-size:11px}
-.setting-row p{font-size:10px;color:var(--muted);margin:5px 0 0;line-height:1.7}
-.setting-control{width:min(220px,45%);flex-shrink:0}
-.toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  z-index:100;background:var(--green);color:#10150c;padding:13px 19px;
-  border-radius:10px;font-size:11px;font-weight:850;box-shadow:0 8px 36px #0009;
-  display:none;max-width:90vw;text-align:center
-}
-footer{text-align:center;border-top:1px solid var(--line);padding-top:20px;margin-top:38px;color:#57656c;font-size:9px;letter-spacing:1px}
+.setting-row p{font-size:10px;line-height:1.75;color:var(--muted);margin:5px 0 0}
+.setting-control{width:min(230px,48%);flex-shrink:0}
+.empty{text-align:center;padding:28px 15px}
+.empty-glyph{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;color:var(--lime);margin:0 auto 13px;font-size:19px}
+.empty h3{margin:0 0 7px}
+.empty p{max-width:310px;margin:0 auto;color:var(--muted);font-size:11px;line-height:1.8}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--lime);color:#10150c;padding:12px 18px;border-radius:9px;z-index:50;font-size:11px;font-weight:850;display:none;max-width:90vw;text-align:center}
+footer{text-align:center;border-top:1px solid var(--line);padding:20px 0 0;margin-top:35px;color:#52615b;font-size:9px;letter-spacing:1.3px}
+body.focus .sidebar{display:none}
+body.focus main{margin:0 auto;max-width:950px;padding:24px}
+body.focus .topbar{display:none}
 .mobile-nav{display:none}
-@media(max-width:1050px){
-  :root{--sidebar:190px}
-  main{padding-left:22px;padding-right:22px}
-  .hero{grid-template-columns:minmax(0,1.5fr) minmax(120px,.7fr);padding:23px}
-  .orbit{width:145px;height:145px}
-  .orbit-number{font-size:33px}
+@media(max-width:780px){
+ .sidebar{position:fixed;inset:auto 0 0;width:100%;height:61px;padding:5px 9px;background:#0b0e0ff2;backdrop-filter:blur(15px);border-right:0;border-top:1px solid var(--line)}
+ .brand,.nav-label,.sidebar-bottom{display:none}
+ .navs{height:100%;display:flex;justify-content:space-around;gap:4px}
+ .nav{flex:1;width:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:5px 1px;margin:0;font-size:9px}
+ .nav-icon{width:auto;font-size:16px}
+ .nav-number{display:none}
+ main{margin:0;padding:22px 14px 86px}
+ .hero{grid-template-columns:1fr;min-height:0;padding:23px}
+ .hero-visual{display:none}
+ .hero-title{font-size:39px}
+ .today-card{grid-template-columns:1fr}
+ .today-action{min-height:120px}
+ .two-col{grid-template-columns:1fr}
+ .panel{padding:15px}
+ .schedule-detail{padding-left:0}
+ .schedule-summary{gap:9px}
+ .schedule-day{width:34px;height:34px}
+ body.focus main{padding:20px 13px}
+ body.focus .session-card-inner{padding:20px}
+ .session-footer{padding:15px 20px}
+ .session-actions{width:100%}
+ .session-actions .btn{flex:1}
+ footer{padding-bottom:8px}
 }
-@media(max-width:760px){
-  .sidebar{width:100%;height:61px;inset:auto 0 0;padding:5px 9px;border-right:0;border-top:1px solid var(--line);background:#0b0e12ed;backdrop-filter:blur(16px)}
-  .brand,.nav-label,.sidebar-bottom{display:none}
-  .navs{display:flex;justify-content:space-around;gap:3px;height:100%}
-  .nav{width:auto;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:0;padding:4px 2px;font-size:9px;border-radius:8px}
-  .nav-icon{font-size:16px;width:auto}
-  .nav-key{display:none}
-  main{margin-left:0;padding:22px 15px 90px}
-  .hero{grid-template-columns:1fr;min-height:0;padding:22px}
-  .hero-visual{display:none}
-  .hero h2{font-size:34px;margin-top:17px}
-  .stats{gap:8px}
-  .stat{padding:13px}
-  .stat-number{font-size:24px}
-  .dashboard-columns,.session-layout{grid-template-columns:1fr}
-  .panel{padding:16px}
-  .page-intro{align-items:flex-start}
-  h1{font-size:26px}
-  .clock{display:none}
-  .calendar{gap:3px}
-  .cal-cell{min-height:67px;padding:5px}
-  .cal-cell .cal-mark{font-size:8px;margin-top:8px}
-  footer{padding-bottom:8px}
-}
-@media(max-width:410px){
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .day-strip{gap:3px}
-  .day-cell{padding:9px 1px}
-  .day-cell .dname{font-size:8px}
-  .hero-actions .btn{flex:1}
-  .timer-number{font-size:53px}
+@media(max-width:400px){
+ h1{font-size:25px}
+ .hero-title{font-size:34px}
+ .day-strip{gap:3px}
+ .day{padding:10px 1px}
+ .day-name{font-size:8px}
+ .metric{min-width:80px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}
+ *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-mark">A</div>
-      <div><div class="brand-name">AXIOM</div><div class="brand-sub">FITNESS OPERATING SYSTEM</div></div>
-    </div>
+<aside class="sidebar">
+ <div class="brand"><div class="logo">S</div><div><div class="brand-name">STRATA</div><div class="brand-sub">TRAINING PROTOCOL / 08</div></div></div>
+ <div class="nav-label">WORKSPACE</div>
+ <div class="navs">
+  <button class="nav active" data-page="today"><span class="nav-icon">⌂</span>Today <span class="nav-number">01</span></button>
+  <button class="nav" data-page="plan"><span class="nav-icon">◈</span>Protocol <span class="nav-number">02</span></button>
+  <button class="nav" data-page="history"><span class="nav-icon">▦</span>History <span class="nav-number">03</span></button>
+  <button class="nav" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
+ </div>
+ <div class="sidebar-bottom">
+  <div class="online"><span class="online-dot"></span><strong>LOCAL SYSTEM ACTIVE</strong><p>DAILY SCHEDULE LOCKED<br>PROGRESS SAVED ON DEVICE</p></div>
+  <div class="identity"><div class="avatar" id="avatar">A</div><div><div class="identity-name" id="identityName">ATHLETE</div><div class="identity-sub">8-WEEK PROGRAM</div></div></div>
+ </div>
+</aside>
 
-    <div class="nav-label">CONTROL CENTER</div>
-    <div class="navs">
-      <button class="nav active" data-page="dashboard"><span class="nav-icon">⌂</span>Overview <span class="nav-key">01</span></button>
-      <button class="nav" data-page="train"><span class="nav-icon">◈</span>Training <span class="nav-key">02</span></button>
-      <button class="nav" data-page="calendar"><span class="nav-icon">▦</span>Schedule <span class="nav-key">03</span></button>
-      <button class="nav" data-page="review"><span class="nav-icon">✓</span>Weekly review <span class="nav-key">04</span></button>
-      <button class="nav" data-page="insights"><span class="nav-icon">↗</span>Insights <span class="nav-key">05</span></button>
-    </div>
+<main>
+<header class="topbar" id="topbar">
+ <div><div class="crumb" id="crumb">STRATA / DAILY DIRECTIVE</div><h1 id="heading">Today's directive.</h1><div class="muted small" id="subheading">One day. One task. No guesswork.</div></div>
+ <div id="headerRight"><span class="tag" id="clock">--:--</span></div>
+</header>
 
-    <div class="nav-label">SYSTEM</div>
-    <button class="nav" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
+<!-- TODAY -->
+<section class="page active" id="page-today">
+ <div class="hero">
+  <div class="hero-copy">
+   <div class="micro lime" id="weekCode">PROGRAM 01 / WEEK 01</div>
+   <h2 class="hero-title" id="heroTitle">Show up.<br>Execute.</h2>
+   <p class="hero-desc" id="heroDesc">The day determines the workout. Follow the prescribed session, finish the work, and recover.</p>
+   <div class="hero-actions">
+    <button class="btn primary" id="heroButton">BEGIN TODAY'S SESSION ↗</button>
+    <button class="btn" data-goto="plan">View protocol</button>
+   </div>
+  </div>
+  <div class="hero-visual"><div class="ring"><span class="ring-point"></span><div class="ring-copy"><div class="ring-number" id="ringWeek">01</div><div class="ring-label">WEEK / 08</div></div></div></div>
+ </div>
 
-    <div class="sidebar-bottom">
-      <div class="system-status">
-        <div><span class="status-dot"></span><strong>SYSTEM ONLINE</strong></div>
-        <p>LOCAL STORAGE ACTIVE<br>PROGRAM TRACKING ENABLED</p>
-      </div>
-      <div class="user-row">
-        <div class="avatar" id="avatar">A</div>
-        <div><div class="user-name" id="userName">ATHLETE</div><div class="user-sub">8-WEEK PROTOCOL</div></div>
-      </div>
-    </div>
-  </aside>
+ <div class="section-head"><h2>Today's assignment</h2><span class="tag lime-tag" id="todayState">SCHEDULED</span></div>
+ <div class="panel today-card">
+  <div class="today-info">
+   <div class="micro cyan" id="todayDay">MONDAY / STRENGTH</div>
+   <h2 class="today-title" id="todayTitle">Workout A — Full Body</h2>
+   <div class="today-meta" id="todayDescription">25–35 minutes · Bodyweight only</div>
+   <div class="rule" style="width:100%"></div>
+   <div class="today-meta" id="todayRule">Complete the required warm-up, then every prescribed set.</div>
+  </div>
+  <div class="today-action">
+   <div><div class="action-arrow" id="actionGlyph">↗</div><div class="action-label" style="margin-top:18px" id="actionLabel">NEXT ACTION</div><div class="action-title" id="actionTitle">Begin Workout A</div></div>
+   <button class="btn primary cta" id="todayButton">BEGIN SESSION →</button>
+  </div>
+ </div>
 
-  <main>
-    <header class="topbar">
-      <div>
-        <div class="breadcrumb" id="breadcrumb">AXIOM / CONTROL CENTER</div>
-        <h1 id="pageHeading">Command center.</h1>
-        <div class="muted small" id="pageSub">Consistency is the system. Progress is the output.</div>
-      </div>
-      <div class="top-actions">
-        <div class="clock" id="liveClock">--:--:--</div>
-        <button class="btn" id="quickSettings">⚙</button>
-      </div>
-    </header>
+ <div class="section-head"><h2>This week's timeline</h2><span class="micro" id="weekRange">WEEK 01</span></div>
+ <div class="panel">
+  <div class="week-summary"><strong id="weekProgressText">0 / 6 sessions completed</strong><span id="weekProgressPercent">0%</span></div>
+  <div class="progress"><div id="weekProgressBar"></div></div>
+  <div class="day-strip" id="dayStrip" style="margin-top:17px"></div>
+ </div>
 
-    <!-- DASHBOARD -->
-    <section class="page active" id="page-dashboard">
-      <div class="hero">
-        <div class="hero-main">
-          <div class="micro accent" id="cycleLabel">PROTOCOL 01 / WEEK 01</div>
-          <h2 id="heroTitle">Build your<br>baseline.</h2>
-          <p id="heroDescription">No extremes. No guessing. Follow the plan, finish the session, and recover properly.</p>
-          <div class="hero-actions">
-            <button class="btn btn-primary" id="heroStart">Initialize today's session ↗</button>
-            <button class="btn" data-goto="train">Workout library</button>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="orbit"><div class="orbit-point"></div>
-            <div class="orbit-inner"><div class="orbit-number" id="heroWeekNumber">01</div><div class="orbit-label">OF 08 WEEKS</div></div>
-          </div>
-        </div>
-      </div>
+ <div class="section-head"><h2>Protocol status</h2></div>
+ <div class="panel" id="statusPanel">
+  <div class="micro">OPERATING RULE</div>
+  <p class="muted small" id="statusText" style="line-height:1.9;margin-bottom:0">Your current weekday determines your session automatically. Other days cannot be started early.</p>
+ </div>
+</section>
 
-      <div class="grid stats">
-        <div class="panel stat"><div class="stat-top"><span class="stat-label">CURRENT CYCLE</span><span class="stat-icon">◷</span></div>
-          <div class="stat-number" id="statWeek">01<span class="muted"> / 08</span></div><div class="stat-note" id="statWeekNote">Week in progress</div></div>
-        <div class="panel stat"><div class="stat-top"><span class="stat-label">ACTIVITIES</span><span class="stat-icon">✓</span></div>
-          <div class="stat-number" id="statActivities">0<span class="muted"> / 6</span></div><div class="stat-note">This week's completed sessions</div></div>
-        <div class="panel stat"><div class="stat-top"><span class="stat-label">TOTAL SESSIONS</span><span class="stat-icon">↗</span></div>
-          <div class="stat-number" id="statTotal">00</div><div class="stat-note">Recorded across the program</div></div>
-      </div>
+<!-- FULL WEEK / EXERCISE LIBRARY -->
+<section class="page" id="page-plan">
+ <div class="page-intro"><div><div class="micro cyan">PROTOCOL SPECIFICATION</div><h2 style="margin-top:9px">The weekly schedule.</h2><p>Open a day for its exact exercises and instructions. Only today's assignment can be executed.</p></div></div>
+ <div class="panel" id="scheduleList"></div>
+ <details class="info"><summary>Eight-week progression <span>＋</span></summary><div id="progressionInfo"></div></details>
+ <details class="info"><summary>Nutrition & recovery <span>＋</span></summary>
+  <ul>
+   <li>Eat regular, balanced meals. Avoid crash diets and skipping meals.</li>
+   <li>Include protein sources such as eggs, yogurt, beans, tofu, fish, or chicken.</li>
+   <li>Eat a variety of fruits and vegetables, and drink water regularly.</li>
+   <li>Get enough sleep and keep a consistent schedule.</li>
+   <li>Reduce training when unusually tired. If you are still growing, sufficient food and recovery are particularly important.</li>
+  </ul>
+ </details>
+ <details class="info"><summary>Progression rules <span>＋</span></summary>
+  <p>When all sets reach the upper end of the rep range with good form, slightly increase difficulty. Change one factor at a time. Most sets should end with approximately 1–3 good repetitions still possible.</p>
+  <p>Examples: wall push-ups → incline push-ups → knee or regular push-ups; regular squats → slower controlled squats; short planks → longer holds with good alignment.</p>
+ </details>
+</section>
 
-      <div class="section-head"><h2>Today's directive</h2><span class="tag tag-green" id="todayStatus">READY</span></div>
-      <div class="grid dashboard-columns">
-        <div>
-          <div class="panel today-card">
-            <div class="micro cyan" id="todayType">TODAY'S TRAINING</div>
-            <div class="today-name" id="todayName">Workout A — Full Body</div>
-            <div class="today-meta" id="todayMeta">Strength protocol · 25–35 minutes</div>
-            <div class="divider"></div>
-            <div class="today-meta" id="todayInstruction">Complete every prescribed exercise before closing the session.</div>
-            <div class="today-footer">
-              <span class="tag" id="todayDuration">25–35 MIN</span>
-              <button class="btn btn-primary" id="todayLaunch">Enter training mode →</button>
-            </div>
-          </div>
+<!-- HISTORY + SUNDAY REVIEW -->
+<section class="page" id="page-history">
+ <div class="page-intro"><div><div class="micro cyan">TRAINING RECORD</div><h2 style="margin-top:9px">History.</h2><p>Completed sessions, missed days, and locked weekly records.</p></div></div>
+ <div class="panel">
+  <div class="panel-head"><h3>Eight-week record</h3><span class="micro">WEEK BY WEEK</span></div>
+  <div id="historyWeeks"></div>
+ </div>
+ <div class="section-head"><h2>Selected week</h2><span class="tag" id="historySelectionTag">WEEK 01</span></div>
+ <div class="panel" id="historyDetails"></div>
+ <div class="section-head"><h2>Sunday review</h2><span class="tag" id="reviewAvailability">LOCKED</span></div>
+ <div class="panel">
+  <div class="review-lock" id="reviewLock">
+   <div class="lock-icon" id="reviewLockIcon">◷</div><div><h3 id="reviewLockTitle">Review locked until Sunday.</h3><p id="reviewLockDescription">The weekly checklist becomes available on Sunday. Unfinished reviews are kept for a later Sunday.</p></div>
+  </div>
+  <div id="reviewUI" style="display:none;margin-top:19px">
+   <label class="field-label" for="reviewWeek">WEEK TO REVIEW</label><select id="reviewWeek"></select>
+   <div class="notice" style="margin:14px 0">Workout and cardio items are derived from your actual records. They cannot be checked manually. Complete the final self-review honestly.</div>
+   <div id="reviewChecks"></div>
+   <button class="btn primary" id="saveReview" style="width:100%;margin-top:17px">CONFIRM & SAVE WEEK</button>
+   <p class="muted small" style="line-height:1.8">A saved review cannot be overwritten. If Sunday is missed, the unfinished review remains available on a later Sunday.</p>
+  </div>
+  <div class="rule"></div>
+  <div class="micro">SAVED REVIEWS</div><div id="savedReviews" style="margin-top:9px"></div>
+ </div>
+</section>
 
-          <div class="section-head"><h2>Weekly timeline</h2><span class="micro" id="timelineLabel">WEEK 01</span></div>
-          <div class="day-strip" id="dayStrip"></div>
-        </div>
+<!-- SETTINGS -->
+<section class="page" id="page-settings">
+ <div class="page-intro"><div><div class="micro cyan">SYSTEM CONFIGURATION</div><h2 style="margin-top:9px">Settings.</h2><p>Configure the program date and protect your records.</p></div></div>
+ <div class="panel">
+  <div class="panel-head"><h3>Profile & schedule</h3><span class="micro">LOCAL PROFILE</span></div>
+  <div class="setting-row"><div><strong>Display name</strong><p>Used in your training workspace.</p></div><div style="width:45%"><input id="nameInput" maxlength="32" placeholder="ATHLETE"></div></div>
+  <div class="setting-row"><div><strong>Program start date</strong><p>Sets Week 1. Changing this does not delete saved records.</p></div><div style="width:45%"><input type="date" id="startInput"></div></div>
+  <button class="btn primary" id="saveSettings" style="margin-top:16px">SAVE CONFIGURATION</button>
+ </div>
+ <div class="panel" style="margin-top:14px">
+  <div class="panel-head"><h3>Data management</h3><span class="micro">LOCAL STORAGE</span></div>
+  <div class="setting-row"><div><strong>Export backup</strong><p>Download sessions, reviews, and settings.</p></div><button class="btn" id="exportBtn">EXPORT JSON ↓</button></div>
+  <div class="setting-row"><div><strong>Import backup</strong><p>Restore a previous STRATA JSON backup.</p></div><button class="btn" id="importBtn">IMPORT JSON ↑</button></div>
+  <div class="setting-row"><div><strong>Reset all data</strong><p>Erase every local record. This cannot be undone.</p></div><button class="btn red" id="resetBtn">RESET DATA</button></div>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+ </div>
+ <div class="notice warn" style="margin-top:14px">Storage: this version saves on the current browser and device. GitHub Pages alone does not provide secure accounts or automatic cross-device synchronization. Export backups before clearing browser data.</div>
+</section>
 
-        <div>
-          <div class="panel">
-            <div class="panel-title"><h3>Upcoming</h3><span class="micro">NEXT IN LINE</span></div>
-            <div id="upcomingList" class="compact-list"></div>
-          </div>
-          <div class="panel" style="margin-top:15px">
-            <div class="panel-title"><h3>Execution score</h3><span class="accent">◈</span></div>
-            <div class="stat-big" id="executionRate">0%</div>
-            <div class="progress"><div id="executionBar"></div></div>
-            <p class="muted small" id="executionText">Complete your scheduled sessions to build your score.</p>
-            <div class="divider"></div>
-            <button class="btn" style="width:100%" data-goto="insights">View performance data →</button>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- FOCUSED SESSION -->
+<section class="page" id="page-session">
+ <div class="session-screen">
+  <div class="session-topline"><div><div class="micro lime" id="sessionEyebrow">STRATA / ACTIVE SESSION</div><div class="muted small" id="sessionDate" style="margin-top:7px"></div></div><button class="btn" id="exitSession">EXIT SESSION ×</button></div>
+  <div class="session-meter" id="sessionMeter"></div>
+  <div class="panel-head"><span class="tag lime-tag" id="sessionStageTag">IN PROGRESS</span><span class="micro" id="sessionStepCounter"></span></div>
+  <div class="session-card">
+   <div class="session-card-inner" id="sessionBody"></div>
+   <div id="restBox" class="rest-box" style="display:none">
+    <div><div class="micro cyan">MANDATORY REST</div><div class="muted small" style="margin-top:5px">Recover before continuing.</div></div>
+    <div style="text-align:right"><div class="rest-clock" id="restClock">01:00</div><button class="btn" id="extendRest" style="margin-top:7px">+15 SEC</button></div>
+   </div>
+   <div class="session-footer"><div class="hint" id="sessionHint">Follow the prescribed sequence.</div><div class="session-actions" id="sessionActions"></div></div>
+  </div>
+  <div class="section-head"><h2>Execution rules</h2></div>
+  <div class="notice" id="sessionNotice">Work at a controlled pace. Good technique matters more than speed. Adjust a movement when needed.</div>
+ </div>
+</section>
 
-    <!-- TRAINING -->
-    <section class="page" id="page-train">
-      <div class="page-intro"><div><div class="micro cyan">TRAINING MODULE</div><h2 style="margin-top:8px">Execute the plan.</h2>
-        <p>One exercise at a time. Complete the required work before finishing.</p></div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-title"><div><div class="micro">TODAY'S SCHEDULE</div><h3 style="margin-top:7px" id="trainScheduleTitle">Workout A — Full Body</h3></div>
-          <span class="tag" id="trainScheduleStatus">NOT STARTED</span></div>
-        <div class="workout-tabs" id="workoutTabs">
-          <button class="btn active" data-workout="A">Workout A</button>
-          <button class="btn" data-workout="B">Workout B</button>
-          <button class="btn" data-workout="C">Workout C</button>
-          <button class="btn" data-workout="cardio">Cardio</button>
-          <button class="btn" data-workout="warmup">Warm-up</button>
-        </div>
-        <div id="libraryContent"></div>
-        <div class="divider"></div>
-        <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
-          <button class="btn btn-primary" id="beginSession">Start today's session →</button>
-          <span class="muted small" id="sessionRule">Only today's scheduled activity can be recorded.</span>
-        </div>
-      </div>
-
-      <div id="activeSession" style="display:none;margin-top:15px">
-        <div class="grid session-layout">
-          <div class="panel session-card">
-            <div class="session-top"><span class="micro cyan">FOCUSED EXECUTION</span><span class="session-count" id="exerciseCounter">EXERCISE 01 / 06</span></div>
-            <div class="session-track" id="sessionTrack"></div>
-            <div id="exerciseFocus" class="exercise-focus"></div>
-            <div class="session-controls">
-              <button class="btn" id="previousExercise">← Previous</button>
-              <button class="btn btn-primary" id="completeExercise">Complete exercise ✓</button>
-              <button class="btn" id="nextExercise">Next →</button>
-            </div>
-            <div class="divider"></div>
-            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center">
-              <span class="muted small" id="sessionProgressText">0 of 6 exercises completed</span>
-              <button class="btn btn-quiet btn-danger" id="exitSession">Exit session</button>
-            </div>
-          </div>
-          <div>
-            <div class="panel timer-panel">
-              <div class="timer-label">INTERVAL TIMER</div><div class="timer-number" id="timerNumber">01:00</div>
-              <div class="progress cyan-bar"><div id="timerBar"></div></div>
-              <div class="timer-presets">
-                <button class="btn" data-time="30">30s</button><button class="btn" data-time="45">45s</button>
-                <button class="btn" data-time="60">60s</button><button class="btn" data-time="90">90s</button>
-              </div>
-              <div style="display:flex;justify-content:center;gap:8px">
-                <button class="btn btn-primary" id="timerToggle">Start timer</button><button class="btn" id="timerReset">Reset</button>
-              </div>
-              <div class="timer-state" id="timerState">READY · REST WHEN NEEDED</div>
-            </div>
-            <div class="panel" style="margin-top:15px">
-              <div class="panel-title"><h3>Session rules</h3></div>
-              <div class="notice">Complete each exercise with controlled technique. Rest 45–90 seconds between sets. Do not rush repetitions to finish sooner.</div>
-              <details style="margin-top:15px">
-                <summary class="muted small" style="cursor:pointer">Warm-up sequence</summary>
-                <div id="sessionWarmup" style="margin-top:10px"></div>
-              </details>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CALENDAR -->
-    <section class="page" id="page-calendar">
-      <div class="page-intro"><div><div class="micro cyan">ACTIVITY LOG</div><h2 style="margin-top:8px">Schedule & history.</h2>
-        <p>See upcoming sessions, recorded activity, and rest days.</p></div></div>
-      <div class="panel">
-        <div class="calendar-top"><div><div class="micro">MONTH VIEW</div><h2 id="calendarMonthLabel" style="margin-top:6px">Month</h2></div>
-          <div style="display:flex;gap:7px"><button class="btn" id="prevMonth">←</button><button class="btn" id="nextMonth">→</button></div></div>
-        <div class="calendar" id="calendarGrid"></div>
-        <div class="divider"></div>
-        <div class="calendar-top"><div class="micro">DATE DETAILS</div><span class="tag" id="selectedDateStatus">SELECT A DATE</span></div>
-        <div class="cal-details" id="calendarDetails">Select a day to view its scheduled activity.</div>
-      </div>
-    </section>
-
-    <!-- SUNDAY REVIEW -->
-    <section class="page" id="page-review">
-      <div class="page-intro"><div><div class="micro cyan">WEEKLY AUDIT</div><h2 style="margin-top:8px">Review. Confirm. Reset.</h2>
-        <p>The weekly checklist is available on Sundays only.</p></div></div>
-      <div class="grid dashboard-columns">
-        <div class="panel">
-          <div class="panel-title"><h3>Weekly checklist</h3><span class="tag" id="reviewWeekTag">WEEK 01</span></div>
-          <label class="field-label" for="reviewWeekSelect">WEEK TO REVIEW</label>
-          <select class="field" id="reviewWeekSelect"></select>
-          <div class="review-banner"><h3 id="reviewHeading">Audit locked.</h3><p id="reviewDescription">Return on Sunday to review your training week and confirm your record.</p></div>
-          <div id="reviewChecklist"></div>
-          <div style="margin-top:18px"><button class="btn btn-primary" id="saveReview" style="width:100%">Confirm & save weekly review</button></div>
-          <p class="muted small" style="line-height:1.8;margin-bottom:0">Saved weeks are immutable. An unfinished review remains in your history and can be completed on a later Sunday. Starting a new week never deletes old results.</p>
-        </div>
-        <div>
-          <div class="panel">
-            <div class="panel-title"><h3>Audit summary</h3><span class="accent">◈</span></div>
-            <div class="stat-big" id="reviewDoneCount">0 / 6</div>
-            <div class="progress"><div id="reviewProgressBar"></div></div>
-            <p class="muted small" id="reviewSummaryText">Recorded activity for the selected week.</p>
-            <div class="divider"></div>
-            <div class="micro">WEEKLY TARGET</div>
-            <h3 style="margin-top:8px">3 strength · 2 cardio</h3>
-            <p class="muted small">Thursday is recovery. Sunday is full rest.</p>
-          </div>
-          <div class="panel" style="margin-top:15px">
-            <div class="panel-title"><h3>Saved audits</h3><span class="micro">HISTORY</span></div>
-            <div id="savedReviews"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INSIGHTS -->
-    <section class="page" id="page-insights">
-      <div class="page-intro"><div><div class="micro cyan">PERFORMANCE ANALYTICS</div><h2 style="margin-top:8px">Your data. No guesswork.</h2>
-        <p>Progress is measured by actions and consistency, not daily weight fluctuations.</p></div></div>
-      <div class="grid stats">
-        <div class="panel stat"><div class="stat-top"><span class="stat-label">STRENGTH SESSIONS</span><span class="stat-icon">◈</span></div>
-          <div class="stat-number" id="insightStrength">0</div><div class="stat-note">Successfully completed</div></div>
-        <div class="panel stat"><div class="stat-top"><span class="stat-label">CARDIO SESSIONS</span><span class="stat-icon">↗</span></div>
-          <div class="stat-number" id="insightCardio">0</div><div class="stat-note">Successfully completed</div></div>
-        <div class="panel stat"><div class="stat-top"><span class="stat-label">WEEKLY REVIEWS</span><span class="stat-icon">✓</span></div>
-          <div class="stat-number" id="insightReviews">0<span class="muted"> / 8</span></div><div class="stat-note">Confirmed and saved</div></div>
-      </div>
-      <div class="grid dashboard-columns">
-        <div class="panel"><div class="panel-title"><h3>Weekly completion</h3><span class="micro">OUT OF 6</span></div>
-          <div class="chart" id="completionChart"></div><div class="divider"></div>
-          <p class="muted small">Each bar represents recorded completion of scheduled weekday activities. Rest day is not counted against you.</p></div>
-        <div class="panel"><div class="panel-title"><h3>Milestones</h3><span class="accent">✳</span></div><div id="milestones"></div></div>
-      </div>
-      <div class="panel" style="margin-top:15px" id="finalReport"></div>
-      <div class="panel" style="margin-top:15px">
-        <div class="panel-title"><h3>Export your record</h3><span class="micro">DATA CONTROL</span></div>
-        <p class="muted small">Download a backup of your activities, exercise checks, and weekly reviews.</p>
-        <button class="btn btn-primary" id="exportBtn">Export progress JSON ↓</button>
-      </div>
-    </section>
-
-    <!-- SETTINGS -->
-    <section class="page" id="page-settings">
-      <div class="page-intro"><div><div class="micro cyan">SYSTEM CONFIGURATION</div><h2 style="margin-top:8px">Preferences.</h2>
-        <p>Configure your profile and program timeline.</p></div></div>
-      <div class="panel">
-        <div class="panel-title"><h3>Profile</h3><span class="micro">LOCAL PROFILE</span></div>
-        <div class="setting-row"><div><strong>Display name</strong><p>Shown in your AXIOM workspace.</p></div><div class="setting-control"><input class="field" id="nameInput" maxlength="32" placeholder="Athlete"></div></div>
-        <div class="setting-row"><div><strong>Program start date</strong><p>Changing this recalculates week labels; saved records are retained.</p></div><div class="setting-control"><input class="field" type="date" id="startInput"></div></div>
-        <div style="margin-top:18px"><button class="btn btn-primary" id="saveSettings">Save configuration</button></div>
-      </div>
-
-      <div class="panel" style="margin-top:15px">
-        <div class="panel-title"><h3>Data & backups</h3><span class="micro">STORAGE</span></div>
-        <div class="setting-row"><div><strong>Export backup</strong><p>Save a complete copy of this browser's progress.</p></div><button class="btn" id="settingsExport">Export JSON</button></div>
-        <div class="setting-row"><div><strong>Restore backup</strong><p>Import an earlier AXIOM backup. Current data will be replaced.</p></div><button class="btn" id="importBtn">Import JSON</button></div>
-        <div class="setting-row"><div><strong>Reset local progress</strong><p>Permanently clear records stored on this device.</p></div><button class="btn btn-danger" id="resetBtn">Reset data</button></div>
-        <input type="file" id="importFile" accept=".json,application/json" hidden>
-      </div>
-      <div class="notice warning" style="margin-top:15px">Storage notice: progress is saved in this browser only. Clearing browser data can erase it. GitHub Pages does not provide account authentication or automatic cross-device synchronization.</div>
-    </section>
-
-    <footer>AXIOM / FITNESS OPERATING SYSTEM · CONSISTENCY OVER INTENSITY</footer>
-  </main>
+<footer>STRATA / 08-WEEK HOME TRAINING PROTOCOL</footer>
+</main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
 
-/* AXIOM — self-contained fitness tracker.
-   No third-party libraries, API credentials, or external services. */
+/* STRATA — strict weekday scheduling, one-step-at-a-time training,
+   set-by-set logging, Sunday-only weekly reviews, and local persistence. */
 
-const STORE = "axiomFitOS.v2";
-const LEGACY_STORE = "liftDiary.homeProgram.v1";
-const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-const SHORT = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+const STORAGE_KEY="strata.training.protocol.v3";
+const OLD_KEYS=["axiomFitOS.v2","liftDiary.homeProgram.v1"];
+const SHORT=["MON","TUE","WED","THU","FRI","SAT","SUN"];
+const LONG=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
-const PLAN = [
- {key:"A",name:"Workout A — Full Body",type:"strength",duration:"25–35 min",items:[
-  ["Bodyweight squats","3 sets","12–15 reps","60 sec","Keep heels grounded and knees aligned with your feet."],
-  ["Push-ups","3 sets","6–12 reps","60–90 sec","Use regular push-ups, knee push-ups, or wall push-ups as needed."],
-  ["Reverse lunges","2 sets","8–10 per leg","60 sec","Step backward and lower only as far as you can control."],
-  ["Glute bridges","3 sets","12–15 reps","45–60 sec","Lift your hips by squeezing your glutes."],
-  ["Plank","3 sets","20–40 sec","45–60 sec","Keep your body aligned and breathe normally."],
-  ["Marching in place","2 sets","60 sec","30 sec","March at a comfortable, controlled pace."]
- ]},
- {key:"cardioA",name:"Cardio or brisk walking",type:"cardio",duration:"20–25 min",items:[
-  ["Choose your cardio activity","1 session","20–25 min","As needed","Choose walking, marching in place, side steps, dancing, or a combination."],
-  ["Maintain a sustainable pace","Continuous","20–25 min","As needed","Breathe faster while still being able to speak in sentences."]
- ]},
- {key:"B",name:"Workout B — Full Body",type:"strength",duration:"25–35 min",items:[
-  ["Reverse lunges","3 sets","8–10 per leg","60–90 sec","Use support if you need help with balance."],
-  ["Push-ups","3 sets","6–12 reps","60–90 sec","Use a variation that lets you keep good form."],
-  ["Single-leg glute bridges","2 sets","8–10 per leg","60 sec","Return to regular two-leg bridges if too difficult."],
-  ["Dead bugs","3 sets","8–10 per side","45–60 sec","Move slowly and keep your torso stable."],
-  ["Calf raises","3 sets","15–20 reps","45 sec","Pause at the top and lower under control."],
-  ["Side steps","2 sets","60 sec","30 sec","Move steadily without rushing."]
- ]},
- {key:"recovery",name:"Recovery / light stretching",type:"recovery",duration:"5–10 min",items:[
-  ["Gentle stretching","1 session","5–10 min","As needed","Move gently; never force a stretch."],
-  ["Easy walking","Optional","5–10 min","As needed","Keep the pace comfortable and relaxed."]
- ]},
- {key:"C",name:"Workout C — Full Body + Conditioning",type:"strength",duration:"25–35 min",items:[
-  ["Bodyweight squats","3 sets","12–15 reps","60 sec","Keep heels grounded and control the lowering phase."],
-  ["Incline or regular push-ups","3 sets","8–12 reps","60–90 sec","Use a sturdy, non-slip counter for incline push-ups."],
-  ["Alternating reverse lunges","2 sets","8 per leg","60 sec","Keep every repetition controlled."],
-  ["Bird dogs","2 sets","8–10 per side","45 sec","Move slowly with minimal torso movement."],
-  ["Mountain climbers","3 sets","20–30 sec","45 sec","Move slowly or replace them with standing knee raises."],
-  ["Marching or step-touch","3 sets","45 sec","30 sec","Choose a low-impact version if needed."]
- ]},
- {key:"cardioB",name:"Cardio / enjoyable activity",type:"cardio",duration:"20–30 min",items:[
-  ["Choose your activity","1 session","20–30 min","As needed","Walking, dancing, cycling, or recreational sports all count."],
-  ["Sustain your pace","Continuous","20–30 min","As needed","Pick an activity you can comfortably maintain."]
- ]},
- {key:"rest",name:"Full rest day",type:"rest",duration:"Rest day",items:[
-  ["Rest and reset","Rest","No workout required","—","Recover, hydrate, and prepare for the next week."]
- ]}
+const WARMUP=[
+ {name:"March in place",target:"60 seconds",detail:"Move at a comfortable pace."},
+ {name:"Arm circles",target:"30 seconds",detail:"Use gentle, controlled circles."},
+ {name:"Side steps",target:"45 seconds",detail:"Step from side to side."},
+ {name:"Easy bodyweight squats",target:"10 repetitions",detail:"Use a comfortable, controlled range of motion."},
+ {name:"Gentle hip and shoulder movements",target:"60 seconds",detail:"Move smoothly. Do not force a stretch."}
 ];
 
-const WARMUP = [
- ["March in place","60 sec","Start at a comfortable pace."],
- ["Arm circles","30 sec","Use gentle, controlled circles."],
- ["Side steps","45 sec","Step from side to side."],
- ["Easy bodyweight squats","10 reps","Stay in a comfortable range of motion."],
- ["Gentle hip and shoulder movements","60 sec","Move smoothly without forcing the stretch."]
+const SCHEDULE=[
+ {key:"A",name:"Workout A — Full Body",type:"strength",duration:"25–35 min",short:"STRENGTH",items:[
+  {name:"Bodyweight squats",sets:3,reps:"12–15 reps",rest:"60 sec",technique:"Keep your heels grounded and knees aligned with your feet."},
+  {name:"Push-ups",sets:3,reps:"6–12 reps",rest:"60–90 sec",technique:"Use regular, knee, or wall push-ups to maintain good form."},
+  {name:"Reverse lunges",sets:2,reps:"8–10 per leg",rest:"60 sec",technique:"Step backward and lower only as far as you can control."},
+  {name:"Glute bridges",sets:3,reps:"12–15 reps",rest:"45–60 sec",technique:"Lift your hips by squeezing your glutes."},
+  {name:"Plank",sets:3,reps:"20–40 seconds",rest:"45–60 sec",technique:"Keep your body aligned and breathe normally."},
+  {name:"Marching in place",sets:2,reps:"60 seconds",rest:"30 sec",technique:"March at a comfortable pace."}
+ ]},
+ {key:"TUE",name:"Cardio or brisk walking",type:"cardio",duration:"20–25 min",short:"CARDIO",choices:["Brisk walking","Marching in place","Side steps","Dancing"],detail:"Breathe faster, but remain able to speak in sentences."},
+ {key:"B",name:"Workout B — Full Body",type:"strength",duration:"25–35 min",short:"STRENGTH",items:[
+  {name:"Reverse lunges",sets:3,reps:"8–10 per leg",rest:"60–90 sec",technique:"Use support if you need help with balance."},
+  {name:"Push-ups",sets:3,reps:"6–12 reps",rest:"60–90 sec",technique:"Choose a push-up variation that lets you maintain good technique."},
+  {name:"Single-leg glute bridges",sets:2,reps:"8–10 per leg",rest:"60 sec",technique:"Return to regular two-leg bridges if the movement is too difficult."},
+  {name:"Dead bugs",sets:3,reps:"8–10 per side",rest:"45–60 sec",technique:"Move slowly and keep your torso stable."},
+  {name:"Calf raises",sets:3,reps:"15–20 reps",rest:"45 sec",technique:"Pause briefly at the top and lower under control."},
+  {name:"Side steps",sets:2,reps:"60 seconds",rest:"30 sec",technique:"Use controlled, steady movement."}
+ ]},
+ {key:"THU",name:"Recovery or light stretching",type:"recovery",duration:"5–10 min",short:"RECOVERY",detail:"Gentle movement only. Recovery is not another hard workout."},
+ {key:"C",name:"Workout C — Full Body + Conditioning",type:"strength",duration:"25–35 min",short:"STRENGTH",items:[
+  {name:"Bodyweight squats",sets:3,reps:"12–15 reps",rest:"60 sec",technique:"Keep your heels grounded and control the lowering phase."},
+  {name:"Incline or regular push-ups",sets:3,reps:"8–12 reps",rest:"60–90 sec",technique:"Use a sturdy, non-slip counter for incline push-ups."},
+  {name:"Alternating reverse lunges",sets:2,reps:"8 per leg",rest:"60 sec",technique:"Keep each repetition controlled."},
+  {name:"Bird dogs",sets:2,reps:"8–10 per side",rest:"45 sec",technique:"Move slowly with minimal torso movement."},
+  {name:"Mountain climbers",sets:3,reps:"20–30 seconds",rest:"45 sec",technique:"Move slowly or replace with standing knee raises."},
+  {name:"Marching or step-touch",sets:3,reps:"45 seconds",rest:"30 sec",technique:"Choose a low-impact variation if necessary."}
+ ]},
+ {key:"SAT",name:"Cardio or enjoyable activity",type:"cardio",duration:"20–30 min",short:"CARDIO",choices:["Walking","Dancing","Cycling","Recreational sports","Marching in place"],detail:"Choose an enjoyable activity you can sustain comfortably."},
+ {key:"SUN",name:"Full rest + weekly review",type:"rest",duration:"Rest day",short:"REST",detail:"No workout is prescribed. Review your week on Sunday."}
 ];
 
-const WEEK_CHECKS = [
- ["Monday — Workout A completed","Record your full-body strength session."],
- ["Tuesday — Cardio or walk completed","Record your cardio activity."],
- ["Wednesday — Workout B completed","Record your full-body strength session."],
- ["Thursday — Recovery taken","Allow time for recovery or gentle stretching."],
- ["Friday — Workout C completed","Record strength and conditioning."],
- ["Saturday — Cardio completed","Record your cardio or enjoyable activity."],
- ["Sunday — Rested and prepared","Take your rest day and prepare for the next week."],
- ["Technique maintained","Adjusted variations when necessary."],
- ["Recovery supported","Allowed time for regular meals, hydration, and sleep."]
+const WEEKLY_REVIEW=[
+ "Monday — Workout A completed",
+ "Tuesday — Cardio or walk completed",
+ "Wednesday — Workout B completed",
+ "Thursday — Recovery taken",
+ "Friday — Workout C completed",
+ "Saturday — Cardio completed",
+ "Sunday — Rested and prepared",
+ "Used good technique and adjusted exercises when needed",
+ "Ate regular meals and allowed enough recovery"
 ];
 
-const PROGRESSION = [
- ["WEEKS 01–02","Build your baseline","Complete listed sets with controlled technique.","20 min cardio sessions."],
- ["WEEKS 03–04","Build capacity","Add repetitions within the listed ranges when comfortable.","20–25 min cardio sessions."],
- ["WEEKS 05–06","Controlled overload","Add one set to selected exercises if recovery is good.","25 min cardio sessions."],
- ["WEEKS 07–08","Refine technique","Try a slightly harder variation or slower repetitions.","25–30 min cardio sessions."]
+const PROGRESSION=[
+ {weeks:"WEEKS 01–02",title:"Build your baseline",strength:"Complete the listed sets with controlled technique.",cardio:"20 minutes per session."},
+ {weeks:"WEEKS 03–04",title:"Build capacity",strength:"Add repetitions within the listed ranges when comfortable.",cardio:"20–25 minutes per session."},
+ {weeks:"WEEKS 05–06",title:"Controlled overload",strength:"Add one set to selected exercises if recovery is good.",cardio:"25 minutes per session."},
+ {weeks:"WEEKS 07–08",title:"Refine technique",strength:"Try a slightly harder variation or slower repetitions.",cardio:"25–30 minutes per session."}
 ];
 
-function todayISO(){return iso(new Date());}
-function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
-function fromISO(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,12);}
-function monday(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);x.setDate(x.getDate()+(x.getDay()===0?-6:1-x.getDay()));return x;}
-function dayIdx(d){return (d.getDay()+6)%7;}
-function plusDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
-function weekStart(n){return plusDays(monday(fromISO(state.startDate)),(n-1)*7);}
-function weekNo(d){return Math.floor((monday(d)-monday(fromISO(state.startDate)))/604800000)+1;}
-function dateInProgram(d){const delta=Math.round((monday(d)-monday(fromISO(state.startDate)))/604800000);return d>=fromISO(state.startDate)&&delta>=0&&delta<8;}
-function validDay(d){return dateInProgram(d)&&weekNo(d)>=1&&weekNo(d)<=8;}
-function weekDates(n){return Array.from({length:7},(_,i)=>plusDays(weekStart(n),i));}
-function planFor(d){return PLAN[dayIdx(d)];}
-function dateLabel(d){return d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});}
-function rangeLabel(n){const a=weekStart(n),b=plusDays(a,6);return `${a.toLocaleDateString(undefined,{month:"short",day:"numeric"})} – ${b.toLocaleDateString(undefined,{month:"short",day:"numeric"})}`;}
-function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function defaultState(){return {version:2,name:"ATHLETE",startDate:todayISO(),activities:{},reviews:{},drafts:{}};}
-
-function migrateLegacy(old){
- const next=defaultState();
- if(!old||typeof old!=="object")return next;
- if(typeof old.name==="string")next.name=old.name.toUpperCase().slice(0,32)||"ATHLETE";
- if(typeof old.startDate==="string")next.startDate=old.startDate;
- if(old.activities&&typeof old.activities==="object"){
-  for(const [date,a] of Object.entries(old.activities)){
-   if(!a||typeof a!=="object")continue;
-   const d=fromISO(date);
-   const p=Number.isNaN(d.getTime())?null:planFor(d);
-   next.activities[date]={completed:!!a.completed,type:a.type||(p&&p.type)||"strength",
-    name:a.name||(p&&p.name)||"Activity",checks:Array.isArray(a.checks)?a.checks:[],
-    updatedAt:a.updatedAt||null};
+function localISO(d){
+ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function parseISO(s){
+ if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s))return new Date(NaN);
+ const [y,m,d]=s.split("-").map(Number);
+ return new Date(y,m-1,d,12,0,0);
+}
+function monday(d){
+ const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);
+ x.setDate(x.getDate()+(x.getDay()===0?-6:1-x.getDay()));
+ return x;
+}
+function dayIndex(d){return (d.getDay()+6)%7;}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function dateText(d){return d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});}
+function weekNumber(d){
+ const delta=Math.round((monday(d)-monday(parseISO(state.startDate)))/604800000);
+ return delta+1;
+}
+function weekStart(n){return addDays(monday(parseISO(state.startDate)),(n-1)*7);}
+function weekDates(n){return Array.from({length:7},(_,i)=>addDays(weekStart(n),i));}
+function rangeText(n){
+ const a=weekStart(n),b=addDays(a,6);
+ return `${a.toLocaleDateString(undefined,{month:"short",day:"numeric"})} – ${b.toLocaleDateString(undefined,{month:"short",day:"numeric"})}`;
+}
+function inProgram(d){
+ return d>=parseISO(state.startDate)&&weekNumber(d)>=1&&weekNumber(d)<=8;
+}
+function todayIndex(){return dayIndex(new Date());}
+function todayPlan(){return SCHEDULE[todayIndex()];}
+function cardioMinutes(d){
+ const w=Math.max(1,Math.min(8,weekNumber(d)));
+ if(w<=2)return 20;
+ if(w<=4)return 20;
+ if(w<=6)return 25;
+ return 25;
+}
+function escapeHTML(v){
+ return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function defaultState(){
+ return {version:3,name:"ATHLETE",startDate:localISO(new Date()),sessions:{},reviews:{},drafts:{}};
+}
+function migrateOld(old){
+ const n=defaultState();
+ if(old.name)n.name=String(old.name).toUpperCase().slice(0,32);
+ if(typeof old.startDate==="string"&&parseISO(old.startDate).getTime())n.startDate=old.startDate;
+ const acts=old.sessions||old.activities||{};
+ for(const [date,a] of Object.entries(acts)){
+  if(!a||typeof a!=="object")continue;
+  const wasComplete=a.status==="completed"||a.completed===true;
+  if(!wasComplete)continue;
+  const d=parseISO(date);
+  if(Number.isNaN(d.getTime()))continue;
+  const p=SCHEDULE[dayIndex(d)];
+  n.sessions[date]={
+   date,week:weekNumber(d),key:p.key,status:"completed",phase:"done",name:p.name,
+   type:p.type,completedAt:a.completedAt||a.finishedAt||a.updatedAt||new Date().toISOString(),
+   warmupDone:WARMUP.map(()=>true),exerciseIndex:p.type==="strength"?p.items.length:0,
+   setCounts:p.type==="strength"?p.items.map(x=>x.sets):[],choice:p.choices?p.choices[0]:""
+  };
+ }
+ const oldReviews=old.reviews||{};
+ for(const [k,v] of Object.entries(oldReviews)){
+  if(/^\d+$/.test(k)&&v&&typeof v==="object"){
+   n.reviews[k]={checks:Array.from({length:9},(_,i)=>!!(v.checks&&v.checks[i])),completed:Number(v.completed)||0,total:Number(v.total)||6,savedAt:v.savedAt||new Date().toISOString()};
   }
  }
- if(old.reviews&&typeof old.reviews==="object"){
-  for(const [k,v] of Object.entries(old.reviews)){
-   if(/^\d+$/.test(k)&&v&&typeof v==="object"){
-    next.reviews[k]={checks:Array.isArray(v.checks)?v.checks.map(Boolean):[],completed:Number(v.completed)||0,total:Number(v.total)||6,savedAt:v.savedAt||new Date().toISOString()};
-   }else if(k.startsWith("draft-")&&v&&typeof v==="object"){
-    next.drafts[k.slice(6)]=v;
-   }
-  }
- }
- return next;
+ return n;
 }
 function loadState(){
  try{
-  const raw=localStorage.getItem(STORE);
-  if(raw){
-   const s=JSON.parse(raw);
-   if(s&&s.version===2&&s.activities&&s.reviews)return {...defaultState(),...s};
+  const r=localStorage.getItem(STORAGE_KEY);
+  if(r){
+   const v=JSON.parse(r);
+   if(v&&v.version===3&&v.sessions&&v.reviews)return {...defaultState(),...v};
   }
-  const legacy=localStorage.getItem(LEGACY_STORE);
-  if(legacy){const migrated=migrateLegacy(JSON.parse(legacy));localStorage.setItem(STORE,JSON.stringify(migrated));return migrated;}
- }catch(e){console.warn("Could not read saved AXIOM state.",e);}
+  for(const key of OLD_KEYS){
+   const raw=localStorage.getItem(key);
+   if(raw){
+    const migrated=migrateOld(JSON.parse(raw));
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(migrated));
+    return migrated;
+   }
+  }
+ }catch(e){console.warn("Local progress could not be read.",e);}
  return defaultState();
 }
 let state=loadState();
-let selectedWorkout="A";
-let selectedDate=todayISO();
-let calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
-let sessionMode=false;
-let sessionIndex=0;
-let timerTotal=60,timerLeft=60,timerRunning=false,timerID=null,toastID=null;
+let currentPage="today";
+let historyWeek=1;
+let calendarInterval=null;
+let toastTimeout=null;
+let timerInterval=null;
 
-function save(){
- try{localStorage.setItem(STORE,JSON.stringify(state));}
- catch(e){notify("Storage issue. Export your backup to protect your progress.");}
+function persist(){
+ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+ catch(e){notify("Storage error. Export a backup before continuing.");}
 }
-function notify(msg){
- const el=document.getElementById("toast");el.textContent=msg;el.style.display="block";
- clearTimeout(toastID);toastID=setTimeout(()=>el.style.display="none",2600);
+function notify(text){
+ const el=document.getElementById("toast");
+ el.textContent=text;el.style.display="block";
+ clearTimeout(toastTimeout);
+ toastTimeout=setTimeout(()=>el.style.display="none",2600);
 }
-function record(d){return state.activities[iso(d)]||null;}
-function isDone(d){return !!(record(d)&&record(d).completed);}
-function completedInWeek(n){return weekDates(n).filter(d=>validDay(d)&&dayIdx(d)<6&&isDone(d)).length;}
-function possibleInWeek(n){return weekDates(n).filter(d=>validDay(d)&&dayIdx(d)<6).length;}
-function totalCompleted(){return Object.values(state.activities).filter(x=>x&&x.completed).length;}
-function completedType(type){return Object.values(state.activities).filter(x=>x&&x.completed&&x.type===type).length;}
-function numericReviewKeys(){return Object.keys(state.reviews).filter(k=>/^\d+$/.test(k)).map(Number).sort((a,b)=>a-b);}
-function saveRecord(d,data){
- const id=iso(d);
- state.activities[id]={...(state.activities[id]||{}),...data,updatedAt:new Date().toISOString()};
- save();
+function getSession(d=new Date()){return state.sessions[localISO(d)]||null;}
+function completed(d){const s=getSession(d);return !!s&&s.status==="completed";}
+function scheduledActivity(d){return SCHEDULE[dayIndex(d)];}
+function completedInWeek(n){
+ return weekDates(n).filter(d=>inProgram(d)&&dayIndex(d)!==6&&completed(d)).length;
 }
-function markSimpleComplete(d){
- if(!validDay(d)){notify("Outside the eight-week program.");return;}
- const p=planFor(d);
- if(p.type==="rest"||dayIdx(d)===6){notify("Rest day. No workout is required.");return;}
- if(isDone(d)){notify("This activity is already recorded.");return;}
- saveRecord(d,{completed:true,type:p.type,name:p.name,checks:[]});
- save();renderAll();notify("Activity recorded.");
+function possibleInWeek(n){
+ return weekDates(n).filter(d=>inProgram(d)&&dayIndex(d)!==6).length;
 }
-function pageTitle(page){
- const m={
-  dashboard:["AXIOM / CONTROL CENTER","Command center.","Consistency is the system. Progress is the output."],
-  train:["AXIOM / TRAINING MODULE","Training mode.","Focus on one task. Complete it properly."],
-  calendar:["AXIOM / ACTIVITY LOG","Schedule & history.","Your plan, dates, and recorded sessions."],
-  review:["AXIOM / WEEKLY AUDIT","Review. Confirm. Reset.","Weekly checklists unlock on Sundays only."],
-  insights:["AXIOM / PERFORMANCE ANALYTICS","Your performance.","Measure consistency, strength sessions, and cardio."],
-  settings:["AXIOM / SYSTEM CONFIGURATION","Preferences.","Manage your profile, dates, and backup."]
- };
- const t=m[page]||m.dashboard;
- document.getElementById("breadcrumb").textContent=t[0];
- document.getElementById("pageHeading").textContent=t[1];
- document.getElementById("pageSub").textContent=t[2];
+function missedInWeek(n){
+ const now=localISO(new Date());
+ return weekDates(n).filter(d=>inProgram(d)&&dayIndex(d)!==6&&localISO(d)<now&&!completed(d)).length;
 }
+function allCompleted(){
+ return Object.values(state.sessions).filter(s=>s&&s.status==="completed").length;
+}
+function programSessionAvailable(d){
+ return inProgram(d)&&dayIndex(d)!==6;
+}
+function currentSession(){
+ const s=getSession(new Date());
+ return s&&s.status==="active"?s:null;
+}
+function statusOf(d){
+ if(!inProgram(d))return "OUTSIDE";
+ const p=scheduledActivity(d),s=getSession(d),id=localISO(d),now=localISO(new Date());
+ if(p.type==="rest")return "REST";
+ if(s&&s.status==="completed")return "COMPLETED";
+ if(id===now&&s&&s.status==="active")return "IN PROGRESS";
+ if(id<now)return "MISSED";
+ if(id===now)return "TODAY";
+ return "UPCOMING";
+}
+function cardioTargetMinutes(d){return cardioMinutes(d);}
+
 function go(page){
- sessionMode=false;
- document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+page));
- document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
- pageTitle(page);
- if(page==="train")renderTrain();
- if(page==="calendar")renderCalendar();
- if(page==="review")renderReview();
- if(page==="insights")renderInsights();
+ if(page!=="session")document.body.classList.remove("focus");
+ currentPage=page;
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
+ document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ const titles={
+  today:["STRATA / DAILY DIRECTIVE","Today's directive.","One day. One task. No guesswork."],
+  plan:["STRATA / PROTOCOL SPECIFICATION","The weekly schedule.","Open a day for the exact instructions."],
+  history:["STRATA / TRAINING RECORD","History.","Completed sessions, missed days, and weekly reviews."],
+  settings:["STRATA / SYSTEM CONFIGURATION","Settings.","Configure the program and protect your records."],
+  session:["STRATA / ACTIVE SESSION","Active session.","Follow the prescribed sequence."]
+ };
+ const t=titles[page]||titles.today;
+ document.getElementById("crumb").textContent=t[0];
+ document.getElementById("heading").textContent=t[1];
+ document.getElementById("subheading").textContent=t[2];
+ document.getElementById("topbar").style.display=page==="session"?"none":"flex";
+ document.body.classList.toggle("focus",page==="session");
+ if(page==="today")renderToday();
+ if(page==="plan")renderPlan();
+ if(page==="history")renderHistory();
  if(page==="settings")renderSettings();
+ if(page==="session")renderSession();
  window.scrollTo({top:0,behavior:"smooth"});
 }
-document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
 document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.goto)));
-document.getElementById("quickSettings").addEventListener("click",()=>go("settings"));
 
 function updateClock(){
- const d=new Date();
- document.getElementById("liveClock").textContent=d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+ document.getElementById("clock").textContent=new Date().toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"});
 }
-setInterval(updateClock,1000);updateClock();
+updateClock();
+setInterval(updateClock,15000);
 
-function todayWorkoutKey(){
- const i=dayIdx(new Date());
- return ["A","cardio","B","recovery","C","cardio","rest"][i];
-}
-function planByKey(key){
- if(key==="A")return PLAN[0];
- if(key==="B")return PLAN[2];
- if(key==="C")return PLAN[4];
- if(key==="cardio")return dayIdx(new Date())===5?PLAN[5]:PLAN[1];
- if(key==="warmup")return null;
- return PLAN[dayIdx(new Date())];
-}
-function renderDashboard(){
- const now=new Date(),w=weekNo(now),inside=validDay(now),idx=dayIdx(now),p=planFor(now);
- const safeWeek=Math.max(1,Math.min(8,w));
- document.getElementById("cycleLabel").textContent=inside?`PROTOCOL 01 / WEEK ${String(w).padStart(2,"0")}`:w>8?"PROTOCOL COMPLETE":"AWAITING START DATE";
- const heroTitles=["Build your baseline.","Find your rhythm.","Build your capacity.","Refine your execution."];
- document.getElementById("heroTitle").innerHTML=w>8?"Protocol<br>complete.":` ${heroTitles[Math.min(3,Math.max(0,Math.floor((safeWeek-1)/2)))].replace(" ","<br>")}`;
- document.getElementById("heroDescription").textContent=w>8?"Your eight-week cycle has ended. Review your final report and preserved training history.":"No extremes. No guessing. Follow the plan, finish each session, and recover properly.";
- document.getElementById("heroWeekNumber").textContent=String(safeWeek).padStart(2,"0");
- document.getElementById("heroStart").textContent=idx===6?"Review this week →":isDone(now)?"Session recorded ✓":"Initialize today's session ↗";
- document.getElementById("statWeek").innerHTML=`${String(safeWeek).padStart(2,"0")}<span class="muted"> / 08</span>`;
- document.getElementById("statWeekNote").textContent=inside?rangeLabel(safeWeek):w>8?"Cycle ended":"Not started";
- document.getElementById("statActivities").innerHTML=`${completedInWeek(safeWeek)}<span class="muted"> / ${possibleInWeek(safeWeek)}</span>`;
- document.getElementById("statTotal").textContent=String(totalCompleted()).padStart(2,"0");
- document.getElementById("timelineLabel").textContent=`WEEK ${String(safeWeek).padStart(2,"0")}`;
- document.getElementById("todayType").textContent=idx===6?"RECOVERY PROTOCOL":p.type.toUpperCase()+" PROTOCOL";
- document.getElementById("todayName").textContent=p.name;
- document.getElementById("todayMeta").textContent=`${p.duration} · ${dateLabel(now)}`;
- document.getElementById("todayDuration").textContent=idx===6?"REST DAY":p.duration.toUpperCase();
- document.getElementById("todayStatus").textContent=idx===6?"REST DAY":isDone(now)?"COMPLETED":"SCHEDULED";
- document.getElementById("todayInstruction").textContent=idx===6?"Recovery is part of the plan. Rest and prepare for the next week.":isDone(now)?"Your activity has been recorded for today.":"Finish the scheduled exercises before marking a strength session complete.";
- document.getElementById("todayLaunch").textContent=idx===6?"Open weekly review →":isDone(now)?"View session record →":"Enter training mode →";
- document.getElementById("executionRate").textContent=Math.round(completedInWeek(safeWeek)/Math.max(1,possibleInWeek(safeWeek))*100)+"%";
- document.getElementById("executionBar").style.width=document.getElementById("executionRate").textContent;
- document.getElementById("executionText").textContent=`${completedInWeek(safeWeek)} of ${possibleInWeek(safeWeek)} scheduled activities completed this week.`;
+function renderToday(){
+ const now=new Date(),idx=dayIndex(now),p=SCHEDULE[idx],w=weekNumber(now);
+ const wk=Math.max(1,Math.min(8,w)),s=getSession(now),done=completed(now),valid=inProgram(now);
+ document.getElementById("weekCode").textContent=valid?`PROGRAM 01 / WEEK ${String(w).padStart(2,"0")}`:w>8?"PROGRAM COMPLETE":"PROGRAM NOT STARTED";
+ document.getElementById("ringWeek").textContent=String(wk).padStart(2,"0");
+ const headlines=["Show up.<br>Execute.","Build your<br>capacity.","Stay<br>consistent.","Recover.<br>Return stronger."];
+ document.getElementById("heroTitle").innerHTML=w>8?"Cycle<br>complete.":headlines[Math.min(3,Math.floor((wk-1)/2))];
+ document.getElementById("heroDesc").textContent=!valid?(w>8?"The eight-week program has ended. Your history remains available.":"Your program start date is in the future. Change it in settings when you're ready."):"Your weekday sets the assignment. Complete today's prescribed work; tomorrow's workout stays locked until tomorrow.";
+ document.getElementById("todayDay").textContent=`${LONG[idx].toUpperCase()} / ${p.short}`;
+ document.getElementById("todayTitle").textContent=p.name;
+ document.getElementById("todayDescription").textContent=`${p.duration} · ${p.type==="strength"?"Bodyweight only":p.type==="cardio"?`${cardioTargetMinutes(now)} minute target`:"Light movement or stretching"}`;
+ document.getElementById("todayState").textContent=!valid?(w>8?"PROGRAM ENDED":"NOT STARTED"):done?"COMPLETED":idx===6?"REST DAY":s&&s.status==="active"?"IN PROGRESS":"SCHEDULED";
+ document.getElementById("todayRule").textContent=idx===6?"Sunday is your full rest day. Weekly review is available today.":done?"Today's activity is already recorded. It cannot be completed a second time.":idx===3?"Complete at least five minutes of light recovery using the timer.":p.type==="cardio"?`Choose an activity and complete the ${cardioTargetMinutes(now)}-minute timer.`:"Complete every warm-up step and every prescribed set in order.";
+ document.getElementById("actionGlyph").textContent=done?"✓":idx===6?"↻":"↗";
+ document.getElementById("actionLabel").textContent=done?"RECORD COMPLETE":idx===6?"SUNDAY RESET":"NEXT ACTION";
+ document.getElementById("actionTitle").textContent=!valid?(w>8?"Program finished":"Waiting for start date"):done?"You're finished for today":idx===6?"Review this week":s&&s.status==="active"?"Resume today's session":idx===3?"Start recovery":"Begin "+(p.type==="cardio"?"cardio":"training");
+ const button=document.getElementById("todayButton");
+ button.textContent=!valid?(w>8?"VIEW FINAL REPORT":"SET PROGRAM DATE"):done?"SESSION COMPLETE ✓":idx===6?"OPEN SUNDAY REVIEW →":s&&s.status==="active"?"RESUME SESSION →":"BEGIN SESSION →";
+ button.disabled=(!valid||done);
+ const heroButton=document.getElementById("heroButton");
+ heroButton.textContent=!valid?(w>8?"VIEW FINAL REPORT":"SET PROGRAM DATE"):done?"TODAY COMPLETE ✓":idx===6?"OPEN SUNDAY REVIEW →":s&&s.status==="active"?"RESUME SESSION ↗":"BEGIN TODAY'S SESSION ↗";
+ heroButton.disabled=!valid||done;
+ document.getElementById("weekRange").textContent=`WEEK ${String(wk).padStart(2,"0")} / ${rangeText(wk)}`;
+ const doneN=completedInWeek(wk),possible=possibleInWeek(wk);
+ document.getElementById("weekProgressText").textContent=`${doneN} / ${possible} scheduled sessions completed`;
+ const pct=Math.round(doneN/Math.max(1,possible)*100);
+ document.getElementById("weekProgressPercent").textContent=pct+"%";
+ document.getElementById("weekProgressBar").style.width=pct+"%";
  const strip=document.getElementById("dayStrip");strip.innerHTML="";
- weekDates(safeWeek).forEach(d=>{
-  const i=dayIdx(d),el=document.createElement("div");
-  el.className="day-cell"+(iso(d)===todayISO()?" current":"")+(isDone(d)?" done":"")+(i===6?" rest":"")+(d<new Date(now.getFullYear(),now.getMonth(),now.getDate())&&!isDone(d)?" future":"");
-  el.innerHTML=`<div class="dname">${SHORT[i]}</div><div class="dnum">${d.getDate()}</div><div class="dstate"></div>`;
-  el.title=planFor(d).name;strip.appendChild(el);
+ weekDates(wk).forEach(d=>{
+  const st=statusOf(d),i=dayIndex(d),el=document.createElement("div");
+  el.className="day"+(localISO(d)===localISO(now)?" today":"")+(st==="COMPLETED"?" complete":"")+(st==="REST"?" rest":"")+(st==="MISSED"?" missed":"")+(st==="UPCOMING"?" future":"");
+  el.innerHTML=`<div class="day-name">${SHORT[i]}</div><div class="day-num">${d.getDate()}</div><div class="day-mark"></div>`;
+  el.title=`${dateText(d)} — ${scheduledActivity(d).name}: ${st}`;
+  strip.appendChild(el);
  });
- const upcoming=document.getElementById("upcomingList");upcoming.innerHTML="";
- const dates=weekDates(safeWeek).filter(d=>d>=new Date(now.getFullYear(),now.getMonth(),now.getDate())&&dayIdx(d)!==6);
- dates.slice(0,4).forEach(d=>{
-  const p2=planFor(d),done=isDone(d),el=document.createElement("div");
-  el.className="list-row";
-  el.innerHTML=`<div class="list-marker">${SHORT[dayIdx(d)]}</div><div class="list-copy"><strong>${escapeHTML(p2.name)}</strong><small>${d.toLocaleDateString(undefined,{month:"short",day:"numeric"})} · ${escapeHTML(p2.duration)}</small></div><div class="list-end">${done?"✓ DONE":iso(d)===todayISO()?"TODAY":"NEXT"}</div>`;
-  upcoming.appendChild(el);
- });
- if(!dates.length)upcoming.innerHTML='<div class="empty-state"><div class="empty-icon">✓</div><h3>Schedule clear.</h3><p>No remaining weekday activities in this week.</p></div>';
+ document.getElementById("statusText").textContent=idx===6?"No workout today. Your only program task is rest; the weekly review is unlocked.":done?"Today's assigned activity is saved. The program will switch automatically at midnight.":s&&s.status==="active"?"An unfinished session is saved. Resume it to continue from the last completed step.":`Today is ${LONG[idx]}. The active assignment is ${p.name}. Sessions for other days are unavailable.`;
 }
-document.getElementById("heroStart").addEventListener("click",()=>launchToday());
-document.getElementById("todayLaunch").addEventListener("click",()=>launchToday());
-function launchToday(){
- if(dayIdx(new Date())===6){go("review");return;}
- go("train");selectedWorkout=todayWorkoutKey();renderTrain();
- if(!isDone(new Date()))startSession();
+function openToday(){
+ const d=new Date(),p=todayPlan();
+ if(!inProgram(d)){go("settings");notify("Set a valid program start date first.");return;}
+ if(p.type==="rest"){go("history");setTimeout(()=>document.getElementById("reviewUI").scrollIntoView({behavior:"smooth",block:"center"}),100);return;}
+ if(completed(d)){notify("Today's session is already recorded.");return;}
+ beginTodaySession();
 }
+document.getElementById("todayButton").addEventListener("click",openToday);
+document.getElementById("heroButton").addEventListener("click",openToday);
 
-function renderTrain(){
- const p=planByKey(selectedWorkout);
- document.querySelectorAll("[data-workout]").forEach(b=>b.classList.toggle("active",b.dataset.workout===selectedWorkout));
- const todayP=planFor(new Date()),todayDone=isDone(new Date()),idx=dayIdx(new Date());
- document.getElementById("trainScheduleTitle").textContent=todayP.name;
- document.getElementById("trainScheduleStatus").textContent=idx===6?"REST DAY":todayDone?"COMPLETED":"SCHEDULED";
- document.getElementById("beginSession").disabled=idx===6||todayDone;
- document.getElementById("beginSession").textContent=idx===6?"Rest day — no session required":todayDone?"Today's session is recorded":"Start today's session →";
- document.getElementById("sessionRule").textContent=idx===6?"Recovery is part of the program.":"Only today's scheduled activity can be recorded.";
- const root=document.getElementById("libraryContent");
- if(selectedWorkout==="warmup"){
-  root.innerHTML=`<div class="micro">4–5 MINUTES · BEFORE EVERY STRENGTH SESSION</div>${WARMUP.map((x,i)=>`<div class="exercise-row"><div class="exercise-num">${String(i+1).padStart(2,"0")}</div><div class="exercise-copy"><strong>${escapeHTML(x[0])}</strong><div class="exercise-meta"><span>${escapeHTML(x[1])}</span></div><p>${escapeHTML(x[2])}</p></div></div>`).join("")}`;
- }else{
-  root.innerHTML=`<div class="micro cyan">${escapeHTML(p.type)} · ${escapeHTML(p.duration)}</div><h2 style="margin:9px 0">${escapeHTML(p.name)}</h2><div class="notice">${p.type==="strength"?"Complete every listed exercise before finishing your session. Rest 45–90 seconds between sets.":"Choose an activity you can sustain. Breathe faster while remaining able to speak in sentences."}</div>`+
-   p.items.map((x,i)=>`<div class="exercise-row"><div class="exercise-num">${String(i+1).padStart(2,"0")}</div><div class="exercise-copy"><strong>${escapeHTML(x[0])}</strong><div class="exercise-meta"><span>${escapeHTML(x[1])}</span><span>${escapeHTML(x[2])}</span><span>REST ${escapeHTML(x[3])}</span></div><p>${escapeHTML(x[4])}</p></div></div>`).join("");
- }
- document.getElementById("activeSession").style.display=sessionMode?"block":"none";
- if(sessionMode)renderSession();
-}
-document.querySelectorAll("[data-workout]").forEach(b=>b.addEventListener("click",()=>{
- sessionMode=false;selectedWorkout=b.dataset.workout;renderTrain();
-}));
-document.getElementById("beginSession").addEventListener("click",startSession);
-
-function sessionPlan(){return planByKey(selectedWorkout==="warmup"?todayWorkoutKey():selectedWorkout);}
-function startSession(){
- const today=new Date(),p=planFor(today);
- if(dayIdx(today)===6){notify("Sunday is your full rest day.");return;}
- if(!validDay(today)){notify("Today's date is outside the eight-week program.");return;}
- if(isDone(today)){notify("Today's session has already been recorded.");return;}
- selectedWorkout=todayWorkoutKey();
- sessionMode=true;
- const rec=record(today);
- if(!rec||!Array.isArray(rec.checks))saveRecord(today,{completed:false,type:p.type,name:p.name,checks:[]});
- sessionIndex=firstUnchecked();
- renderTrain();
- document.getElementById("activeSession").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function sessionItems(){return planFor(new Date()).items;}
-function sessionRecord(){
- const d=todayISO(),p=planFor(new Date());
- if(!state.activities[d])state.activities[d]={completed:false,type:p.type,name:p.name,checks:[]};
- if(!Array.isArray(state.activities[d].checks))state.activities[d].checks=[];
- return state.activities[d];
-}
-function firstUnchecked(){
- const checks=sessionRecord().checks,items=sessionItems();
- const index=checks.findIndex(v=>!v);
- return index<0?Math.max(0,items.length-1):index;
-}
-function renderSession(){
- const items=sessionItems(),rec=sessionRecord();
- sessionIndex=Math.max(0,Math.min(sessionIndex,items.length-1));
- const x=items[sessionIndex],checked=!!rec.checks[sessionIndex];
- document.getElementById("exerciseCounter").textContent=`EXERCISE ${String(sessionIndex+1).padStart(2,"0")} / ${String(items.length).padStart(2,"0")}`;
- document.getElementById("sessionTrack").innerHTML=items.map((_,i)=>`<span class="${rec.checks[i]?"passed":""}"></span>`).join("");
- document.getElementById("exerciseFocus").innerHTML=`
-  <div class="focus-num">STEP ${String(sessionIndex+1).padStart(2,"0")} — ${String(items.length).padStart(2,"0")}</div>
-  <h2>${escapeHTML(x[0])}</h2><p>${escapeHTML(x[4])}</p>
-  <div class="rep-row"><div class="rep-block"><small>SETS</small><strong>${escapeHTML(x[1])}</strong></div><div class="rep-block"><small>TARGET</small><strong>${escapeHTML(x[2])}</strong></div><div class="rep-block"><small>REST</small><strong>${escapeHTML(x[3])}</strong></div></div>
-  <p class="${checked?"accent":""}">${checked?"✓ Exercise recorded.":"Complete the prescribed movement with good technique."}</p>`;
- document.getElementById("completeExercise").textContent=checked?"Exercise complete ✓":"Complete exercise ✓";
- document.getElementById("completeExercise").disabled=checked;
- document.getElementById("previousExercise").disabled=sessionIndex===0;
- document.getElementById("nextExercise").textContent=sessionIndex===items.length-1?"Final exercise":"Next →";
- document.getElementById("sessionProgressText").textContent=`${rec.checks.filter(Boolean).length} of ${items.length} exercises completed`;
- document.getElementById("sessionWarmup").innerHTML=WARMUP.map(x=>`<div class="exercise-row"><div class="exercise-copy"><strong>${escapeHTML(x[0])}</strong><p>${escapeHTML(x[1])} · ${escapeHTML(x[2])}</p></div></div>`).join("");
-}
-document.getElementById("completeExercise").addEventListener("click",()=>{
- const rec=sessionRecord(),items=sessionItems();
- rec.checks[sessionIndex]=true;rec.completed=false;save();renderSession();
- if(rec.checks.filter(Boolean).length===items.length){
-  notify("All exercises completed. Finalize the session to record it.");
- }else{
-  const next=rec.checks.findIndex(v=>!v);
-  if(next>=0){sessionIndex=next;renderSession();}
- }
-});
-document.getElementById("previousExercise").addEventListener("click",()=>{sessionIndex=Math.max(0,sessionIndex-1);renderSession();});
-document.getElementById("nextExercise").addEventListener("click",()=>{
- const rec=sessionRecord(),items=sessionItems();
- if(sessionIndex===items.length-1){
-  const completed=rec.checks.filter(Boolean).length;
-  if(completed!==items.length){notify("Complete every exercise before finishing.");return;}
-  if(!confirm("Finalize this session and permanently record today's completion?"))return;
-  rec.completed=true;rec.type=planFor(new Date()).type;rec.name=planFor(new Date()).name;rec.finishedAt=new Date().toISOString();
-  save();sessionMode=false;renderAll();renderTrain();notify("Session recorded. Recover and return on schedule.");return;
- }
- sessionIndex++;renderSession();
-});
-document.getElementById("exitSession").addEventListener("click",()=>{
- if(!confirm("Exit training mode? Your completed exercise checks will be saved, but the session won't count as complete yet."))return;
- sessionMode=false;renderTrain();
-});
-function renderAll(){
- document.getElementById("userName").textContent=(state.name||"ATHLETE").toUpperCase();
- document.getElementById("avatar").textContent=(state.name||"A").charAt(0).toUpperCase();
- renderDashboard();renderTrain();renderCalendar();renderReview();renderInsights();renderSettings();
-}
-
-/* TIMER */
-function timerDisplay(){
- const m=Math.floor(timerLeft/60),s=timerLeft%60;
- document.getElementById("timerNumber").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
- document.getElementById("timerToggle").textContent=timerRunning?"Pause timer":"Start timer";
- document.getElementById("timerBar").style.width=((timerTotal-timerLeft)/Math.max(1,timerTotal)*100)+"%";
- document.getElementById("timerState").textContent=timerRunning?"TIMER RUNNING":timerLeft===0?"INTERVAL COMPLETE":"READY · REST WHEN NEEDED";
-}
-function pauseTimer(){
- timerRunning=false;if(timerID)clearInterval(timerID);timerID=null;timerDisplay();
-}
-function toggleTimer(){
- if(timerRunning){pauseTimer();return;}
- if(timerLeft<=0)timerLeft=timerTotal;
- timerRunning=true;timerDisplay();
- timerID=setInterval(()=>{
-  timerLeft--;
-  if(timerLeft<=0){
-   timerLeft=0;pauseTimer();notify("Rest interval complete.");
-   try{if("vibrate" in navigator)navigator.vibrate(150);}catch(e){}
-  }
-  timerDisplay();
- },1000);
-}
-document.getElementById("timerToggle").addEventListener("click",toggleTimer);
-document.getElementById("timerReset").addEventListener("click",()=>{pauseTimer();timerLeft=timerTotal;timerDisplay();});
-document.querySelectorAll("[data-time]").forEach(b=>b.addEventListener("click",()=>{
- pauseTimer();timerTotal=Number(b.dataset.time);timerLeft=timerTotal;timerDisplay();
-}));
-
-/* CALENDAR */
-function renderCalendar(){
- const grid=document.getElementById("calendarGrid");
- const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();
- document.getElementById("calendarMonthLabel").textContent=calendarMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"});
- grid.innerHTML=SHORT.map(x=>`<div class="cal-head">${x}</div>`).join("");
- const offset=dayIdx(new Date(y,m,1,12)),length=new Date(y,m+1,0).getDate();
- for(let i=0;i<offset;i++)grid.insertAdjacentHTML("beforeend",'<div class="cal-cell empty"></div>');
- for(let day=1;day<=length;day++){
-  const d=new Date(y,m,day,12),id=iso(d),p=planFor(d);
-  const el=document.createElement("button");
-  el.className="cal-cell"+(id===todayISO()?" today":"")+(isDone(d)?" completed":"")+(validDay(d)?"":" before");
-  let mark=validDay(d)?(isDone(d)?"✓ DONE":dayIdx(d)===6?"REST":p.type.toUpperCase()):"";
-  el.innerHTML=`<span class="cal-num">${day}</span><span class="cal-mark">${escapeHTML(mark)}</span>`;
-  el.addEventListener("click",()=>showDateDetails(d));
-  grid.appendChild(el);
- }
- showDateDetails(fromISO(selectedDate));
-}
-function showDateDetails(d){
- selectedDate=iso(d);
- const p=planFor(d),rec=record(d),status=rec&&rec.completed?"COMPLETED":dayIdx(d)===6?"REST DAY":validDay(d)?"SCHEDULED":"OUTSIDE PROGRAM";
- document.getElementById("selectedDateStatus").textContent=status;
- document.getElementById("calendarDetails").innerHTML=`<div class="micro">${escapeHTML(dateLabel(d))}</div><h3 style="font-size:16px;margin:8px 0">${escapeHTML(p.name)}</h3><p class="muted small">${escapeHTML(p.duration)} · ${escapeHTML(p.type.toUpperCase())}</p><div class="notice ${rec&&rec.completed?"good":""}">${rec&&rec.completed?"Activity completed and saved on this device.":dayIdx(d)===6?"Scheduled full rest day.":validDay(d)?"No completion record for this date.":"This date is outside the eight-week program."}</div>`;
-}
-document.getElementById("prevMonth").addEventListener("click",()=>{calendarMonth.setMonth(calendarMonth.getMonth()-1);renderCalendar();});
-document.getElementById("nextMonth").addEventListener("click",()=>{calendarMonth.setMonth(calendarMonth.getMonth()+1);renderCalendar();});
-
-/* SUNDAY-ONLY WEEKLY AUDIT */
-function reviewCandidates(){
- const max=Math.max(1,Math.min(8,weekNo(new Date())));
- const today=new Date(),sun=dayIdx(today)===6;
- const candidates=[];
- for(let n=1;n<=max;n++){
-  const end=plusDays(weekStart(n),6);
-  if((end<new Date(today.getFullYear(),today.getMonth(),today.getDate())||sun&&n===weekNo(today))&&!state.reviews[n])candidates.push(n);
- }
- return candidates;
-}
-function renderReview(){
- const sel=document.getElementById("reviewWeekSelect");
- const old=Number(sel.value)||0,candidates=reviewCandidates();
- const savedKeys=numericReviewKeys();
- const options=[...new Set([...candidates,...savedKeys])].sort((a,b)=>a-b);
- const defaultN=candidates[0]||savedKeys[savedKeys.length-1]||Math.max(1,Math.min(8,weekNo(new Date())));
- sel.innerHTML=options.map(n=>`<option value="${n}">Week ${String(n).padStart(2,"0")} · ${rangeLabel(n)}</option>`).join("");
- if(options.includes(old))sel.value=String(old);else sel.value=String(defaultN);
- renderSelectedReview();
- sel.onchange=renderSelectedReview;
- document.getElementById("savedReviews").innerHTML=savedKeys.length?savedKeys.map(n=>{
-  const r=state.reviews[n];
-  return `<div class="history-row"><div class="history-week">W${String(n).padStart(2,"0")}</div><div class="history-copy"><strong>Week ${n}</strong><small>${r.completed}/${r.total} activities · ${new Date(r.savedAt).toLocaleDateString()}</small></div><span class="tag tag-green">SAVED</span></div>`;
- }).join(""):'<div class="empty-state"><div class="empty-icon">◷</div><h3>No audits saved</h3><p>Your weekly history appears here after confirming a Sunday review.</p></div>';
-}
-function renderSelectedReview(){
- const n=Number(document.getElementById("reviewWeekSelect").value)||Math.max(1,Math.min(8,weekNo(new Date())));
- const today=new Date(),isSunday=dayIdx(today)===6,saved=state.reviews[n],canReview=isSunday&&!saved;
- const current=weekNo(today);
- const draft=state.drafts[n]||[];
- document.getElementById("reviewWeekTag").textContent=`WEEK ${String(n).padStart(2,"0")}`;
- document.getElementById("reviewHeading").textContent=saved?"Review saved.":canReview?"Audit available.":"Audit locked.";
- document.getElementById("reviewDescription").textContent=saved?"This week's results have been saved and cannot be overwritten.":canReview?"Review your activity and confirm your weekly record below.":`The checklist unlocks on Sunday. ${reviewCandidates().includes(n)?"This unfinished review is preserved for the next Sunday.":"The review remains locked until the correct day."}`;
- const checks=saved?saved.checks:draft;
- const root=document.getElementById("reviewChecklist");
- root.innerHTML=WEEK_CHECKS.map((x,i)=>`<div class="check-row ${!canReview?"locked":""}"><input type="checkbox" id="reviewCheck${i}" data-review="${i}" ${checks[i]?"checked":""} ${canReview?"":"disabled"}><label for="reviewCheck${i}">${escapeHTML(x[0])}<small>${escapeHTML(x[1])}</small></label></div>`).join("");
- root.querySelectorAll("[data-review]").forEach(cb=>cb.addEventListener("change",()=>{
-  state.drafts[n]=state.drafts[n]||Array(WEEK_CHECKS.length).fill(false);
-  state.drafts[n][Number(cb.dataset.review)]=cb.checked;save();
- }));
- const count=completedInWeek(n),possible=possibleInWeek(n);
- document.getElementById("reviewDoneCount").textContent=`${count} / ${possible}`;
- document.getElementById("reviewProgressBar").style.width=(count/Math.max(1,possible)*100)+"%";
- document.getElementById("reviewSummaryText").textContent=`${count} completed of ${possible} scheduled weekday activities in Week ${n}.`;
- const btn=document.getElementById("saveReview");
- btn.disabled=!canReview;
- btn.textContent=saved?"Week already saved":canReview?"Confirm & save weekly review":"Available on Sunday";
- btn.onclick=()=>{
-  if(!canReview)return;
-  const latest=state.drafts[n]||[];
-  const currentChecks=WEEK_CHECKS.map((_,i)=>!!latest[i]);
-  state.reviews[n]={checks:currentChecks,completed:completedInWeek(n),total:possibleInWeek(n),savedAt:new Date().toISOString()};
-  delete state.drafts[n];save();renderAll();notify(`Week ${n} audited and saved.`);
+function createSession(d){
+ const p=scheduledActivity(d),id=localISO(d),w=weekNumber(d);
+ return {
+  date:id,week:w,key:p.key,name:p.name,type:p.type,status:"active",
+  phase:p.type==="strength"?"warmup":"timer",
+  warmupIndex:0,warmupDone:WARMUP.map(()=>false),
+  exerciseIndex:0,setCounts:p.items?p.items.map(()=>0):[],
+  restUntil:0,choice:p.choices?p.choices[0]:"",
+  targetMinutes:p.type==="cardio"?cardioTargetMinutes(d):p.type==="recovery"?5:0,
+  timerRemaining:(p.type==="cardio"?cardioTargetMinutes(d):p.type==="recovery"?5:0)*60,
+  timerEndsAt:0,timerStarted:false,completedAt:null
  };
 }
-document.getElementById("reviewWeekSelect").addEventListener("change",renderSelectedReview);
-
-/* INSIGHTS */
-function renderInsights(){
- document.getElementById("insightStrength").textContent=completedType("strength");
- document.getElementById("insightCardio").textContent=completedType("cardio");
- document.getElementById("insightReviews").innerHTML=`${numericReviewKeys().length}<span class="muted"> / 8</span>`;
- const chart=document.getElementById("completionChart");chart.innerHTML="";
- for(let n=1;n<=8;n++){
-  const possible=possibleInWeek(n),done=completedInWeek(n),rate=Math.round(done/Math.max(1,possible)*100);
-  const col=document.createElement("div");col.className="chart-col";
-  col.innerHTML=`<span class="chart-value">${possible?rate+"%":"—"}</span><div class="chart-bar" style="height:${possible?Math.max(3,rate):3}%"></div><span class="chart-label">W${n}</span>`;
-  chart.appendChild(col);
+function beginTodaySession(){
+ const d=new Date(),id=localISO(d),p=scheduledActivity(d);
+ if(!inProgram(d)||p.type==="rest"){notify("No workout is available for this day.");return;}
+ if(completed(d)){notify("This session is already complete.");return;}
+ let s=getSession(d);
+ if(!s||s.status!=="active"||s.key!==p.key){
+  s=createSession(d);state.sessions[id]=s;persist();
  }
- const milestones=[
-  ["First session",totalCompleted()>=1],["Five activities",totalCompleted()>=5],
-  ["Ten activities",totalCompleted()>=10],["First audit",numericReviewKeys().length>=1],
-  ["Midpoint",totalCompleted()>=24],["Eight-week cycle",weekNo(new Date())>8]
- ];
- document.getElementById("milestones").innerHTML=milestones.map(x=>`<div class="history-row"><div class="history-week" style="${x[1]?'color:var(--green);border:1px solid #40552a':''}">${x[1]?"✓":"○"}</div><div class="history-copy"><strong>${x[0]}</strong><small>${x[1]?"Milestone reached":"Keep building consistency."}</small></div></div>`).join("");
- const final=document.getElementById("finalReport");
- const week=weekNo(new Date());
- const activityTotal=Array.from({length:8},(_,i)=>completedInWeek(i+1)).reduce((a,b)=>a+b,0);
- const possibleTotal=Array.from({length:8},(_,i)=>possibleInWeek(i+1)).reduce((a,b)=>a+b,0);
- if(week>8){
-  const percentages=Array.from({length:8},(_,i)=>({n:i+1,p:Math.round(completedInWeek(i+1)/Math.max(1,possibleInWeek(i+1))*100)}));
-  const best=percentages.reduce((a,b)=>b.p>a.p?b:a,percentages[0]);
-  final.innerHTML=`<div class="micro accent">CYCLE COMPLETE</div><h2 style="margin-top:8px">Eight-week performance report.</h2>
-   <div class="grid stats"><div><div class="stat-big">${activityTotal}/${possibleTotal}</div><div class="muted small">Scheduled activities</div></div><div><div class="stat-big">${completedType("strength")}</div><div class="muted small">Strength sessions</div></div><div><div class="stat-big">${numericReviewKeys().length}/8</div><div class="muted small">Weekly audits saved</div></div></div>
-   <div class="notice good">Best recorded week: Week ${best.n} (${best.p}% of scheduled weekday activities). Keep the habits that worked and progress gradually.</div>
-   <p class="muted small">This report reflects recorded activities on this device. It is not a medical assessment or a measurement of body fat.</p>`;
+ go("session");
+}
+function sessionNow(){
+ const s=getSession(new Date());
+ return s&&s.status==="active"&&s.date===localISO(new Date())?s:null;
+}
+function sessionPlan(s){return SCHEDULE[dayIndex(parseISO(s.date))];}
+function currentRestSeconds(s){
+ const left=Math.ceil((s.restUntil-Date.now())/1000);
+ return Math.max(0,left);
+}
+function activitySeconds(s){
+ if(s.timerEndsAt>0)return Math.max(0,Math.ceil((s.timerEndsAt-Date.now())/1000));
+ return Math.max(0,s.timerRemaining||0);
+}
+function exitFocus(){
+ document.body.classList.remove("focus");
+ go("today");
+}
+document.getElementById("exitSession").addEventListener("click",()=>{
+ if(!confirm("Exit this session? Your progress will be saved, but the workout won't be marked complete."))return;
+ exitFocus();
+});
+
+function renderSession(){
+ const s=sessionNow();
+ if(!s){go("today");return;}
+ const p=sessionPlan(s);
+ document.getElementById("sessionDate").textContent=dateText(parseISO(s.date)).toUpperCase();
+ document.getElementById("sessionEyebrow").textContent=`STRATA / ${p.type.toUpperCase()} / WEEK ${String(s.week).padStart(2,"0")}`;
+ document.getElementById("sessionMeter").innerHTML=(p.items||WARMUP).map((_,i)=>{
+  let done=s.phase==="exercise"||s.phase==="timer"?true:(i<s.warmupIndex);
+  if(s.phase==="exercise"&&p.type==="strength")done=true;
+  return `<span class="${done?"on":""}"></span>`;
+ }).join("");
+ const body=document.getElementById("sessionBody"),actions=document.getElementById("sessionActions");
+ const restBox=document.getElementById("restBox");
+ restBox.style.display="none";actions.innerHTML="";
+ document.getElementById("sessionNotice").textContent="Use controlled technique. Increase difficulty gradually, and adjust an exercise if needed. You do not need to reach failure.";
+ if(s.phase==="warmup"){
+  const i=s.warmupIndex,w=WARMUP[i];
+  document.getElementById("sessionStageTag").textContent="MANDATORY WARM-UP";
+  document.getElementById("sessionStepCounter").textContent=`STEP ${i+1} / ${WARMUP.length}`;
+  body.innerHTML=`<div class="step-count">PHASE 01 / PREPARATION</div><h2 class="focus-title">${escapeHTML(w.name)}</h2><p class="focus-desc">${escapeHTML(w.detail)}</p><div class="metric-row"><div class="metric"><small>TARGET</small><strong>${escapeHTML(w.target)}</strong></div><div class="metric"><small>REQUIRED</small><strong>${i+1} of ${WARMUP.length}</strong></div></div><div class="notice">Complete this warm-up movement before advancing. All five steps are required before the strength exercises unlock.</div>`;
+  document.getElementById("sessionHint").textContent="Finish the movement, then confirm it.";
+  actions.innerHTML=`<button class="btn primary" id="sessionAction">STEP COMPLETE →</button>`;
+  document.getElementById("sessionAction").addEventListener("click",()=>{
+   s.warmupDone[i]=true;
+   if(i+1<WARMUP.length)s.warmupIndex++;
+   else{s.phase="exercise";s.exerciseIndex=0;}
+   persist();renderSession();
+  });
+ }else if(s.phase==="exercise"){
+  const items=p.items,i=s.exerciseIndex,x=items[i];
+  if(!x){notify("Workout data could not be loaded.");exitFocus();return;}
+  const count=s.setCounts[i]||0,target=x.sets;
+  const rest=currentRestSeconds(s);
+  const resting=rest>0;
+  const nextExercise=i<items.length-1;
+  const allSets=items.every((item,index)=>(s.setCounts[index]||0)>=item.sets);
+  document.getElementById("sessionStageTag").textContent="STRENGTH / SET TRACKING";
+  document.getElementById("sessionStepCounter").textContent=`EXERCISE ${String(i+1).padStart(2,"0")} / ${String(items.length).padStart(2,"0")}`;
+  document.getElementById("sessionMeter").innerHTML=items.map((item,index)=>`<span class="${index<i||(index===i&&count>=target)?"on":""}"></span>`).join("");
+  body.innerHTML=`<div class="step-count">MOVEMENT ${String(i+1).padStart(2,"0")}</div><h2 class="focus-title">${escapeHTML(x.name)}</h2><p class="focus-desc">${escapeHTML(x.technique)}</p><div class="metric-row"><div class="metric"><small>SETS</small><strong>${target} prescribed</strong></div><div class="metric"><small>REPS / HOLD</small><strong>${escapeHTML(x.reps)}</strong></div><div class="metric"><small>REST</small><strong>${escapeHTML(x.rest)}</strong></div></div><div class="panel" style="padding:14px;background:#0d1210"><div class="micro">SET COMPLETION</div><div style="display:flex;gap:8px;margin-top:13px">${Array.from({length:target},(_,j)=>`<div style="flex:1;border:1px solid ${j<count?"#547c36":"#293530"};background:${j<count?"#c7ff6216":"#111716"};color:${j<count?"var(--lime)":"var(--muted)"};border-radius:8px;padding:11px 3px;text-align:center;font-size:10px;font-weight:850">${j<count?"✓":`SET ${j+1}`}</div>`).join("")}</div><p class="muted small" style="margin:12px 0 0">${count} of ${target} sets recorded for this exercise.</p></div>`;
+  document.getElementById("sessionHint").textContent=resting?`Rest interval active. ${rest}s remaining.`:count<target?"Log one set only after you have completed the prescribed repetitions.":nextExercise?"All sets completed. Continue to the next movement.":"All prescribed sets are complete. Finish the session to record it.";
+  if(resting){
+   restBox.style.display="flex";
+   document.getElementById("restClock").textContent=formatTime(rest);
+  }
+  if(count<target){
+   actions.innerHTML=`<button class="btn primary" id="sessionAction" ${resting?"disabled":""}>${resting?`RECOVER · ${rest}s`:`LOG SET ${count+1} / ${target}`}</button>`;
+   document.getElementById("sessionAction").addEventListener("click",()=>{
+    if(currentRestSeconds(s)>0)return;
+    s.setCounts[i]=count+1;
+    const workRemains=s.setCounts[i]<target||nextExercise;
+    s.restUntil=workRemains?Date.now()+parseFirstSeconds(x.rest)*1000:0;
+    persist();renderSession();
+   });
+  }else if(nextExercise){
+   actions.innerHTML=`<button class="btn primary" id="sessionAction" ${resting?"disabled":""}>${resting?`RECOVER · ${rest}s`:"NEXT EXERCISE →"}</button>`;
+   document.getElementById("sessionAction").addEventListener("click",()=>{
+    if(currentRestSeconds(s)>0)return;
+    s.exerciseIndex++;s.restUntil=0;persist();renderSession();
+   });
+  }else{
+   actions.innerHTML=`<button class="btn primary" id="sessionAction" ${!allSets||resting?"disabled":""}>FINISH WORKOUT ✓</button>`;
+   document.getElementById("sessionAction").addEventListener("click",finishSession);
+  }
+ }else if(s.phase==="timer"){
+  const remaining=activitySeconds(s),target=s.targetMinutes*60;
+  const isCardio=s.type==="cardio",p2=sessionPlan(s);
+  document.getElementById("sessionStageTag").textContent=isCardio?"CARDIO TARGET":"RECOVERY TARGET";
+  document.getElementById("sessionStepCounter").textContent=isCardio?"TIMED SESSION":"RESTORATION";
+  body.innerHTML=`<div class="step-count">${isCardio?"PHASE 01 / CONDITIONING":"PHASE 01 / RECOVERY"}</div><h2 class="focus-title">${isCardio?"Sustain your pace.":"Slow down and recover."}</h2><p class="focus-desc">${escapeHTML(isCardio?p2.detail:p2.detail)}</p>${isCardio?`<label class="field-label" for="activityChoice">CHOOSE YOUR ACTIVITY</label><select id="activityChoice" ${s.timerStarted?"disabled":""}>${p2.choices.map(c=>`<option ${c===s.choice?"selected":""}>${escapeHTML(c)}</option>`).join("")}</select>`:""}<div class="timer-big" id="activityClock">${formatTime(remaining)}</div><div class="timer-sub" id="timerSub">${remaining===0?"TARGET REACHED":s.timerEndsAt?"TIMER RUNNING":s.timerStarted?"TIMER PAUSED":"TIMER READY"}</div><div class="progress timer-progress"><div id="activityProgress" style="width:${Math.round((1-remaining/Math.max(1,target))*100)}%"></div></div><p class="muted small" style="text-align:center">REQUIRED DURATION · ${s.targetMinutes} MINUTES</p>`;
+  if(isCardio){
+   const select=document.getElementById("activityChoice");
+   select.addEventListener("change",()=>{if(!s.timerStarted){s.choice=select.value;persist();}});
+  }
+  document.getElementById("sessionHint").textContent=remaining===0?"The required duration is complete. You can now record this session.":"Complete the prescribed time at a comfortable, sustainable pace.";
+  if(remaining===0){
+   actions.innerHTML=`<button class="btn primary" id="sessionAction">FINISH SESSION ✓</button>`;
+   document.getElementById("sessionAction").addEventListener("click",finishSession);
+  }else{
+   actions.innerHTML=`<button class="btn primary" id="timerToggle">${s.timerEndsAt?"PAUSE TIMER":s.timerStarted?"RESUME TIMER":`START ${s.targetMinutes}-MINUTE TIMER`}</button>`;
+   document.getElementById("timerToggle").addEventListener("click",toggleActivityTimer);
+  }
  }else{
-  final.innerHTML=`<div class="micro accent">FINAL REPORT</div><h2 style="margin-top:8px">The finish line is Week 8.</h2><p class="muted small" style="line-height:1.8">Once your program reaches its end, this panel will summarize completed activities, weekly consistency, saved audits, and your strongest week.</p><div class="progress"><div style="width:${Math.min(100,Math.max(0,(week-1)/8*100))}%"></div></div><p class="muted small">Program timeline: Week ${Math.max(1,Math.min(8,week))} of 8.</p>`;
+  body.innerHTML=`<div class="empty"><div class="empty-glyph">✓</div><h3>Session complete.</h3><p>Your record is saved.</p></div>`;
  }
 }
+function formatTime(sec){
+ sec=Math.max(0,Math.floor(sec));
+ return `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+}
+function parseFirstSeconds(text){
+ const m=String(text).match(/\d+/);
+ return Math.max(15,m?Number(m[0]):60);
+}
+function toggleActivityTimer(){
+ const s=sessionNow();if(!s)return;
+ if(s.timerEndsAt>0){
+  s.timerRemaining=activitySeconds(s);s.timerEndsAt=0;
+ }else if(s.timerRemaining>0){
+  s.timerEndsAt=Date.now()+s.timerRemaining*1000;s.timerStarted=true;
+ }
+ persist();renderSession();
+}
+function finishSession(){
+ const s=sessionNow();if(!s)return;
+ if(s.phase==="warmup"){notify("Complete the warm-up first.");return;}
+ if(s.type==="strength"){
+  const p=sessionPlan(s);
+  if(!p.items.every((x,i)=>(s.setCounts[i]||0)>=x.sets)){notify("Every prescribed set must be completed first.");return;}
+  if(currentRestSeconds(s)>0){notify("Finish the required rest interval first.");return;}
+ }else if(activitySeconds(s)>0){notify("Complete the prescribed timer before finishing.");return;}
+ if(!confirm("Record this session as completed for today?"))return;
+ s.status="completed";s.completedAt=new Date().toISOString();s.restUntil=0;s.timerEndsAt=0;
+ persist();document.body.classList.remove("focus");renderAll();go("today");notify("Today's session is recorded.");
+}
+function extendRest(){
+ const s=sessionNow();if(!s||!s.restUntil||currentRestSeconds(s)<=0)return;
+ s.restUntil+=15000;persist();renderSession();
+}
+document.getElementById("extendRest").addEventListener("click",extendRest);
+function tickSession(){
+ if(currentPage!=="session")return;
+ const s=sessionNow();if(!s)return;
+ if(s.phase==="exercise"&&s.restUntil){
+  const left=currentRestSeconds(s);
+  const clock=document.getElementById("restClock");
+  if(clock)clock.textContent=formatTime(left);
+  const action=document.getElementById("sessionAction");
+  if(left<=0){s.restUntil=0;persist();renderSession();}
+  else if(action)action.textContent=`RECOVER · ${left}s`;
+ }
+ if(s.phase==="timer"){
+  const remaining=activitySeconds(s);
+  const clock=document.getElementById("activityClock");
+  const sub=document.getElementById("timerSub");
+  const bar=document.getElementById("activityProgress");
+  if(clock)clock.textContent=formatTime(remaining);
+  if(sub)sub.textContent=remaining===0?"TARGET REACHED":s.timerEndsAt?"TIMER RUNNING":s.timerStarted?"TIMER PAUSED":"TIMER READY";
+  if(bar)bar.style.width=Math.round((1-remaining/Math.max(1,s.targetMinutes*60))*100)+"%";
+  if(remaining===0&&s.timerEndsAt>0){
+   s.timerRemaining=0;s.timerEndsAt=0;persist();renderSession();notify("Required time completed.");
+  }
+ }
+}
+timerInterval=setInterval(tickSession,500);
 
-/* SETTINGS / BACKUP */
+/* PROTOCOL LIBRARY */
+function renderPlan(){
+ const root=document.getElementById("scheduleList"),today=new Date();
+ root.innerHTML="";
+ SCHEDULE.forEach((p,i)=>{
+  const d=weekDates(Math.max(1,Math.min(8,weekNumber(today))))[i];
+  const actualDate=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);
+  const isToday=dayIndex(today)===i&&localISO(today)===localISO(actualDate);
+  const stateLabel=isToday?"TODAY":p.type==="rest"?"REST DAY":p.type.toUpperCase();
+  const details=document.createElement("details");details.className="schedule-row";
+  details.open=isToday;
+  details.innerHTML=`<summary class="schedule-summary"><div class="schedule-day">${SHORT[i]}</div><div class="schedule-main"><strong>${escapeHTML(p.name)}</strong><small>${escapeHTML(p.duration)} · ${escapeHTML(p.type.toUpperCase())}</small></div><span class="tag ${isToday?"lime-tag":""}">${stateLabel}</span><span class="chevron">＋</span></summary><div class="schedule-detail" id="protocol-detail-${i}"></div>`;
+  root.appendChild(details);
+  const dest=details.querySelector(".schedule-detail");
+  if(p.type==="strength"){
+   dest.innerHTML=`<div class="notice">Warm-up: ${WARMUP.map(x=>`${x.name} (${x.target})`).join(" · ")}. All warm-up steps are required before the workout.</div>`+p.items.map((x,j)=>`<div class="exercise-line"><span class="num">${String(j+1).padStart(2,"0")}</span><div class="copy"><strong>${escapeHTML(x.name)}</strong><div class="meta">${x.sets} sets · ${escapeHTML(x.reps)} · Rest ${escapeHTML(x.rest)}</div><p>${escapeHTML(x.technique)}</p></div></div>`).join("");
+  }else if(p.type==="cardio"){
+   dest.innerHTML=`<p class="muted small">${escapeHTML(p.detail)}</p><div class="notice">Activity options: ${p.choices.map(escapeHTML).join(" · ")}. The app applies the cardio duration for the current program week.</div>`;
+  }else if(p.type==="recovery"){
+   dest.innerHTML=`<p class="muted small">${escapeHTML(p.detail)}</p><div class="notice">Target: at least five minutes. Use gentle stretching or easy walking. Stop or adjust a movement if it causes discomfort.</div>`;
+  }else{
+   dest.innerHTML=`<div class="notice">Sunday is a full rest day. Do not start another workout. The weekly review is available today only, with unfinished reviews retained for a later Sunday.</div>`;
+  }
+ });
+ document.getElementById("progressionInfo").innerHTML=PROGRESSION.map(x=>`<div class="exercise-line"><div class="num">${x.weeks.slice(-2)}</div><div class="copy"><strong>${escapeHTML(x.title)}</strong><p>${escapeHTML(x.strength)}</p><div class="meta">CARDIO · ${escapeHTML(x.cardio)}</div></div></div>`).join("");
+}
+
+/* HISTORY */
+function renderHistory(){
+ const root=document.getElementById("historyWeeks");
+ root.innerHTML="";
+ const cur=weekNumber(new Date());
+ for(let n=1;n<=8;n++){
+  const done=completedInWeek(n),possible=possibleInWeek(n),miss=missedInWeek(n);
+  const saved=!!state.reviews[n];
+  const status=n<cur?"PAST":n===cur?"CURRENT":"UPCOMING";
+  const row=document.createElement("div");row.className="history-week";
+  row.innerHTML=`<button type="button" aria-label="View week ${n}"><div class="history-icon">W${String(n).padStart(2,"0")}</div><div class="history-body"><strong>Week ${String(n).padStart(2,"0")} <span class="muted">/ ${escapeHTML(rangeText(n))}</span></strong><small>${done}/${possible} sessions · ${miss} missed · ${saved?"Review saved":status}</small></div><div class="history-side">${Math.round(done/Math.max(1,possible)*100)}%</div></button>`;
+  row.querySelector("button").addEventListener("click",()=>{historyWeek=n;renderHistoryDetails();});
+  root.appendChild(row);
+ }
+ historyWeek=Math.max(1,Math.min(8,historyWeek));
+ renderHistoryDetails();renderReview();
+}
+function renderHistoryDetails(){
+ const n=historyWeek;
+ document.getElementById("historySelectionTag").textContent=`WEEK ${String(n).padStart(2,"0")}`;
+ const root=document.getElementById("historyDetails");
+ root.innerHTML=`<div class="panel-head"><div><div class="micro">WEEK ${String(n).padStart(2,"0")}</div><h3 style="margin-top:7px">${escapeHTML(rangeText(n))}</h3></div><span class="tag">${completedInWeek(n)}/${possibleInWeek(n)} SESSIONS</span></div>`;
+ weekDates(n).forEach(d=>{
+  if(!inProgram(d))return;
+  const i=dayIndex(d),p=scheduledActivity(d),s=getSession(d),st=statusOf(d);
+  const title=st==="COMPLETED"?"COMPLETED":st==="MISSED"?"MISSED":st==="REST"?"REST DAY":st==="IN PROGRESS"?"IN PROGRESS":st==="TODAY"?"TODAY":"UPCOMING";
+  const row=document.createElement("div");row.className="list-row";
+  row.innerHTML=`<div class="day-letter">${SHORT[i]}</div><div class="list-body"><strong>${escapeHTML(p.name)}</strong><small>${escapeHTML(dateText(d))} · ${escapeHTML(p.duration)}</small></div><span class="status-text ${st==="COMPLETED"?"good":""}">${title}</span>`;
+  root.appendChild(row);
+ });
+ if(!root.querySelector(".list-row"))root.innerHTML+='<div class="empty"><p>This week is outside the configured program dates.</p></div>';
+}
+
+/* SUNDAY-ONLY REVIEW */
+function eligibleReviewWeek(n){
+ if(todayIndex()!==6)return false;
+ if(n<1||n>8)return false;
+ if(n>weekNumber(new Date()))return false;
+ return addDays(weekStart(n),6)<=new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),12);
+}
+function eligibleReviewWeeks(){
+ const all=[];
+ for(let n=1;n<=8;n++)if(eligibleReviewWeek(n)&&!state.reviews[n])all.push(n);
+ return all;
+}
+function actualReviewChecks(n){
+ const ds=weekDates(n);
+ return ds.slice(0,6).map(d=>inProgram(d)&&completed(d));
+}
+function renderReview(){
+ const isSunday=todayIndex()===6&&inProgram(new Date());
+ const eligible=eligibleReviewWeeks();
+ const panel=document.getElementById("reviewUI");
+ const lock=document.getElementById("reviewLock");
+ const lockTag=document.getElementById("reviewAvailability");
+ lock.style.display=isSunday?"none":"flex";
+ panel.style.display=isSunday?"block":"none";
+ lockTag.textContent=isSunday?"UNLOCKED":"LOCKED";
+ document.getElementById("reviewLockTitle").textContent=isSunday?"Sunday review available":"Review locked until Sunday.";
+ document.getElementById("reviewLockDescription").textContent=isSunday?"Select an unfinished week, verify your record, and save the review. Saved weeks cannot be overwritten.":"The weekly checklist unlocks on Sunday. Unfinished reviews remain saved as drafts and can be completed on a later Sunday.";
+ document.getElementById("reviewLockIcon").textContent=isSunday?"✓":"◷";
+ const savedKeys=Object.keys(state.reviews).filter(k=>/^\d+$/.test(k)).map(Number).sort((a,b)=>a-b);
+ document.getElementById("savedReviews").innerHTML=savedKeys.length?savedKeys.map(n=>`<div class="list-row"><div class="day-letter">W${String(n).padStart(2,"0")}</div><div class="list-body"><strong>Week ${n} review saved</strong><small>${state.reviews[n].completed}/${state.reviews[n].total} sessions · ${new Date(state.reviews[n].savedAt).toLocaleDateString()}</small></div><span class="status-text good">LOCKED ✓</span></div>`).join(""):'<div class="empty"><div class="empty-glyph">◷</div><h3>No saved reviews.</h3><p>Your confirmed weekly records will appear here.</p></div>';
+ if(!isSunday)return;
+ const select=document.getElementById("reviewWeek");
+ const options=[];
+ for(let n=1;n<=8;n++){
+  if(eligibleReviewWeek(n)||state.reviews[n])options.push(n);
+ }
+ if(!options.length){
+  panel.innerHTML='<div class="empty"><div class="empty-glyph">✓</div><h3>All reviews complete.</h3><p>No unfinished weekly reviews are available.</p></div>';return;
+ }
+ const old=Number(select.value);
+ select.innerHTML=options.map(n=>`<option value="${n}">Week ${String(n).padStart(2,"0")} · ${rangeText(n)}${state.reviews[n]?" · SAVED":""}</option>`).join("");
+ if(options.includes(old))select.value=String(old);
+ else select.value=String(eligible[0]||options[options.length-1]);
+ renderReviewChecks();
+ select.onchange=renderReviewChecks;
+}
+function renderReviewChecks(){
+ const n=Number(document.getElementById("reviewWeek").value)||1;
+ const saved=state.reviews[n];
+ const eligible=eligibleReviewWeek(n)&&!saved;
+ const actual=actualReviewChecks(n);
+ const draft=state.drafts[n]||{};
+ const savedChecks=saved?saved.checks:[];
+ const root=document.getElementById("reviewChecks");
+ root.innerHTML="";
+ WEEKLY_REVIEW.forEach((label,i)=>{
+  let checked=false,disabled=true,detail="";
+  if(i<6){
+   checked=saved?!!savedChecks[i]:!!actual[i];
+   disabled=true;
+   detail=saved?"Recorded in the saved review.":checked?"Verified against the completed session record.":"No completion recorded for this scheduled day.";
+  }else{
+   checked=saved?!!savedChecks[i]:!!draft[i];
+   disabled=!eligible;
+   detail=i===6?"Confirm that Sunday was used for rest and preparation.":i===7?"Self-review: confirm that you used good technique and adjusted movements when needed.":"Self-review: confirm regular meals, hydration, sleep, and recovery.";
+  }
+  const row=document.createElement("div");row.className="check-row"+(disabled?" locked":"");
+  row.innerHTML=`<input type="checkbox" id="rev-${i}" ${checked?"checked":""} ${disabled?"disabled":""}><label for="rev-${i}">${escapeHTML(label)}<small>${escapeHTML(detail)}</small></label>`;
+  if(i>=6&&!disabled){
+   row.querySelector("input").addEventListener("change",e=>{
+    state.drafts[n]=state.drafts[n]||{};
+    state.drafts[n][i]=e.target.checked;persist();
+   });
+  }
+  root.appendChild(row);
+ });
+ const btn=document.getElementById("saveReview");
+ btn.disabled=!eligible;
+ btn.textContent=saved?"REVIEW ALREADY SAVED":eligible?"CONFIRM & SAVE WEEK":"REVIEW LOCKED";
+ btn.onclick=()=>{
+  if(!eligibleReviewWeek(n)||state.reviews[n]){notify("Only an unsaved week can be confirmed on Sunday.");return;}
+  const checks=[...actualReviewChecks(n),!!state.drafts[n]?.[6],!!state.drafts[n]?.[7],!!state.drafts[n]?.[8]];
+  state.reviews[n]={checks,completed:completedInWeek(n),total:possibleInWeek(n),savedAt:new Date().toISOString()};
+  delete state.drafts[n];persist();renderAll();notify(`Week ${n} review saved and locked.`);
+ };
+}
+
+/* SETTINGS, BACKUP, AND IMPORT */
 function renderSettings(){
  document.getElementById("nameInput").value=state.name||"ATHLETE";
  document.getElementById("startInput").value=state.startDate;
 }
 document.getElementById("saveSettings").addEventListener("click",()=>{
- const name=document.getElementById("nameInput").value.trim().slice(0,32)||"ATHLETE";
+ const name=document.getElementById("nameInput").value.trim().slice(0,32).toUpperCase()||"ATHLETE";
  const start=document.getElementById("startInput").value;
- if(!start){notify("Choose a program start date.");return;}
- if(start!==state.startDate&&!confirm("Changing the program start date recalculates your week labels. Your saved activities and reviews will remain stored. Continue?"))return;
- state.name=name.toUpperCase();state.startDate=start;save();renderAll();notify("Configuration saved.");
+ if(!start||Number.isNaN(parseISO(start).getTime())){notify("Choose a valid start date.");return;}
+ if(start!==state.startDate&&!confirm("Change the program start date? Saved activity records will remain, but week numbering and scheduled history will be recalculated."))return;
+ state.name=name;state.startDate=start;persist();renderAll();notify("Settings saved.");
 });
-function exportState(){
+function exportBackup(){
  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download=`axiom-fitness-${todayISO()}.json`;a.click();URL.revokeObjectURL(url);
+ a.href=url;a.download=`strata-backup-${localISO(new Date())}.json`;a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-document.getElementById("exportBtn").addEventListener("click",exportState);
-document.getElementById("settingsExport").addEventListener("click",exportState);
+document.getElementById("exportBtn").addEventListener("click",exportBackup);
 document.getElementById("importBtn").addEventListener("click",()=>document.getElementById("importFile").click());
 document.getElementById("importFile").addEventListener("change",async e=>{
  const file=e.target.files[0];if(!file)return;
  try{
-  const input=JSON.parse(await file.text());
+  const x=JSON.parse(await file.text());
   let replacement;
-  if(input.version===2&&input.activities&&input.reviews&&input.startDate)replacement={...defaultState(),...input};
-  else if(input.version===1&&input.activities)replacement=migrateLegacy(input);
-  else throw new Error("Unknown backup format");
-  if(!confirm("Replace the progress currently stored on this device with this backup? Export your existing record first if you need to keep it."))return;
-  state=replacement;save();renderAll();notify("Backup restored successfully.");
- }catch(err){notify("Invalid backup. Select an AXIOM JSON export.");}
+  if(x&&x.version===3&&x.sessions&&x.reviews&&x.startDate){
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(x.startDate))throw new Error("Invalid start date");
+   replacement={...defaultState(),...x};
+  }else if(x&&x.sessions||x&&x.activities){
+   replacement=migrateOld(x);
+  }else throw new Error("Unknown format");
+  if(!confirm("Replace the data stored in this browser with the imported backup? Export your current data first if you need a copy."))return;
+  state=replacement;persist();renderAll();go("today");notify("Backup restored.");
+ }catch(err){notify("Invalid STRATA backup file.");}
  e.target.value="";
 });
 document.getElementById("resetBtn").addEventListener("click",()=>{
- if(!confirm("Permanently erase all activities, weekly reviews, and settings stored in this browser? This cannot be undone."))return;
- if(!confirm("Final confirmation: erase all local AXIOM data?"))return;
- state=defaultState();save();selectedWorkout="A";sessionMode=false;renderAll();go("dashboard");notify("Local data reset.");
+ if(!confirm("Erase all sessions, drafts, weekly reviews, and profile settings from this browser?"))return;
+ if(!confirm("Final confirmation: permanently delete all local records?"))return;
+ state=defaultState();persist();historyWeek=1;renderAll();go("today");notify("Local records reset.");
 });
 
-/* Boot */
+/* GLOBAL REFRESH */
+function renderAll(){
+ document.getElementById("identityName").textContent=(state.name||"ATHLETE").toUpperCase();
+ document.getElementById("avatar").textContent=(state.name||"A").charAt(0).toUpperCase();
+ renderToday();renderPlan();renderHistory();renderSettings();
+}
 renderAll();
-timerDisplay();
+go("today");
 </script>
 </body>
 </html>
